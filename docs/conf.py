@@ -4,7 +4,8 @@
 既有的 catalog.md、工作單等 Markdown 會一起收進網站。
 
 本機建置（專案根目錄）：
-    .\\.venv\\Scripts\\python.exe -m sphinx -b html docs docs/_build/html
+    .\\.venv\\Scripts\\python.exe -m sphinx -b html -W --keep-going \
+        -d docs/_build/doctrees docs docs/_build/html
 
 版號：預設取已安裝的 traffickit 版本。CI 會用環境變數指定要建置成哪一版：
     DOCS_VERSION=latest   → 版本切換器顯示「latest」

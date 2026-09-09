@@ -138,7 +138,7 @@ result = summarise_turn_volume(complete, movements=movements, ...)
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -e ".[docs]"
-.\.venv\Scripts\python.exe -m sphinx -b html -W --keep-going docs docs\_build\html
+.\.venv\Scripts\python.exe -m sphinx -b html -W --keep-going -d docs\_build\doctrees docs docs\_build\html
 start docs\_build\html\index.html
 ```
 

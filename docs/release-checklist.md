@@ -16,7 +16,7 @@
 
    ```powershell
    .\.venv\Scripts\python.exe -m pip install -e ".[docs]"
-   .\.venv\Scripts\python.exe -m sphinx -b html -W --keep-going docs docs\_build\html
+   .\.venv\Scripts\python.exe -m sphinx -b html -W --keep-going -d docs\_build\doctrees docs docs\_build\html
    ```
 
    `-W` 會把警告當成錯誤。名稱拼錯、`toctree` 漏掉頁面、交叉參照失效都會在

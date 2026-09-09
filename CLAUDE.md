@@ -92,7 +92,7 @@ FPS 預設 9.99（= 29.97/3 實際速率，格式定義文件寫的是整數 10�
 .\.venv\Scripts\python.exe -m pip install -e ".[docs]"
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 .\.venv\Scripts\python.exe examples\<功能>_demo.py
-.\.venv\Scripts\python.exe -m sphinx -b html -W --keep-going docs docs\_build\html
+.\.venv\Scripts\python.exe -m sphinx -b html -W --keep-going -d docs\_build\doctrees docs docs\_build\html
 ```
 
 文件建置用 `-W`（警告即失敗），會抓出 docstring 語法錯誤、toctree 漏頁、

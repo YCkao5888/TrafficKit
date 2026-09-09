@@ -43,7 +43,11 @@ jobs:
           DOCS_VERSION: ${{ steps.target.outputs.version }}
         # -W 把警告當錯誤：docstring 語法壞掉、toctree 漏頁、交叉參照失效
         # 都會讓建置失敗，而不是產生一份悄悄缺頁的網站。
-        run: python -m sphinx -b html -W --keep-going docs docs/_build/html
+        # -d 把 doctree 快取移出輸出目錄，否則約 8 MB 的內部快取會被一起
+        # 部署，每建置一次 gh-pages 就肥一次。
+        run: >-
+          python -m sphinx -b html -W --keep-going
+          -d docs/_build/doctrees docs docs/_build/html
 
       - name: 部署到 gh-pages
         env:

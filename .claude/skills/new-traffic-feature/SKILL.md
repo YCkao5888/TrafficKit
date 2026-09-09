@@ -70,7 +70,7 @@ description: 在 TrafficKit 新增一個交通計算功能、修改既有功能�
 .\.venv\Scripts\python.exe -m pip install -e ".[docs]"
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 .\.venv\Scripts\python.exe examples\<功能>_demo.py
-.\.venv\Scripts\python.exe -m sphinx -b html -W --keep-going docs docs\_build\html
+.\.venv\Scripts\python.exe -m sphinx -b html -W --keep-going -d docs\_build\doctrees docs docs\_build\html
 ```
 
 文件建置用 `-W`，警告即失敗。四項都綠燈才算完成。
