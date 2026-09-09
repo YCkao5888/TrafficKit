@@ -2,15 +2,17 @@
 
 > 對象：負責 Python 交通算法與分析功能的工程師。  
 > 用途：本文件是 TrafficKit 的**開發約定與交付格式**，每新增一個交通功能都沿用 Step 1–8。  
-> 套件的使用說明在專案根目錄的 [`README.md`](../README.md)；功能索引在 [`catalog.md`](catalog.md)。
+> 套件的使用說明在專案根目錄的 [`README.md`](https://github.com/YCkao5888/TrafficKit#readme)；功能索引在 [`catalog.md`](catalog.md)。
 
-**閱讀前先知道三件事：**
+**閱讀前先知道四件事：**
 
 1. 本文中的 `detect_overspeed`（超速判定）是**教學範例，尚未實作**。它示範交付格式，不是可呼叫的功能。
 2. 實際交付的第一個功能是 `speed.speed_distribution`（車速分布統計）。想看真實範本，請直接對照
    [`docs/worksheets/speed.speed_distribution.md`](worksheets/speed.speed_distribution.md)
    與 `src/traffickit/speed/_distribution.py`。
-3. **Step 3（建立套件骨架）只在從零開始時需要，本專案已完成。** 擴充既有功能請跳過 Step 3，
+3. 已交付的第二個功能是 `volume.turn_volume`（轉向流量統計），
+   工作單見 [`docs/worksheets/volume.turn_volume.md`](worksheets/volume.turn_volume.md)。
+4. **Step 3（建立套件骨架）只在從零開始時需要，本專案已完成。** 擴充既有功能請跳過 Step 3，
    並改看下一節「要新增一個功能時，實際流程是什麼」。
 
 ## 要新增一個功能時，實際流程是什麼
@@ -28,7 +30,7 @@
 | 7 | 驗收（Step 8） | wheel 建置、乾淨環境安裝、範例與測試重跑、填驗證紀錄 |
 
 **要請 AI 助理代做時**，把需求單（或一份現成程式碼＋一句「照這個邏輯做」）交出去即可；
-專案慣例、驗證指令與必問事項寫在根目錄的 [`CLAUDE.md`](../CLAUDE.md)，助理會依此執行並在資訊不足時回問。
+專案慣例、驗證指令與必問事項寫在根目錄的 [`CLAUDE.md`](https://github.com/YCkao5888/TrafficKit/blob/master/CLAUDE.md)，助理會依此執行並在資訊不足時回問。
 
 ---
 
@@ -679,6 +681,7 @@ python -m venv .venv-check
 | --- | --- | --- |
 | 速度平滑 | `traffickit.speed` 的新函式 | 窗口代表樣本數或秒數、邊界、缺值、取樣間隔 |
 | 車速分布 | ~~新函式~~ **已完成**：`traffickit.speed.summarise_speed_distribution` | 每車或每樣本權重、分箱邊界、分母、時間與車種篩選 |
+| 轉向流量 | ~~新函式~~ **已完成**：`traffickit.volume.summarise_turn_volume` | 轉向類別由誰判定、合法轉向清單、PCU 權重來源、未分組車種 |
 | 連續超速段落 | 另一個公開函式 | 起訖時間、可容忍中斷、同車多段如何編號 |
 | 非號誌整體分析 | 未來的 `traffickit.scenarios` | 適用指標、前置運算、判定組合、彙整口徑 |
 | CSV 輸出、網頁表格 | 應用端 | 欄位順序、顯示單位、下載與存放位置 |

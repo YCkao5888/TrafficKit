@@ -7,16 +7,19 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import ceil, isfinite
-from numbers import Real
+from math import ceil
 from typing import Iterable, Optional
 
 import numpy as np
 import pandas as pd
-from pandas.api.types import (
-    is_bool_dtype,
-    is_complex_dtype,
-    is_numeric_dtype,
+
+from .._validation import (
+    check_label_column,
+    check_nonnegative_column,
+    check_real,
+    check_unique,
+    require_columns,
+    require_dataframe,
 )
 
 _REQUIRED = ("vehicle_id", "time_s", "speed_smooth_mps")
@@ -50,8 +53,8 @@ class SpeedSummary:
     ``moving_threshold_mps`` 後仍有樣本的所有車輛，**包含落在分箱範圍
     之外的車輛**。
 
-    車輛數為 0 時所有統計量為 ``None``；車輛數為 1 時 ``std_mps`` 為
-    ``None``（樣本標準差未定義，不以 0 代替）。
+    車輛數為 0 時所有統計量為 ``None``；車輛數為 1 時 ``std_mps`` 也是
+    ``None``：樣本標準差未定義，不以 0 代替。
     """
 
     vehicle_count: int
@@ -133,11 +136,11 @@ def speed_bin_edges(
     ValueError
         參數不是有限實數，或不符合上述範圍。
     """
-    start = _check_real("start_mps", start_mps, minimum=0.0)
-    width = _check_real(
+    start = check_real("start_mps", start_mps, minimum=0.0)
+    width = check_real(
         "width_mps", width_mps, minimum=0.0, allow_minimum=False
     )
-    upper = _check_real("upper_mps", upper_mps, minimum=start)
+    upper = check_real("upper_mps", upper_mps, minimum=start)
 
     count = max(1, ceil((upper - start) / width))
     return tuple(
@@ -174,8 +177,8 @@ def summarise_speed_distribution(
         採 pandas 預設的線性內插。
     moving_threshold_mps : float or None, optional
         樣本層移動門檻，單位 m/s。給定時只保留 ``speed_smooth_mps``
-        **嚴格大於**門檻的樣本；過濾後沒有樣本的車輛整台排除。預設
-        None 表示不過濾。
+        大於門檻的樣本，**比較是嚴格大於，等於門檻不算**。
+        過濾後沒有樣本的車輛整台排除；預設 None 表示不過濾。
 
     Returns
     -------
@@ -195,14 +198,13 @@ def summarise_speed_distribution(
     像素／公尺比例尺換算、km/h 顯示、車種分組與時段篩選由呼叫端處理；
     要分車種比較時，請自行切好子集合並沿用同一組 ``bin_edges_mps``。
     """
-    if not isinstance(tracks, pd.DataFrame):
-        raise TypeError("tracks 必須是 pandas.DataFrame")
+    require_dataframe(tracks, "tracks")
 
     edges = _check_bin_edges(bin_edges_mps)
     if statistic not in _STATISTICS:
         raise ValueError(f"statistic 必須是 {list(_STATISTICS)} 其中之一")
     if moving_threshold_mps is not None:
-        moving_threshold_mps = _check_real(
+        moving_threshold_mps = check_real(
             "moving_threshold_mps", moving_threshold_mps, minimum=0.0
         )
 
@@ -228,34 +230,13 @@ def summarise_speed_distribution(
     )
 
 
-def _check_real(
-    name: str,
-    value: object,
-    *,
-    minimum: float,
-    allow_minimum: bool = True,
-) -> float:
-    if (
-        isinstance(value, bool)
-        or not isinstance(value, Real)
-        or not isfinite(float(value))
-    ):
-        raise ValueError(f"{name} 必須是有限的實數")
-    number = float(value)
-    if allow_minimum and number < minimum:
-        raise ValueError(f"{name} 必須不小於 {minimum}")
-    if not allow_minimum and number <= minimum:
-        raise ValueError(f"{name} 必須大於 {minimum}")
-    return number
-
-
 def _check_bin_edges(bin_edges_mps: Iterable[float]) -> np.ndarray:
     if isinstance(bin_edges_mps, (str, bytes)) or not isinstance(
         bin_edges_mps, Iterable
     ):
         raise ValueError("bin_edges_mps 必須是數值序列")
     edges = [
-        _check_real(f"bin_edges_mps[{index}]", value, minimum=0.0)
+        check_real(f"bin_edges_mps[{index}]", value, minimum=0.0)
         for index, value in enumerate(bin_edges_mps)
     ]
     if len(edges) < 2:
@@ -266,11 +247,7 @@ def _check_bin_edges(bin_edges_mps: Iterable[float]) -> np.ndarray:
 
 
 def _validated_samples(tracks: pd.DataFrame) -> pd.DataFrame:
-    if tracks.columns.duplicated().any():
-        raise ValueError("輸入不可包含重複欄名")
-    missing = sorted(set(_REQUIRED) - set(tracks.columns))
-    if missing:
-        raise ValueError(f"缺少必要欄位：{missing}")
+    require_columns(tracks, _REQUIRED, name="tracks")
 
     # 複製必要欄位，避免修改呼叫端持有的原始資料。
     work = tracks.loc[:, list(_REQUIRED)].copy()
@@ -280,28 +257,15 @@ def _validated_samples(tracks: pd.DataFrame) -> pd.DataFrame:
             work[column] = work[column].astype("float64")
         return work.reset_index(drop=True)
 
-    valid_ids = work["vehicle_id"].map(
-        lambda value: isinstance(value, str) and bool(value.strip())
-    )
-    if not valid_ids.all():
-        raise ValueError("vehicle_id 必須是非空白字串且不可缺值")
-
+    check_label_column(work, "vehicle_id")
     for column in ("time_s", "speed_smooth_mps"):
-        values = work[column]
-        if (
-            not is_numeric_dtype(values.dtype)
-            or is_bool_dtype(values.dtype)
-            or is_complex_dtype(values.dtype)
-        ):
-            raise ValueError(f"{column} 必須是實數欄位，不接受數字字串")
-        if values.isna().any():
-            raise ValueError(f"{column} 不可有缺值")
-        if not values.map(isfinite).all() or (values < 0).any():
-            raise ValueError(f"{column} 必須是有限且非負的數值")
-        work[column] = values.astype("float64")
+        work[column] = check_nonnegative_column(work, column)
 
-    if work.duplicated(["vehicle_id", "time_s"]).any():
-        raise ValueError("同一 vehicle_id 與 time_s 不可有重複樣本")
+    check_unique(
+        work,
+        ["vehicle_id", "time_s"],
+        message="同一 vehicle_id 與 time_s 不可有重複樣本",
+    )
     work["vehicle_id"] = work["vehicle_id"].astype("string")
     return work.reset_index(drop=True)
 

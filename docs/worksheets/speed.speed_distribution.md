@@ -1,11 +1,14 @@
 # 工作單：speed.speed_distribution
 
-依 README「每個新功能都要填的一張工作單」填寫。
+依 [`feature-development-guide.md`](../feature-development-guide.md)
+「每個新功能都要填的一張工作單」填寫。
 
 - **功能 ID**：speed.speed_distribution
 - **一句目的**：給定同一份資料集內已完成速度平滑的軌跡資料與分箱邊界，
   求出每台車的代表速度並統計其分布。
-- **主要負責人**：交付前填入姓名
+- **主要負責人**：yckao
+- **契約版**：1
+- **狀態**：試行（升級條件見 [`catalog.md`](../catalog.md) 的「狀態」）
 - **公開函式入口**：`traffickit.speed.summarise_speed_distribution`
   （輔助：`traffickit.speed.speed_bin_edges`）
 
@@ -134,6 +137,7 @@ B（12）與 C（11）超出範圍，`above_range_count = 2`，`binned_vehicle_c
 | 項目 | 內容 |
 | --- | --- |
 | 日期 | 2026-09-09 |
+| 狀態 | 試行（尚未做真實資料回歸比較） |
 | 套件版本 | traffickit 0.1.0 |
 | OS | Windows 11 Pro 10.0.26200 |
 | Python | 3.10.5 |

@@ -13,6 +13,18 @@ dependencies = [
     "numpy>=1.26",
 ]
 
+[project.optional-dependencies]
+docs = [
+    "sphinx>=7.2",
+    "pydata-sphinx-theme>=0.15",
+    "numpydoc>=1.6",
+    "myst-parser>=2.0",
+]
+
+[project.urls]
+Documentation = "https://yckao5888.github.io/TrafficKit/latest/"
+Source = "https://github.com/YCkao5888/TrafficKit"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["traffickit*"]
