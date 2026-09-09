@@ -1,0 +1,7 @@
+numpy==2.2.6
+pandas==2.3.3
+python-dateutil==2.9.0.post0
+pytz==2026.3.post1
+six==1.17.0
+traffickit @ file:///C:/Users/Public/Documents/Project/112-0003-%E4%BA%A4%E9%80%9A%E9%A0%98%E5%9F%9F%E7%94%A2%E5%93%81%E9%96%8B%E7%99%BC/Git/TrafficKit/dist/traffickit-0.1.0-py3-none-any.whl
+tzdata==2026.3
