@@ -1,0 +1,33 @@
+﻿traffickit.volume.TurnVolumeSummary
+===================================
+
+.. currentmodule:: traffickit.volume
+
+.. autoclass:: TurnVolumeSummary
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TurnVolumeSummary.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TurnVolumeSummary.input_vehicle_count
+      ~TurnVolumeSummary.counted_vehicle_count
+      ~TurnVolumeSummary.total_pcu
+      ~TurnVolumeSummary.unassigned_vehicle_count
+      ~TurnVolumeSummary.unassigned_classes
+      ~TurnVolumeSummary.disallowed_vehicle_count
+   
+   

@@ -1,0 +1,919 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-TW" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>traffickit.formats._motc_su &#8212; TrafficKit 0.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5eb3ec05" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../../_static/documentation_options.js?v=a7999bab"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/translations.js?v=cbf116e0"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/traffickit/formats/_motc_su';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.21.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://yckao5888.github.io/TrafficKit/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜尋" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-TW"/>
+  <meta name="docsearch:version" content="0.1.0" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">TrafficKit 0.1.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../catalog.html">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../worksheets/index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../feature-development-guide.html">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../catalog.html">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../worksheets/index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../feature-development-guide.html">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="初始页面">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">模組原始碼</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">traffickit.formats._motc_su</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>traffickit.formats._motc_su 的原始碼</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""MOTC_SU 空拍影像軌跡檔的讀取。</span>
+
+<span class="sd">公開入口是 ``traffickit.formats`` 匯出的名稱；本檔案的其他名稱不保證穩定。</span>
+
+<span class="sd">本模組屬於**格式轉換層**：只把檔案內容轉成套件契約的欄位與型別，</span>
+<span class="sd">不做任何交通判定（不推轉向、不算速度、不裁時段、不排除任何車輛）。</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.._validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_real</span>
+
+<span class="c1">#: MOTC_SU 的車種代號。</span>
+<span class="c1">#: h（聯結車車頭）與 g（聯結車車身）是**同一輛聯結車的兩列**，</span>
+<span class="c1">#: 直接計數會把一輛車算成兩輛；統計時通常只保留 h。</span>
+<span class="n">MOTC_SU_VEHICLE_CLASSES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"行人"</span><span class="p">,</span>
+    <span class="s2">"u"</span><span class="p">:</span> <span class="s2">"自行車"</span><span class="p">,</span>
+    <span class="s2">"m"</span><span class="p">:</span> <span class="s2">"機車"</span><span class="p">,</span>
+    <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"汽車"</span><span class="p">,</span>
+    <span class="s2">"t"</span><span class="p">:</span> <span class="s2">"貨車"</span><span class="p">,</span>
+    <span class="s2">"b"</span><span class="p">:</span> <span class="s2">"巴士"</span><span class="p">,</span>
+    <span class="s2">"h"</span><span class="p">:</span> <span class="s2">"聯結車車頭"</span><span class="p">,</span>
+    <span class="s2">"g"</span><span class="p">:</span> <span class="s2">"聯結車車身"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1">#: 不完整軌跡的代號。官方定義為「請忽略」，本模組如實讀入並標記，</span>
+<span class="c1">#: 由呼叫端決定要不要濾掉。</span>
+<span class="n">INCOMPLETE_CODE</span> <span class="o">=</span> <span class="s2">"X"</span>
+
+<span class="c1">#: 軌跡檔預設的影像張數／秒。實際拍攝速率是 9.99（29.97/3，NTSC 推導）；</span>
+<span class="c1">#: 格式定義文件寫的是整數 10，兩者不同時以實際速率為準。</span>
+<span class="n">DEFAULT_FPS</span> <span class="o">=</span> <span class="mf">9.99</span>
+
+<span class="n">_FIELDS_BEFORE_TRACK</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">_VALUES_PER_POINT</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="n">_ENTRY_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^[A-Z]+I$"</span><span class="p">)</span>
+<span class="n">_EXIT_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^[A-Z]+O$"</span><span class="p">)</span>
+
+<span class="n">_PASSAGE_DTYPES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"vehicle_id"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"entry_gate"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"exit_gate"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"vehicle_class"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"entry_frame"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+    <span class="s2">"exit_frame"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+    <span class="s2">"frame_count"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+    <span class="s2">"entry_time_s"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="s2">"exit_time_s"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="s2">"is_complete"</span><span class="p">:</span> <span class="s2">"bool"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">_POINT_COLUMNS</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">axis</span><span class="si">}{</span><span class="n">index</span><span class="si">}</span><span class="s2">_px"</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">_TRACK_DTYPES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"vehicle_id"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"frame"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+    <span class="s2">"time_s"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="o">**</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="s2">"float64"</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_POINT_COLUMNS</span><span class="p">},</span>
+    <span class="s2">"center_x_px"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="s2">"center_y_px"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="s2">"is_complete"</span><span class="p">:</span> <span class="s2">"bool"</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_Record</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""一列剖析後的結果，只在本模組內流通。"""</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"entry_code"</span><span class="p">,</span> <span class="s2">"exit_code"</span><span class="p">,</span> <span class="s2">"vehicle_class"</span><span class="p">,</span>
+                 <span class="s2">"entry_frame"</span><span class="p">,</span> <span class="s2">"exit_frame"</span><span class="p">,</span> <span class="s2">"tail"</span><span class="p">,</span> <span class="s2">"line_no"</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle_id</span><span class="p">,</span> <span class="n">entry_code</span><span class="p">,</span> <span class="n">exit_code</span><span class="p">,</span> <span class="n">vehicle_class</span><span class="p">,</span>
+                 <span class="n">entry_frame</span><span class="p">,</span> <span class="n">exit_frame</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">line_no</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vehicle_id</span> <span class="o">=</span> <span class="n">vehicle_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span> <span class="o">=</span> <span class="n">entry_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span> <span class="o">=</span> <span class="n">exit_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vehicle_class</span> <span class="o">=</span> <span class="n">vehicle_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_frame</span> <span class="o">=</span> <span class="n">entry_frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_frame</span> <span class="o">=</span> <span class="n">exit_frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_no</span> <span class="o">=</span> <span class="n">line_no</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">frame_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_frame</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_frame</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span> <span class="o">!=</span> <span class="n">INCOMPLETE_CODE</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span> <span class="o">!=</span> <span class="n">INCOMPLETE_CODE</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">entry_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span> <span class="o">==</span> <span class="n">INCOMPLETE_CODE</span>
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exit_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span> <span class="o">==</span> <span class="n">INCOMPLETE_CODE</span>
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="read_motc_su_passages">
+<a class="viewcode-back" href="../../../api/generated/traffickit.formats.read_motc_su_passages.html#traffickit.formats.read_motc_su_passages">[文件]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_motc_su_passages</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_FPS</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"utf-8"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""讀取 MOTC_SU 軌跡檔，回傳一列一台車的通過紀錄。</span>
+
+<span class="sd">    軌跡座標本身不會讀進記憶體，只驗證其數量；需要逐 frame 位置時改用</span>
+<span class="sd">    :func:`read_motc_su_tracks`。</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str or path-like</span>
+<span class="sd">        MOTC_SU CSV 檔路徑。檔案沒有標題列。</span>
+<span class="sd">    fps : float, optional</span>
+<span class="sd">        影像張數／秒，用來把 frame 換算成秒。必須有限且大於 0。</span>
+<span class="sd">        預設 9.99，也就是 29.97/3 的實際拍攝速率；格式定義文件寫的是整數</span>
+<span class="sd">        10，兩者不同時以實際速率為準。拍攝設定不同時務必傳入正確值。</span>
+<span class="sd">    encoding : str, optional</span>
+<span class="sd">        檔案編碼，預設 "utf-8"。</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        一列一台車，依 entry_frame、vehicle_id 排序：</span>
+
+<span class="sd">        =================  =========  ==============================</span>
+<span class="sd">        欄位               型別       意義</span>
+<span class="sd">        =================  =========  ==============================</span>
+<span class="sd">        vehicle_id         string     車輛 ID</span>
+<span class="sd">        entry_gate         string     進入路口代號，**已去掉結尾 I**</span>
+<span class="sd">        exit_gate          string     駛出路口代號，**已去掉結尾 O**</span>
+<span class="sd">        vehicle_class      string     車種代號</span>
+<span class="sd">        entry_frame        int64      進入路口的 frame</span>
+<span class="sd">        exit_frame         int64      離開路口的 frame</span>
+<span class="sd">        frame_count        int64      exit_frame - entry_frame + 1</span>
+<span class="sd">        entry_time_s       float64    entry_frame / fps</span>
+<span class="sd">        exit_time_s        float64    exit_frame / fps</span>
+<span class="sd">        is_complete        bool       進出代號都不是 X</span>
+<span class="sd">        =================  =========  ==============================</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        fps 無效，或檔案內容不符合格式（訊息會指出行號與原因）。</span>
+<span class="sd">    FileNotFoundError</span>
+<span class="sd">        檔案不存在。</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    **不完整軌跡（代號 X）會照樣讀入並標記 ``is_complete=False``**，</span>
+<span class="sd">    不會默默消失。要餵給</span>
+<span class="sd">    :func:`traffickit.volume.summarise_turn_volume` 前，請自行</span>
+<span class="sd">    ``.query("is_complete")``——那個函式不接受 X 這種非路口代號。</span>
+
+<span class="sd">    車種 ``h``（聯結車車頭）與 ``g``（聯結車車身）是同一輛車的兩列。</span>
+<span class="sd">    做車輛數統計時通常只保留 ``h``；把 ``g`` 留在車種分組之外，</span>
+<span class="sd">    它就會出現在 ``summary.unassigned_classes`` 而不會被默默計入。</span>
+<span class="sd">    """</span>
+    <span class="n">seconds_per_frame</span> <span class="o">=</span> <span class="n">_frame_scale</span><span class="p">(</span><span class="n">fps</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">_iter_records</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">validate_tail_length</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">vehicle_id</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">entry_gate</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">exit_gate</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">vehicle_class</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">entry_frame</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">exit_frame</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">frame_count</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">entry_frame</span> <span class="o">*</span> <span class="n">seconds_per_frame</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">exit_frame</span> <span class="o">*</span> <span class="n">seconds_per_frame</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">is_complete</span><span class="p">,</span>
+        <span class="p">))</span>
+
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">_PASSAGE_DTYPES</span><span class="p">))</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_PASSAGE_DTYPES</span><span class="p">)</span>
+    <span class="n">_reject_duplicate_ids</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">frame</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"entry_frame"</span><span class="p">,</span> <span class="s2">"vehicle_id"</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"stable"</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="read_motc_su_tracks">
+<a class="viewcode-back" href="../../../api/generated/traffickit.formats.read_motc_su_tracks.html#traffickit.formats.read_motc_su_tracks">[文件]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_motc_su_tracks</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_FPS</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"utf-8"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""讀取 MOTC_SU 軌跡檔，回傳一列一台車一個 frame 的位置。</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str or path-like</span>
+<span class="sd">        MOTC_SU CSV 檔路徑。</span>
+<span class="sd">    fps : float, optional</span>
+<span class="sd">        影像張數／秒，預設 9.99。見 :func:`read_motc_su_passages`。</span>
+<span class="sd">    encoding : str, optional</span>
+<span class="sd">        檔案編碼，預設 "utf-8"。</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        依 vehicle_id、frame 排序，欄位為 vehicle_id、frame、time_s、</span>
+<span class="sd">        x1_px…y4_px（四個角點，第一點為車頭左上，順時針）、</span>
+<span class="sd">        center_x_px、center_y_px（四角點平均）、is_complete。</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        fps 無效，或檔案內容不符合格式。</span>
+<span class="sd">    FileNotFoundError</span>
+<span class="sd">        檔案不存在。</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    座標單位是**像素**，原點在影像左上、Y 軸向下。要換算成公尺或計算速度，</span>
+<span class="sd">    由呼叫端提供比例尺；本函式不做任何換算。</span>
+
+<span class="sd">    一個 frame 一列，資料量約等於所有車輛的 frame 數總和，</span>
+<span class="sd">    可能遠大於 :func:`read_motc_su_passages` 的結果。</span>
+<span class="sd">    """</span>
+    <span class="n">seconds_per_frame</span> <span class="o">=</span> <span class="n">_frame_scale</span><span class="p">(</span><span class="n">fps</span><span class="p">)</span>
+
+    <span class="n">ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">frames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">complete</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">points</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">_iter_records</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">validate_tail_length</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">_parse_tail</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">frame_count</span>
+        <span class="n">ids</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">record</span><span class="o">.</span><span class="n">vehicle_id</span><span class="p">]</span> <span class="o">*</span> <span class="n">count</span><span class="p">)</span>
+        <span class="n">frames</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">entry_frame</span><span class="p">,</span> <span class="n">record</span><span class="o">.</span><span class="n">exit_frame</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">complete</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">record</span><span class="o">.</span><span class="n">is_complete</span><span class="p">]</span> <span class="o">*</span> <span class="n">count</span><span class="p">)</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ids</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">_TRACK_DTYPES</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="p">)</span>
+
+    <span class="n">coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">_VALUES_PER_POINT</span><span class="p">)</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">_POINT_COLUMNS</span><span class="p">))</span>
+    <span class="n">frame</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="n">ids</span><span class="p">)</span>
+    <span class="n">frame</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"frame"</span><span class="p">,</span> <span class="n">frames</span><span class="p">)</span>
+    <span class="n">frame</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">"time_s"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span> <span class="o">*</span> <span class="n">seconds_per_frame</span><span class="p">)</span>
+    <span class="n">frame</span><span class="p">[</span><span class="s2">"center_x_px"</span><span class="p">]</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">frame</span><span class="p">[</span><span class="s2">"center_y_px"</span><span class="p">]</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">frame</span><span class="p">[</span><span class="s2">"is_complete"</span><span class="p">]</span> <span class="o">=</span> <span class="n">complete</span>
+
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">_TRACK_DTYPES</span><span class="p">)]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_TRACK_DTYPES</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">frame</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"frame"</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"stable"</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_frame_scale</span><span class="p">(</span><span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">check_real</span><span class="p">(</span><span class="s2">"fps"</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">allow_minimum</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_iter_records</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">validate_tail_length</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">_Record</span><span class="p">]:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line_no</span><span class="p">,</span> <span class="n">raw</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">_parse_line</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">line_no</span><span class="p">,</span> <span class="n">validate_tail_length</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_line</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">line_no</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">validate_tail_length</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Record</span><span class="p">:</span>
+    <span class="n">head</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">,</span> <span class="n">_FIELDS_BEFORE_TRACK</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">_FIELDS_BEFORE_TRACK</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行只有 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">head</span><span class="p">)</span><span class="si">}</span><span class="s2"> 個欄位，"</span>
+            <span class="sa">f</span><span class="s2">"至少需要 </span><span class="si">{</span><span class="n">_FIELDS_BEFORE_TRACK</span><span class="si">}</span><span class="s2"> 個"</span>
+        <span class="p">)</span>
+    <span class="n">vehicle_id</span><span class="p">,</span> <span class="n">entry_raw</span><span class="p">,</span> <span class="n">exit_raw</span><span class="p">,</span> <span class="n">entry_code</span><span class="p">,</span> <span class="n">exit_code</span><span class="p">,</span> <span class="n">vehicle_class</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">head</span><span class="p">[:</span><span class="n">_FIELDS_BEFORE_TRACK</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">tail</span> <span class="o">=</span> <span class="n">head</span><span class="p">[</span><span class="n">_FIELDS_BEFORE_TRACK</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">_FIELDS_BEFORE_TRACK</span> <span class="k">else</span> <span class="s2">""</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">vehicle_id</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的車輛 ID 是空白"</span><span class="p">)</span>
+    <span class="n">entry_frame</span> <span class="o">=</span> <span class="n">_parse_frame</span><span class="p">(</span><span class="n">entry_raw</span><span class="p">,</span> <span class="n">line_no</span><span class="p">,</span> <span class="s2">"進入路口 frame"</span><span class="p">)</span>
+    <span class="n">exit_frame</span> <span class="o">=</span> <span class="n">_parse_frame</span><span class="p">(</span><span class="n">exit_raw</span><span class="p">,</span> <span class="n">line_no</span><span class="p">,</span> <span class="s2">"離開路口 frame"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">exit_frame</span> <span class="o">&lt;</span> <span class="n">entry_frame</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的離開 frame（</span><span class="si">{</span><span class="n">exit_frame</span><span class="si">}</span><span class="s2">）"</span>
+            <span class="sa">f</span><span class="s2">"早於進入 frame（</span><span class="si">{</span><span class="n">entry_frame</span><span class="si">}</span><span class="s2">）"</span>
+        <span class="p">)</span>
+
+    <span class="n">_check_gate_code</span><span class="p">(</span><span class="n">entry_code</span><span class="p">,</span> <span class="n">_ENTRY_PATTERN</span><span class="p">,</span> <span class="s2">"進入"</span><span class="p">,</span> <span class="n">line_no</span><span class="p">)</span>
+    <span class="n">_check_gate_code</span><span class="p">(</span><span class="n">exit_code</span><span class="p">,</span> <span class="n">_EXIT_PATTERN</span><span class="p">,</span> <span class="s2">"離開"</span><span class="p">,</span> <span class="n">line_no</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">vehicle_class</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">MOTC_SU_VEHICLE_CLASSES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的車種代號 </span><span class="si">{</span><span class="n">vehicle_class</span><span class="si">!r}</span><span class="s2"> 不在格式定義內："</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">MOTC_SU_VEHICLE_CLASSES</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+
+    <span class="n">record</span> <span class="o">=</span> <span class="n">_Record</span><span class="p">(</span>
+        <span class="n">vehicle_id</span><span class="p">,</span> <span class="n">entry_code</span><span class="p">,</span> <span class="n">exit_code</span><span class="p">,</span> <span class="n">vehicle_class</span><span class="p">,</span>
+        <span class="n">entry_frame</span><span class="p">,</span> <span class="n">exit_frame</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">line_no</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">validate_tail_length</span><span class="p">:</span>
+        <span class="c1"># 不變式：軌跡值數量 = 8 × frame 數。用來擋住錯位或截斷的檔案。</span>
+        <span class="n">actual</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">tail</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">_VALUES_PER_POINT</span> <span class="o">*</span> <span class="n">record</span><span class="o">.</span><span class="n">frame_count</span>
+        <span class="k">if</span> <span class="n">actual</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行有 </span><span class="si">{</span><span class="n">actual</span><span class="si">}</span><span class="s2"> 個軌跡值，"</span>
+                <span class="sa">f</span><span class="s2">"但 frame 數 </span><span class="si">{</span><span class="n">record</span><span class="o">.</span><span class="n">frame_count</span><span class="si">}</span><span class="s2"> 應對應 </span><span class="si">{</span><span class="n">expected</span><span class="si">}</span><span class="s2"> 個"</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">record</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_frame</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">line_no</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的</span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2"> 不是整數"</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的</span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2"> 是負數"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">number</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_gate_code</span><span class="p">(</span>
+    <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">line_no</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">INCOMPLETE_CODE</span> <span class="ow">or</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的</span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2">路口代號 </span><span class="si">{</span><span class="n">code</span><span class="si">!r}</span><span class="s2"> 不符合格式："</span>
+        <span class="sa">f</span><span class="s2">"應為 </span><span class="si">{</span><span class="n">pattern</span><span class="o">.</span><span class="n">pattern</span><span class="si">}</span><span class="s2"> 或 </span><span class="si">{</span><span class="n">INCOMPLETE_CODE</span><span class="si">!r}</span><span class="s2">"</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_tail</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="n">_Record</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"float64"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">record</span><span class="o">.</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的軌跡座標含有非數值"</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reject_duplicate_ids</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">duplicated</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">frame</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="s2">"vehicle_id"</span><span class="p">),</span> <span class="s2">"vehicle_id"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">duplicated</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">duplicated</span><span class="p">))[:</span><span class="mi">5</span><span class="p">]</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"檔案中的車輛 ID 重複：</span><span class="si">{</span><span class="n">sample</span><span class="si">}</span><span class="s2">"</span>
+            <span class="o">+</span> <span class="p">(</span><span class="s2">"…"</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">duplicated</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="p">)</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, TrafficKit 開發團隊.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    使用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4 建立。
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  使用 <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0构建.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

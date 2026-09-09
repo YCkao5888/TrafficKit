@@ -1,0 +1,6 @@
+﻿traffickit.speed.summarise\_speed\_distribution
+===============================================
+
+.. currentmodule:: traffickit.speed
+
+.. autofunction:: summarise_speed_distribution

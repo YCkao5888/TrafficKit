@@ -1,0 +1,32 @@
+﻿traffickit.volume.TurnVolume
+============================
+
+.. currentmodule:: traffickit.volume
+
+.. autoclass:: TurnVolume
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TurnVolume.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TurnVolume.movements
+      ~TurnVolume.by_turn
+      ~TurnVolume.summary
+      ~TurnVolume.vehicle_groups
+      ~TurnVolume.turns
+   
+   

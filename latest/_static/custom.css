@@ -1,0 +1,12 @@
+/* 參數表與欄位表在窄螢幕上要能自己捲，不要撐破版面。 */
+table.docutils,
+.myst-table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* numpydoc 的 Parameters 區塊，型別與說明分行時比較好讀。 */
+dl.field-list > dt {
+    padding-left: 0;
+}
