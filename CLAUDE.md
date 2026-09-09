@@ -12,6 +12,8 @@ TrafficKit（`traffickit`）是交通分析**計算**套件。只放會改變交
 - 各功能工作單：`docs/worksheets/<功能 ID>.md`
 - 發行與文件更新檢查表：`docs/release-checklist.md`
 - 線上文件：<https://yckao5888.github.io/TrafficKit/latest/>
+- **這個 repo 是公開的**（<https://github.com/YCkao5888/TrafficKit>）。
+  推上去的任何東西全世界都看得到，提交前務必做下面的機敏性檢查。
   （Sphinx 產生，原始碼就是 `docs/`；推 master 後由 GitHub Actions 自動更新）
 - 現成範本（做得最完整的一個功能）：`speed.speed_distribution`，
   對照 `src/traffickit/speed/_distribution.py`、`tests/test_speed_distribution.py`、
@@ -163,15 +165,79 @@ python -m venv .venv-check
 
 ## 從舊程式移植時
 
-`data/` **不參與建置**，放三種東西：舊版參考程式（`speed_analyser.py`、
+`data/` **已列入 `.gitignore`，整個目錄不在版控內、也不參與建置**，只存在於
+開發者本機。裡面放三種東西：舊版參考程式（`speed_analyser.py`、
 `TurnVolumeAnalysis.vue`）、真實資料範例（`*_CSV_SU.csv`）、
-以及格式定義文件（`空拍影像分析_輸出資料相關定義_v1.1.xlsx`）。移植時：
+以及客戶端的格式定義文件（`空拍影像分析_輸出資料相關定義_v1.1.xlsx`）。
+文件中引用這些檔名時，要註明是本機參考而非 repo 內的檔案。移植時：
 
 - 逐項列出新舊差異，寫進 `docs/catalog.md` 的對照表，並向使用者確認每一項是預期的。
 - 舊程式裡的 UI 預設值、客戶路徑、比例尺讀取、流向欄位名稱差異，都留在應用端。
 - **「與舊版輸出相同」不等於交通定義正確。** 舊版的可疑行為（例如把未定義的統計量填 0、
   把範圍外的資料從分母中消掉）要指出來，不要照抄。
 - 真實資料回歸比較需要使用者提供資料，做不到就在工作單註明「尚未回歸比較」。
+
+## 資料機敏性檢查（每次 commit 前必做）
+
+**這個 repo 是公開的。** 提交前先看清楚要送出去的是什麼，發現疑似機敏或個資
+就**停下來問使用者**，不要自己判斷「應該沒關係」。
+
+### 提交前
+
+先列出這次會被提交的新檔案：
+
+```powershell
+git add -A -n              # 只列出，不真的加入
+git status --short --untracked-files=all
+```
+
+逐一對照下列樣態，命中任一項就先問：
+
+| 類別 | 具體例子 |
+| --- | --- |
+| 真實調查資料 | 軌跡檔（`*_CSV_SU.csv`）、影像、影片、含座標的輸出、車牌、人臉 |
+| 客戶或機關文件 | 規格書、契約、標案文件、期中期末報告（`.xlsx`／`.docx`／`.pdf`） |
+| 生產環境程式與設定 | 後端服務原始碼、`.env`、連線字串、憑證、金鑰、API token |
+| 個資 | 姓名、電話、地址、身分證字號、email、車牌號碼 |
+| 內部資訊 | 本機絕對路徑、內部主機名、資料庫名稱、客戶名稱、標案代號 |
+| 大型二進位檔 | 超過數 MB 的非程式檔，通常是資料而不是程式 |
+
+問法要具體到選項：**加進 `.gitignore`／改寫成不含實資料的版本／確認可公開**。
+不要問「這個可以嗎」，要說明「這是什麼、公開後別人會看到什麼」。
+
+只要是**真實案件的資料**，預設就是不要提交。測試與範例一律用合成的小樣本
+（見 `tests/test_motc_su.py` 的 `SAMPLE`），需要真實檔案時由使用者本機提供路徑。
+
+一併掃一次已追蹤檔案的內容：
+
+```powershell
+git ls-files | ForEach-Object { Select-String -Path $_ -Pattern "api[_-]?key|secret|token|password|BEGIN .*PRIVATE KEY|C:\Users" -List }
+```
+
+### 如果東西已經被提交了
+
+**`.gitignore` 對已經被追蹤的檔案無效。** 這是最常見的意外：先 commit 了，
+之後才把那個路徑加進 `.gitignore`，檔案卻仍然一直被追蹤與推送。每次檢查時
+順手比對一次：
+
+```bash
+git ls-files | git check-ignore --no-index --stdin
+```
+
+**`--no-index` 不能省。** `git check-ignore` 預設會跳過已追蹤的檔案，
+沒有這個旗標就永遠查不到東西——而「已追蹤卻已列入 ignore」正是要找的目標。
+
+發現已提交的機敏資料時，**先問使用者要哪一種處理**，不要自己動手：
+
+| 做法 | 效果 | 代價 |
+| --- | --- | --- |
+| `git rm --cached <檔案>` 後 commit | 停止追蹤，本機檔案保留，**歷史仍留有內容** | 最簡單；適用於「不該再更新，但外洩無實害」 |
+| 改寫內容後 commit | 換成不含實資料的版本，**歷史仍留有舊版** | 適用於範例檔想留但不要真資料 |
+| `git filter-repo` 重寫歷史後 force push | 從歷史移除 | 會改寫所有 commit SHA，協作者必須重新 clone；GitHub 的 fork 與快取可能仍留有副本 |
+
+三種都要讓使用者知道同一件事：**已經推上公開 repo 的內容必須視為已外洩。**
+重寫歷史不等於沒發生過——搜尋引擎、GitHub 的 API 快取、他人的 clone 都可能還在。
+如果外洩的是憑證或金鑰，**唯一有效的處理是輪替它**，移除檔案只是清理現場。
 
 ## 不要做的事
 
@@ -183,4 +249,6 @@ python -m venv .venv-check
   改了程式沒改 docstring，網站上就是錯的。
 - **不要未經使用者同意就 commit 或 push。** push 到 master 會觸發 Actions
   並更新對外網站，屬於對外動作，每次都要先問。
+- **不要把真實案件的資料、客戶文件或生產環境程式加進版控。** 提交前一定要做
+  上面那節的機敏性檢查；有疑慮就問，不要自己判斷「應該沒關係」。
 - 不要在 `docs/` 之外另開一份交付清單或流程說明；要改流程就改本檔上面那張表。

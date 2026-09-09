@@ -11,3 +11,6 @@ data/
 
 # Excel 開檔時產生的鎖定檔
 ~$*
+
+# 第三方 vendored 內容，本機參考用，不納入版控
+skill/

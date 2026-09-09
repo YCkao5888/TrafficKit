@@ -153,7 +153,7 @@ wheel 路徑，不能直接當成可搬移的部署鎖檔。
 
 ## 舊程式差異與已知限制
 
-- 與 `data/speed_analyser.py` 的逐項差異見 `docs/catalog.md`。
+- 與舊版 `data/speed_analyser.py`（本機參考，未納入版控）的逐項差異見 `docs/catalog.md`；該表已完整記錄比對結果，不需要原檔。
 - **尚未做真實資料回歸比較**，接回舊程式前必須補。
 - 尚未驗證：Linux／macOS、其他 pandas 版本、超過百萬列的資料。
 - 尚未提供：速度平滑、時間加權平均、箱形圖數列、車種分組入口。

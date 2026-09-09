@@ -10,7 +10,7 @@
 - **公開函式入口**：`traffickit.volume.summarise_turn_volume`
 - **契約版**：1
 - **狀態**：試行（尚未與後端舊版計算逐項比對）
-- **參考來源**：`data/TurnVolumeAnalysis.vue`（**僅前端 UI，不含計算**；
+- **參考來源**：`data/TurnVolumeAnalysis.vue`（本機參考，未納入版控）（**僅前端 UI，不含計算**；
   提供輸出契約、轉向類別、車種代碼與 PCU 權重預設值）
 
 ## 必要輸入
