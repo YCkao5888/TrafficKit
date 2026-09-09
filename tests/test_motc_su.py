@@ -15,7 +15,7 @@ from traffickit.formats import (
     DEFAULT_FPS,
     INCOMPLETE_CODE,
     MOTC_SU_VEHICLE_CLASSES,
-    read_motc_su_passages,
+    read_motc_su_vehicles,
     read_motc_su_tracks,
 )
 from traffickit.volume import (
@@ -54,8 +54,8 @@ class MotcSuFileCase(unittest.TestCase):
 
 
 class TestReadPassages(MotcSuFileCase):
-    def test_hand_calculated_passages(self):
-        actual = read_motc_su_passages(self.path)
+    def test_hand_calculated_vehicles(self):
+        actual = read_motc_su_vehicles(self.path)
         expected = pd.DataFrame({
             "vehicle_id": ["1", "2", "3"],
             "entry_gate": ["B", "A", "X"],
@@ -78,7 +78,7 @@ class TestReadPassages(MotcSuFileCase):
         assert_frame_equal(actual, expected)
 
     def test_gate_suffix_is_stripped_but_x_is_kept(self):
-        actual = read_motc_su_passages(self.path)
+        actual = read_motc_su_vehicles(self.path)
         self.assertEqual(actual["entry_gate"].tolist(), ["B", "A", INCOMPLETE_CODE])
         self.assertEqual(
             actual.loc[actual["entry_gate"] == INCOMPLETE_CODE, "is_complete"].item(),
@@ -86,8 +86,8 @@ class TestReadPassages(MotcSuFileCase):
         )
 
     def test_fps_only_changes_seconds_not_frames(self):
-        default = read_motc_su_passages(self.path)
-        faster = read_motc_su_passages(self.path, fps=30.0)
+        default = read_motc_su_vehicles(self.path)
+        faster = read_motc_su_vehicles(self.path, fps=30.0)
         assert_frame_equal(
             default[["entry_frame", "exit_frame", "frame_count"]],
             faster[["entry_frame", "exit_frame", "frame_count"]],
@@ -98,17 +98,17 @@ class TestReadPassages(MotcSuFileCase):
 
     def test_rows_are_sorted_by_entry_frame_then_id(self):
         shuffled = [SAMPLE[2], SAMPLE[0], SAMPLE[1]]
-        actual = read_motc_su_passages(self.write(shuffled))
+        actual = read_motc_su_vehicles(self.write(shuffled))
         self.assertEqual(actual["vehicle_id"].tolist(), ["1", "2", "3"])
 
     def test_blank_lines_are_skipped(self):
-        actual = read_motc_su_passages(
+        actual = read_motc_su_vehicles(
             self.write([SAMPLE[0], "", "   ", SAMPLE[1]])
         )
         self.assertEqual(len(actual), 2)
 
     def test_empty_file_keeps_schema(self):
-        actual = read_motc_su_passages(self.write([]))
+        actual = read_motc_su_vehicles(self.write([]))
         self.assertEqual(len(actual), 0)
         self.assertEqual(
             [str(dtype) for dtype in actual.dtypes],
@@ -120,7 +120,7 @@ class TestReadPassages(MotcSuFileCase):
         # 宣告 frame 0–1（兩個 frame）卻只給一個 frame 的座標。
         broken = ["1,0,1,BI,AO,c," + points(0, 0, 1, 0, 1, 1, 0, 1)]
         with self.assertRaisesRegex(ValueError, "第 1 行有 8 個軌跡值"):
-            read_motc_su_passages(self.write(broken))
+            read_motc_su_vehicles(self.write(broken))
 
     def test_invalid_gate_codes_are_rejected(self):
         cases = [
@@ -131,12 +131,12 @@ class TestReadPassages(MotcSuFileCase):
         for line, message in cases:
             with self.subTest(line=line):
                 with self.assertRaisesRegex(ValueError, message):
-                    read_motc_su_passages(self.write([line]))
+                    read_motc_su_vehicles(self.write([line]))
 
     def test_unknown_vehicle_class_is_rejected(self):
         line = "1,0,0,BI,AO,z," + points(*range(8))
         with self.assertRaisesRegex(ValueError, "車種代號"):
-            read_motc_su_passages(self.write([line]))
+            read_motc_su_vehicles(self.write([line]))
 
     def test_broken_frames_are_rejected(self):
         cases = [
@@ -147,30 +147,30 @@ class TestReadPassages(MotcSuFileCase):
         for line, message in cases:
             with self.subTest(line=line):
                 with self.assertRaisesRegex(ValueError, message):
-                    read_motc_su_passages(self.write([line]))
+                    read_motc_su_vehicles(self.write([line]))
 
     def test_short_line_and_blank_id_are_rejected(self):
         with self.assertRaisesRegex(ValueError, "至少需要 6 個"):
-            read_motc_su_passages(self.write(["1,0,1,BI"]))
+            read_motc_su_vehicles(self.write(["1,0,1,BI"]))
         with self.assertRaisesRegex(ValueError, "車輛 ID 是空白"):
-            read_motc_su_passages(
+            read_motc_su_vehicles(
                 self.write([" ,0,0,BI,AO,c," + points(*range(8))])
             )
 
     def test_duplicate_vehicle_id_is_rejected(self):
         duplicated = [SAMPLE[0], SAMPLE[0]]
         with self.assertRaisesRegex(ValueError, "車輛 ID 重複"):
-            read_motc_su_passages(self.write(duplicated))
+            read_motc_su_vehicles(self.write(duplicated))
 
     def test_invalid_fps_is_rejected(self):
         for value in [0, -1, float("nan"), float("inf"), True, "10"]:
             with self.subTest(value=value):
                 with self.assertRaisesRegex(ValueError, "fps"):
-                    read_motc_su_passages(self.path, fps=value)
+                    read_motc_su_vehicles(self.path, fps=value)
 
     def test_missing_file_raises(self):
         with self.assertRaises(FileNotFoundError):
-            read_motc_su_passages(self.path.with_name("nope.csv"))
+            read_motc_su_vehicles(self.path.with_name("nope.csv"))
 
 
 class TestReadTracks(MotcSuFileCase):
@@ -200,9 +200,9 @@ class TestReadTracks(MotcSuFileCase):
         )
 
     def test_row_count_matches_total_frame_count(self):
-        passages = read_motc_su_passages(self.path)
+        vehicles = read_motc_su_vehicles(self.path)
         tracks = read_motc_su_tracks(self.path)
-        self.assertEqual(len(tracks), int(passages["frame_count"].sum()))
+        self.assertEqual(len(tracks), int(vehicles["frame_count"].sum()))
 
     def test_empty_file_keeps_schema(self):
         actual = read_motc_su_tracks(self.write([]))
@@ -293,8 +293,8 @@ class TestClockwiseMovements(unittest.TestCase):
 
 class TestEndToEnd(MotcSuFileCase):
     def test_file_to_turn_volume(self):
-        passages = read_motc_su_passages(self.path)
-        complete = passages.query("is_complete")
+        vehicles = read_motc_su_vehicles(self.path)
+        complete = vehicles.query("is_complete")
         movements = clockwise_movements(
             ["A", "B", "C", "D"], disallowed=[(g, g) for g in "ABCD"]
         )
@@ -318,11 +318,11 @@ class TestEndToEnd(MotcSuFileCase):
 
     def test_incomplete_rows_break_turn_volume_if_not_filtered(self):
         # 契約刻意如此：X 不是路口代號，忘記過濾應該爆炸而不是靜靜少算。
-        passages = read_motc_su_passages(self.path)
+        vehicles = read_motc_su_vehicles(self.path)
         movements = clockwise_movements(["A", "B", "C", "D"])
         with self.assertRaisesRegex(ValueError, "未定義的"):
             summarise_turn_volume(
-                passages,
+                vehicles,
                 movements=movements,
                 vehicle_groups={"小型車": ["c"], "機車": ["m"]},
                 pcu_weights=DEFAULT_PCU_WEIGHTS,

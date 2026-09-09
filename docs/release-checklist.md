@@ -2,17 +2,19 @@
 
 ## 每次新增或修改功能都要做（不必發行）
 
-1. 更新 docstring——**API reference 完全由 docstring 產生**，改了程式沒改
-   docstring，網站就會是錯的。
-2. 新功能要在 `docs/api/<子套件>.rst` 的 `autosummary` 加上名稱，
-   否則不會出現在網站上。新增子套件時另外建一頁並加進 `docs/api/index.rst`
-   的 `toctree`。
-3. 在 `docs/catalog.md` 新增或修改該功能那一列。
-4. 新增或更新 `docs/worksheets/<功能 ID>.md`，並加進
-   `docs/worksheets/index.md` 的 `toctree`。
-5. 契約有變（輸入、輸出、判定規則、統計口徑）→ 契約版 +1，
-   並在 `docs/catalog.md` 的「契約變更紀錄」列出差異。
-6. 本機建置一次，確認沒有新的警告：
+完整清單在 repo 根目錄的
+[`CLAUDE.md`](https://github.com/YCkao5888/TrafficKit/blob/master/CLAUDE.md)
+——「依下列清單交付」的九項表格，以及「改了什麼 → 要更新哪些檔案」對照表。
+**那裡是唯一來源**，本檔不重抄，只提醒與文件網站直接相關的三件事：
+
+1. **改程式一定要改 docstring。** API reference 完全由 docstring 產生，
+   程式改了 docstring 沒改，網站上就是錯的。
+2. **新名稱要登記進 `autosummary`。** 寫好 docstring 不等於會出現在網站上；
+   沒加進 `docs/api/<子套件>.rst` 的清單就不會被產生。
+3. **契約有變就升契約版**（輸入、輸出、判定規則、統計口徑），
+   並在 `docs/catalog.md` 的「契約變更紀錄」列出差異與對呼叫端的影響。
+
+然後本機建置一次，確認沒有新的警告：
 
    ```powershell
    .\.venv\Scripts\python.exe -m pip install -e ".[docs]"

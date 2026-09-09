@@ -9,14 +9,14 @@ from ._motc_su import (
     DEFAULT_FPS,
     INCOMPLETE_CODE,
     MOTC_SU_VEHICLE_CLASSES,
-    read_motc_su_passages,
     read_motc_su_tracks,
+    read_motc_su_vehicles,
 )
 
 __all__ = [
     "DEFAULT_FPS",
     "INCOMPLETE_CODE",
     "MOTC_SU_VEHICLE_CLASSES",
-    "read_motc_su_passages",
     "read_motc_su_tracks",
+    "read_motc_su_vehicles",
 ]

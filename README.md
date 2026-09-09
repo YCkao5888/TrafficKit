@@ -61,13 +61,13 @@ movements = pd.DataFrame([          # 路口的轉向定義，同時決定哪些
     {"entry_gate": "N", "exit_gate": "S", "turn": "straight", "is_allowed": True},
     {"entry_gate": "N", "exit_gate": "E", "turn": "left",     "is_allowed": True},
 ])
-passages = pd.DataFrame([           # 一列一台車
+vehicles = pd.DataFrame([           # 一列一台車
     {"vehicle_id": "V1", "entry_gate": "N", "exit_gate": "S", "vehicle_class": "c"},
     {"vehicle_id": "V2", "entry_gate": "N", "exit_gate": "E", "vehicle_class": "m"},
 ])
 
 result = summarise_turn_volume(
-    passages,
+    vehicles,
     movements=movements,
     vehicle_groups={"小型車": ["c"], "機車": ["m"]},
     pcu_weights={name: DEFAULT_PCU_WEIGHTS[name] for name in ("小型車", "機車")},
@@ -89,11 +89,11 @@ result.summary    # 總 PCU、未分組車輛數、違規轉向車輛數
 從 MOTC_SU 空拍軌跡檔一路算到轉向流量：
 
 ```python
-from traffickit.formats import read_motc_su_passages
+from traffickit.formats import read_motc_su_vehicles
 from traffickit.volume import clockwise_movements, summarise_turn_volume
 
-passages = read_motc_su_passages("...._CSV_SU.csv")   # fps 預設 9.99
-complete = passages.query("is_complete")               # 代號 X 是不完整軌跡
+vehicles = read_motc_su_vehicles("...._CSV_SU.csv")   # fps 預設 9.99
+complete = vehicles.query("is_complete")               # 代號 X 是不完整軌跡
 
 movements = clockwise_movements(                       # A/B/C/D 順時針編號
     ["A", "B", "C", "D"],
@@ -123,7 +123,7 @@ result = summarise_turn_volume(complete, movements=movements, ...)
 | speed.bin_edges | `traffickit.speed.speed_bin_edges` | 產生等寬分箱邊界（多群組共用） | 試行 |
 | volume.turn_volume | `traffickit.volume.summarise_turn_volume` | 各進入方向 × 轉向 × 車種分組的車輛數與 PCU | 試行 |
 | volume.clockwise_movements | `traffickit.volume.clockwise_movements` | 由順時針路口代號推導轉向對照表 | 試行 |
-| formats.motc_su | `traffickit.formats.read_motc_su_passages`、`read_motc_su_tracks` | 讀取 MOTC_SU 空拍影像軌跡 CSV | 試行 |
+| formats.motc_su | `traffickit.formats.read_motc_su_vehicles`、`read_motc_su_tracks` | 讀取 MOTC_SU 空拍影像軌跡 CSV | 試行 |
 
 ## 驗證
 
@@ -179,8 +179,11 @@ TrafficKit/
 1. 複製 [`docs/feature-request-template.md`](docs/feature-request-template.md) 填成需求單。
 2. 依 [`docs/feature-development-guide.md`](docs/feature-development-guide.md) 的 Step 1–8 交付。
 3. 在 [`docs/catalog.md`](docs/catalog.md) 登記一列，補一份 `docs/worksheets/<功能 ID>.md`，
-   並把新函式加進 `docs/api/<子套件>.rst` 的 `autosummary` 清單。
-   完整清單見 [`docs/release-checklist.md`](docs/release-checklist.md)。
+   把新函式加進 `docs/api/<子套件>.rst` 的 `autosummary` 清單，
+   並在本檔的「功能索引」表加一列。
+4. **完整的九項交付清單與「改了什麼 → 要更新哪些檔案」對照表在
+   [`CLAUDE.md`](CLAUDE.md)**，那裡是唯一來源；發行版本另走
+   [`docs/release-checklist.md`](docs/release-checklist.md)。
 
 交給 AI 助理代做時，把需求單（或一份現成程式碼加一句「照這個邏輯做」）給它即可；
 [`CLAUDE.md`](CLAUDE.md) 已寫明本專案的慣例、驗證指令，以及資訊不足時它必須回問哪些事。

@@ -54,7 +54,7 @@ class TestSummariseTurnVolume(unittest.TestCase):
             ("E", "E", "u_turn", False),
         ], columns=["entry_gate", "exit_gate", "turn", "is_allowed"])
 
-        self.passages = pd.DataFrame([
+        self.vehicles = pd.DataFrame([
             ("V1", "N", "S", "c"),
             ("V2", "N", "S", "c"),
             ("V3", "N", "S", "m"),
@@ -72,8 +72,8 @@ class TestSummariseTurnVolume(unittest.TestCase):
             "pcu_weights": WEIGHTS,
         }
         kwargs.update(overrides)
-        passages = kwargs.pop("passages", self.passages)
-        return summarise_turn_volume(passages, **kwargs)
+        vehicles = kwargs.pop("vehicles", self.vehicles)
+        return summarise_turn_volume(vehicles, **kwargs)
 
     def test_hand_calculated_movements(self):
         actual = self.run_default().movements
@@ -175,20 +175,20 @@ class TestSummariseTurnVolume(unittest.TestCase):
         )
 
     def test_unassigned_classes_are_excluded_and_reported(self):
-        passages = self.passages.copy()
-        passages.loc[len(passages)] = ("V9", "N", "S", "x")
-        summary = self.run_default(passages=passages).summary
+        vehicles = self.vehicles.copy()
+        vehicles.loc[len(vehicles)] = ("V9", "N", "S", "x")
+        summary = self.run_default(vehicles=vehicles).summary
         self.assertEqual(summary.unassigned_vehicle_count, 2)
         self.assertEqual(summary.unassigned_classes, ("p", "x"))
         self.assertEqual(summary.counted_vehicle_count, 7)
 
     def test_unsorted_rows_duplicate_index_and_no_mutation(self):
-        shuffled = self.passages.sample(frac=1, random_state=3).copy()
+        shuffled = self.vehicles.sample(frac=1, random_state=3).copy()
         shuffled.index = [0] * len(shuffled)
         before = shuffled.copy(deep=True)
         moves_before = self.movements.copy(deep=True)
 
-        actual = self.run_default(passages=shuffled)
+        actual = self.run_default(vehicles=shuffled)
         expected = self.run_default()
         assert_frame_equal(actual.movements, expected.movements)
         assert_frame_equal(actual.by_turn, expected.by_turn)
@@ -196,14 +196,14 @@ class TestSummariseTurnVolume(unittest.TestCase):
         assert_frame_equal(self.movements, moves_before)
 
     def test_extra_columns_are_ignored(self):
-        with_extra = self.passages.assign(timestamp_s=range(len(self.passages)))
+        with_extra = self.vehicles.assign(timestamp_s=range(len(self.vehicles)))
         assert_frame_equal(
-            self.run_default(passages=with_extra).movements,
+            self.run_default(vehicles=with_extra).movements,
             self.run_default().movements,
         )
 
-    def test_empty_passages_keep_the_full_grid(self):
-        result = self.run_default(passages=self.passages.iloc[:0])
+    def test_empty_vehicles_keep_the_full_grid(self):
+        result = self.run_default(vehicles=self.vehicles.iloc[:0])
         self.assertEqual(len(result.movements), 14)
         self.assertEqual(result.movements["vehicle_count"].sum(), 0)
         self.assertAlmostEqual(result.summary.total_pcu, 0.0)
@@ -221,35 +221,35 @@ class TestSummariseTurnVolume(unittest.TestCase):
             result.turns = ()
 
     def test_undefined_movement_in_data_is_rejected(self):
-        passages = self.passages.copy()
-        passages.loc[len(passages)] = ("V9", "S", "N", "c")
+        vehicles = self.vehicles.copy()
+        vehicles.loc[len(vehicles)] = ("V9", "S", "N", "c")
         with self.assertRaisesRegex(ValueError, "未定義的"):
-            self.run_default(passages=passages)
+            self.run_default(vehicles=vehicles)
 
     def test_duplicate_vehicle_id_is_rejected(self):
-        passages = pd.concat([self.passages, self.passages.iloc[[0]]])
+        vehicles = pd.concat([self.vehicles, self.vehicles.iloc[[0]]])
         with self.assertRaisesRegex(ValueError, "vehicle_id 不可重複"):
-            self.run_default(passages=passages)
+            self.run_default(vehicles=vehicles)
 
     def test_non_dataframe_is_rejected(self):
-        with self.assertRaisesRegex(TypeError, "passages"):
-            self.run_default(passages=[{"vehicle_id": "V1"}])
+        with self.assertRaisesRegex(TypeError, "vehicles"):
+            self.run_default(vehicles=[{"vehicle_id": "V1"}])
         with self.assertRaisesRegex(TypeError, "movements"):
             self.run_default(movements=ZONE_CONFIG_MOVEMENTS)
 
     def test_missing_columns_are_reported(self):
-        with self.assertRaisesRegex(ValueError, "passages 缺少必要欄位"):
-            self.run_default(passages=self.passages.drop(columns="exit_gate"))
+        with self.assertRaisesRegex(ValueError, "vehicles 缺少必要欄位"):
+            self.run_default(vehicles=self.vehicles.drop(columns="exit_gate"))
         with self.assertRaisesRegex(ValueError, "movements 缺少必要欄位"):
             self.run_default(movements=self.movements.drop(columns="turn"))
 
     def test_blank_labels_are_rejected(self):
         for column in ("vehicle_id", "entry_gate", "exit_gate", "vehicle_class"):
             with self.subTest(column=column):
-                invalid = self.passages.copy()
+                invalid = self.vehicles.copy()
                 invalid.loc[0, column] = "  "
                 with self.assertRaisesRegex(ValueError, column):
-                    self.run_default(passages=invalid)
+                    self.run_default(vehicles=invalid)
 
     def test_invalid_movements_are_rejected(self):
         unknown_turn = self.movements.copy()
@@ -311,9 +311,9 @@ class TestSummariseTurnVolume(unittest.TestCase):
     def test_weights_only_needed_for_turns_actually_defined(self):
         # movements 只用到 straight，缺其他轉向的權重也應該可以算。
         movements = self.movements.query("turn == 'straight'").copy()
-        passages = self.passages.query("exit_gate in ('S', 'W')").copy()
+        vehicles = self.vehicles.query("exit_gate in ('S', 'W')").copy()
         result = summarise_turn_volume(
-            passages,
+            vehicles,
             movements=movements,
             vehicle_groups=GROUPS,
             pcu_weights={
@@ -346,12 +346,12 @@ class TestDefaults(unittest.TestCase):
             [("N", "S", "straight", True)],
             columns=["entry_gate", "exit_gate", "turn", "is_allowed"],
         )
-        passages = pd.DataFrame(
+        vehicles = pd.DataFrame(
             [("V1", "N", "S", "b")],
             columns=["vehicle_id", "entry_gate", "exit_gate", "vehicle_class"],
         )
         result = summarise_turn_volume(
-            passages,
+            vehicles,
             movements=movements,
             vehicle_groups=DEFAULT_VEHICLE_GROUPS,
             pcu_weights=DEFAULT_PCU_WEIGHTS,

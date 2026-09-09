@@ -27,28 +27,25 @@ description: 在 TrafficKit 新增一個交通計算功能、修改既有功能�
 
    問題要具體到「兩個選項各會得到什麼答案」。
 
-## 第二步：八項交付，缺一不可
+## 第二步：照 CLAUDE.md 的九項清單交付
 
-| # | 產出 | 位置 |
-| --- | --- | --- |
-| 1 | 實作 | `src/traffickit/<領域>/_<功能>.py` |
-| 2 | 公開匯出 | `src/traffickit/<領域>/__init__.py` 的 `__all__` |
-| 3 | 可執行範例 | `examples/<功能>_demo.py` |
-| 4 | 規格測試 | `tests/test_<功能>.py` |
-| 5 | 功能目錄 | `docs/catalog.md` 新增或修改一列＋說明段落 |
-| 6 | 工作單 | `docs/worksheets/<功能 ID>.md`，並加進 `docs/worksheets/index.md` 的 toctree |
-| 7 | **API reference** | `docs/api/<子套件>.rst` 的 `autosummary` 加上名稱 |
-| 8 | 驗證紀錄 | 工作單的「驗證環境與版本」表，填**實際跑出來**的數字 |
+**交付清單的唯一來源是 `CLAUDE.md` 的「依下列清單交付」表格**，以及它下面那張
+「改了什麼 → 要更新哪些檔案」對照表。先讀那兩張表，不要憑印象做。
+本 skill 不重抄清單，只補充最常出錯的兩項怎麼做：
 
-第 7 項容易漏。**API reference 的內容完全由 docstring 產生**，
-所以「寫好 docstring」與「把名稱加進 autosummary 清單」是兩件事，都要做：
+**第 7 項 API reference**——內容完全由 docstring 產生，但「寫好 docstring」與
+「把名稱加進 `autosummary` 清單」是兩件事，都要做：
 
-- 函式或 dataclass 加在對應子套件頁面的 `autosummary` 區塊。
+- 函式或 dataclass 加在 `docs/api/<子套件>.rst` 的 `autosummary` 區塊。
 - 模組層級常數用 `.. autodata::`。
 - 新的子套件要建一頁 `docs/api/<名稱>.rst`，並加進 `docs/api/index.rst` 的 toctree
   與分層表格。
 - docstring 用 NumPy 格式、繁體中文，必含 Parameters／Returns／Raises／Notes；
   Notes 要寫明「這個功能不做什麼」。
+
+**第 8 項 README**——根目錄 `README.md` 的「功能索引」表要加一列；
+新功能若改變了入門用法，「快速上手」的程式片段也要更新。
+漏掉的話新功能等於沒人知道。
 
 ### 繁體中文 docstring 的 RST 陷阱
 
@@ -74,6 +71,10 @@ description: 在 TrafficKit 新增一個交通計算功能、修改既有功能�
 ```
 
 文件建置用 `-W`，警告即失敗。四項都綠燈才算完成。
+
+完整驗收（wheel + 乾淨環境 + `pip freeze`）的指令在 `CLAUDE.md`；
+跑完把實際數字填進工作單的「驗證環境與版本」表。
+**未經使用者同意不要 commit 或 push**——push 到 master 會更新對外網站。
 
 交付一個版本時另外走 `docs/release-checklist.md`（改版號、更新
 `docs/switcher.json`、打 tag）。

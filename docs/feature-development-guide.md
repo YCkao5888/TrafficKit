@@ -26,8 +26,13 @@
 | 3 | 實作（Step 4） | `src/traffickit/<領域>/_<功能>.py` + 在 `__init__.py` 匯出 |
 | 4 | 範例（Step 5） | `examples/<功能>_demo.py` |
 | 5 | 測試（Step 6） | `tests/test_<功能>.py`，把手算答案變成測試 |
-| 6 | 登記（Step 7） | `docs/catalog.md` 新增一列 + `docs/worksheets/<功能 ID>.md` 工作單 |
-| 7 | 驗收（Step 8） | wheel 建置、乾淨環境安裝、範例與測試重跑、填驗證紀錄 |
+| 6 | 登記（Step 7） | `docs/catalog.md` 一列＋說明段落、`docs/worksheets/<功能 ID>.md` 工作單（並加進 `worksheets/index.md` 的 toctree） |
+| 7 | 文件（Step 7） | `docs/api/<子套件>.rst` 的 `autosummary` 加名稱、根目錄 `README.md` 的功能索引表加一列 |
+| 8 | 驗收（Step 8） | wheel 建置、乾淨環境安裝、範例與測試重跑、文件 `-W` 建置、填驗證紀錄 |
+
+逐項的完整清單（含「改了什麼 → 要更新哪些檔案」對照表）在
+[`CLAUDE.md`](https://github.com/YCkao5888/TrafficKit/blob/master/CLAUDE.md)；
+發行版本另走 [`release-checklist.md`](release-checklist.md)。
 
 **要請 AI 助理代做時**，把需求單（或一份現成程式碼＋一句「照這個邏輯做」）交出去即可；
 專案慣例、驗證指令與必問事項寫在根目錄的 [`CLAUDE.md`](https://github.com/YCkao5888/TrafficKit/blob/master/CLAUDE.md)，助理會依此執行並在資訊不足時回問。

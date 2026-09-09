@@ -10,6 +10,9 @@ TrafficKit（`traffickit`）是交通分析**計算**套件。只放會改變交
 - 開發教學與交付格式：`docs/feature-development-guide.md`（Step 1–8）
 - 功能索引與狀態定義：`docs/catalog.md`
 - 各功能工作單：`docs/worksheets/<功能 ID>.md`
+- 發行與文件更新檢查表：`docs/release-checklist.md`
+- 線上文件：<https://yckao5888.github.io/TrafficKit/latest/>
+  （Sphinx 產生，原始碼就是 `docs/`；推 master 後由 GitHub Actions 自動更新）
 - 現成範本（做得最完整的一個功能）：`speed.speed_distribution`，
   對照 `src/traffickit/speed/_distribution.py`、`tests/test_speed_distribution.py`、
   `docs/worksheets/speed.speed_distribution.md`
@@ -32,7 +35,9 @@ FPS 預設 9.99（= 29.97/3 實際速率，格式定義文件寫的是整數 10�
 
 1. 讀 `docs/catalog.md`，確認要新增的功能與既有功能是否重疊、能否只加參數解決。
 2. 寫出 I/O 契約與**三個手算案例**（成立／不成立／邊界），先與使用者確認再寫程式。
-3. 依下列清單交付，**八項缺一不可**（也可以直接用 `new-traffic-feature` skill）：
+3. 依下列清單交付，**九項缺一不可**（也可以直接用 `new-traffic-feature` skill）。
+   **這張表是唯一來源**，skill 與 `docs/release-checklist.md` 都指回這裡；
+   要改流程就改這張表，不要在別處另開一份。
 
 | # | 產出 | 位置 |
 | --- | --- | --- |
@@ -40,24 +45,43 @@ FPS 預設 9.99（= 29.97/3 實際速率，格式定義文件寫的是整數 10�
 | 2 | 公開匯出 | `src/traffickit/<領域>/__init__.py` 的 `__all__` |
 | 3 | 可執行範例 | `examples/<功能>_demo.py` |
 | 4 | 規格測試 | `tests/test_<功能>.py` |
-| 5 | 目錄登記 | `docs/catalog.md` 新增一列 |
+| 5 | 目錄登記 | `docs/catalog.md` 新增一列＋一段功能說明 |
 | 6 | 工作單 | `docs/worksheets/<功能 ID>.md`，並加進 `docs/worksheets/index.md` 的 toctree |
 | 7 | **API reference** | `docs/api/<子套件>.rst` 的 `autosummary` 加上名稱 |
-| 8 | 驗證紀錄 | 工作單的「驗證環境與版本」表，填實際跑出來的結果 |
+| 8 | **README** | 根目錄 `README.md` 的「功能索引」表；影響入門用法時一併更新「快速上手」 |
+| 9 | 驗證紀錄 | 工作單的「驗證環境與版本」表，填實際跑出來的結果 |
 
-第 7 項容易漏。API reference 的**內容**由 docstring 產生，但名稱沒加進
+第 7、8 項最常漏。API reference 的**內容**由 docstring 產生，但名稱沒加進
 `autosummary` 清單就不會出現在網站上——寫 docstring 與登記名稱是兩件事。
-新增子套件時另外建一頁並加進 `docs/api/index.rst` 的 toctree 與分層表格。
+README 的功能索引是多數人第一眼看到的清單，漏掉等於新功能沒人知道。
 
 4. 執行驗證（見下方指令），把實際數字填進工作單，再回報。
+
+### 改了什麼 → 要更新哪些檔案
+
+| 你改了什麼 | 除了程式與測試，還要更新 |
+| --- | --- |
+| 新增公開函式 | 上表九項全部 |
+| 改既有函式的契約 | docstring、`catalog.md` 該列的契約版與「契約變更紀錄」、工作單、範例；若動到 README 的快速上手片段也要改 |
+| 只改內部實作、效能或錯誤訊息措辭 | 只有程式與測試；契約版不動，文件不必改 |
+| 新增子套件 | 九項＋`docs/api/<新>.rst`＋`docs/api/index.rst` 的 toctree 與分層表＋本檔的分層表＋README 專案結構 |
+| 新增輸入格式 | 放 `traffickit.formats`，九項＋本檔「常用輸入格式」段 |
+| 新增跨功能的共同約定 | 本檔「程式碼慣例」＋README「使用前必讀」＋`docs/index.md`「使用前必讀」（三處要一致） |
+| 新增共用驗證函式 | `src/traffickit/_validation.py`，並確認既有呼叫端的錯誤訊息沒被改掉 |
+| 要發行一個版本 | 走 `docs/release-checklist.md`（版號、`docs/switcher.json`、tag） |
 
 ## 程式碼慣例
 
 - **單位**：速度 m/s、時間為「相對本資料集共同起點的秒數」、長度公尺。
   函式參數與欄位名一律帶單位後綴（`_mps`、`_s`、`_m`）。
-- **輸入契約**：`pandas.DataFrame`，必要欄位 `vehicle_id`（非空白字串）、`time_s`、
-  `speed_smooth_mps`。允許未排序、允許多餘欄位、列索引可重複。
-  沿用 `_distribution.py` 的 `_validated_samples()` 驗證邏輯與錯誤訊息措辭。
+- **輸入契約**：一律 `pandas.DataFrame`，允許未排序、允許多餘欄位、列索引可重複。
+  必要欄位由各功能自己訂，不是全套件共用一組：
+  速度類用 `vehicle_id`／`time_s`／`speed_smooth_mps`（一列一台車一個時間點），
+  轉向流量用 `vehicle_id`／`entry_gate`／`exit_gate`／`vehicle_class`（一列一台車）。
+  驗證一律用 `src/traffickit/_validation.py` 的共用函式
+  （`require_dataframe`、`require_columns`、`check_label_column`、
+  `check_nonnegative_column`、`check_unique`、`check_real`），
+  **沿用它們的錯誤訊息措辭**，不要另寫一套講法。
 - **錯誤政策**：型別錯 → `TypeError`；欄位／數值／參數不符 → `ValueError`，
   訊息用繁體中文並指出欄位或參數名稱。**不默默排除無效列**；若某功能真的要排除，
   必須同時回報排除數量與原因，並寫進工作單。
@@ -112,6 +136,13 @@ python -m venv .venv-check
 ```
 
 註：`.venv-check` 若已存在需先刪除重建，否則會沿用舊版套件。
+`requirements-validated.txt` 由最後那道 `pip freeze` 產生，記錄這次驗收實際
+裝了哪些版本；跑完完整驗收就更新它並一起提交。它含本機 wheel 路徑，
+**不是可搬移的部署鎖檔**。
+
+**工作單裡的驗證紀錄是當下的快照。** 新增功能時只填自己那一份，
+不必回頭改其他功能工作單裡的測試數量或日期——那些數字記錄的是「當時驗過什麼」，
+不是「現在的總數」。
 
 ## 資訊不足時，一定要先問使用者
 
@@ -132,7 +163,9 @@ python -m venv .venv-check
 
 ## 從舊程式移植時
 
-`data/` 放的是舊版參考程式（例如 `speed_analyser.py`），**不參與建置**。移植時：
+`data/` **不參與建置**，放三種東西：舊版參考程式（`speed_analyser.py`、
+`TurnVolumeAnalysis.vue`）、真實資料範例（`*_CSV_SU.csv`）、
+以及格式定義文件（`空拍影像分析_輸出資料相關定義_v1.1.xlsx`）。移植時：
 
 - 逐項列出新舊差異，寫進 `docs/catalog.md` 的對照表，並向使用者確認每一項是預期的。
 - 舊程式裡的 UI 預設值、客戶路徑、比例尺讀取、流向欄位名稱差異，都留在應用端。
@@ -148,3 +181,6 @@ python -m venv .venv-check
 - 不要在功能還沒做真實資料回歸比較前，把 catalog 狀態寫成「正式」。
 - 不要只改程式不改 docstring——API reference 完全由 docstring 產生，
   改了程式沒改 docstring，網站上就是錯的。
+- **不要未經使用者同意就 commit 或 push。** push 到 master 會觸發 Actions
+  並更新對外網站，屬於對外動作，每次都要先問。
+- 不要在 `docs/` 之外另開一份交付清單或流程說明；要改流程就改本檔上面那張表。

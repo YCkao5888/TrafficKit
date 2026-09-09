@@ -40,7 +40,7 @@ DEFAULT_PCU_WEIGHTS: Mapping[str, Mapping[str, float]] = {
     "機車": {"left": 0.43, "straight": 0.42, "right": 0.45, "u_turn": 0.43},
 }
 
-_REQUIRED_PASSAGES = ("vehicle_id", "entry_gate", "exit_gate", "vehicle_class")
+_REQUIRED_VEHICLES = ("vehicle_id", "entry_gate", "exit_gate", "vehicle_class")
 _REQUIRED_MOVEMENTS = ("entry_gate", "exit_gate", "turn", "is_allowed")
 
 _MOVEMENT_DTYPES = {
@@ -109,7 +109,7 @@ class TurnVolume:
 
 
 def summarise_turn_volume(
-    passages: pd.DataFrame,
+    vehicles: pd.DataFrame,
     *,
     movements: pd.DataFrame,
     vehicle_groups: Mapping[str, Iterable[str]],
@@ -122,7 +122,7 @@ def summarise_turn_volume(
 
     Parameters
     ----------
-    passages : pandas.DataFrame
+    vehicles : pandas.DataFrame
         一列一台車的通過紀錄。必要欄位：vehicle_id（非空白字串、不可重複）、
         entry_gate、exit_gate、vehicle_class（皆為非空白字串）。
         允許未排序或含額外欄位；不修改輸入。
@@ -149,7 +149,7 @@ def summarise_turn_volume(
     Raises
     ------
     TypeError
-        passages 或 movements 不是 DataFrame。
+        vehicles 或 movements 不是 DataFrame。
     ValueError
         欄位、數值、參數不符合規格，或資料中出現 ``movements``
         未定義的 (entry_gate, exit_gate) 組合。
@@ -166,7 +166,7 @@ def summarise_turn_volume(
     ``is_allowed`` 為 False 的轉向若出現車輛，仍會照實計數（可視為違規轉向），
     並記錄在 ``summary.disallowed_vehicle_count``。
     """
-    require_dataframe(passages, "passages")
+    require_dataframe(vehicles, "vehicles")
     require_dataframe(movements, "movements")
 
     group_order, class_to_group = _validated_groups(vehicle_groups)
@@ -176,7 +176,7 @@ def summarise_turn_volume(
     )
     weight_table = _validated_weights(pcu_weights, group_order, used_turns)
 
-    work = _validated_passages(passages)
+    work = _validated_vehicles(vehicles)
     work["vehicle_group"] = work["vehicle_class"].map(class_to_group)
 
     _reject_undefined_movements(work, turn_table)
@@ -299,27 +299,27 @@ def _validated_weights(
     return pd.DataFrame(rows)
 
 
-def _validated_passages(passages: pd.DataFrame) -> pd.DataFrame:
-    require_columns(passages, _REQUIRED_PASSAGES, name="passages")
+def _validated_vehicles(vehicles: pd.DataFrame) -> pd.DataFrame:
+    require_columns(vehicles, _REQUIRED_VEHICLES, name="vehicles")
 
     # 複製必要欄位，避免修改呼叫端持有的原始資料。
-    work = passages.loc[:, list(_REQUIRED_PASSAGES)].copy()
+    work = vehicles.loc[:, list(_REQUIRED_VEHICLES)].copy()
     if work.empty:
-        for column in _REQUIRED_PASSAGES:
+        for column in _REQUIRED_VEHICLES:
             work[column] = work[column].astype("string")
         return work.reset_index(drop=True)
 
-    for column in _REQUIRED_PASSAGES:
+    for column in _REQUIRED_VEHICLES:
         check_label_column(work, column)
     check_unique(
         work,
         ["vehicle_id"],
         message=(
-            "passages 的 vehicle_id 不可重複；一列代表一台車的一次通過，"
+            "vehicles 的 vehicle_id 不可重複；一列代表一台車的一次通過，"
             "同一台車通過兩次請給不同的 vehicle_id"
         ),
     )
-    for column in _REQUIRED_PASSAGES:
+    for column in _REQUIRED_VEHICLES:
         work[column] = work[column].astype("string")
     return work.reset_index(drop=True)
 
@@ -335,7 +335,7 @@ def _reject_undefined_movements(
     undefined = sorted(seen - defined)
     if undefined:
         raise ValueError(
-            "passages 出現 movements 未定義的 (entry_gate, exit_gate)："
+            "vehicles 出現 movements 未定義的 (entry_gate, exit_gate)："
             f"{undefined[:5]}"
             + ("…" if len(undefined) > 5 else "")
         )

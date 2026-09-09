@@ -11,7 +11,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from traffickit.formats import MOTC_SU_VEHICLE_CLASSES, read_motc_su_passages
+from traffickit.formats import MOTC_SU_VEHICLE_CLASSES, read_motc_su_vehicles
 from traffickit.volume import (
     DEFAULT_PCU_WEIGHTS,
     clockwise_movements,
@@ -54,22 +54,22 @@ def main() -> None:
     print(f"讀取：{path.name}")
 
     # 1. 格式轉換層：只把檔案轉成表格，不做任何交通判定。
-    passages = read_motc_su_passages(path)   # fps 預設 9.99
-    incomplete = int((~passages["is_complete"]).sum())
+    vehicles = read_motc_su_vehicles(path)   # fps 預設 9.99
+    incomplete = int((~vehicles["is_complete"]).sum())
     print(
-        f"共 {len(passages)} 台車；不完整軌跡（代號 X）{incomplete} 台。"
+        f"共 {len(vehicles)} 台車；不完整軌跡（代號 X）{incomplete} 台。"
     )
-    print(passages.head(5).to_string(index=False))
+    print(vehicles.head(5).to_string(index=False))
     print()
 
-    counts = passages["vehicle_class"].value_counts()
+    counts = vehicles["vehicle_class"].value_counts()
     print("車種組成：")
     for code, number in counts.items():
         print(f"  {code} {MOTC_SU_VEHICLE_CLASSES[code]}：{number}")
     print()
 
     # 2. 交通判定由呼叫端決定：官方定義說 X 要忽略，所以在這裡濾掉。
-    complete = passages.query("is_complete")
+    complete = vehicles.query("is_complete")
 
     # 3. 轉向對照表。順時針編號可推導轉向類別，但**合法性要自己填**。
     #    這裡把迴轉全部設為不允許，只是示範；實際請依現場標誌標線調整。

@@ -143,7 +143,7 @@ B（12）與 C（11）超出範圍，`above_range_count = 2`，`binned_vehicle_c
 | Python | 3.10.5 |
 | 相依套件 | pandas 2.3.3、numpy 2.2.6（見 `requirements-validated.txt`） |
 | 可編輯安裝與範例 | 成功；四台車的分箱與統計和手算一致 |
-| 規格測試 | 24 個測試全部通過 |
+| 規格測試 | 本功能 24 個測試全部通過（當時全專案 24 個） |
 | wheel 建置 | 成功產生 `dist/traffickit-0.1.0-py3-none-any.whl` |
 | 另一個虛擬環境安裝 wheel | 成功（`.venv-check`）；確認匯入已安裝版本，再次通過範例與 24 個測試 |
 | 效能 | 300,000 列／5,000 台車，`mean` 與 `p85` 皆約 0.20 秒（上述環境，單次量測） |

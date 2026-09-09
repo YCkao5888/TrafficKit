@@ -41,7 +41,7 @@ def load_movements(zone_config: dict) -> pd.DataFrame:
     ])
 
 
-def make_passages() -> pd.DataFrame:
+def make_vehicles() -> pd.DataFrame:
     """一列一台車的通過紀錄。V7 是行人，未列入車種分組。"""
     return pd.DataFrame(
         [
@@ -79,13 +79,13 @@ def build_report(result) -> pd.DataFrame:
 
 def main() -> None:
     movements = load_movements(ZONE_CONFIG)
-    passages = make_passages()
+    vehicles = make_vehicles()
 
     vehicle_groups = {"小型車": ["c"], "機車": ["m"]}
     pcu_weights = {name: DEFAULT_PCU_WEIGHTS[name] for name in vehicle_groups}
 
     result = summarise_turn_volume(
-        passages,
+        vehicles,
         movements=movements,
         vehicle_groups=vehicle_groups,
         pcu_weights=pcu_weights,

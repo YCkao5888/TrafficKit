@@ -17,7 +17,7 @@
 | speed.bin_edges | `traffickit.speed.speed_bin_edges` | 產生等寬分箱邊界（多群組共用） | yckao | 1 | 試行 |
 | volume.turn_volume | `traffickit.volume.summarise_turn_volume` | 各進入方向 × 轉向 × 車種分組的車輛數與 PCU | yckao | 1 | 試行 |
 | volume.clockwise_movements | `traffickit.volume.clockwise_movements` | 由順時針路口代號推導轉向對照表 | yckao | 1 | 試行 |
-| formats.motc_su | `traffickit.formats.read_motc_su_passages`、`read_motc_su_tracks` | 讀取 MOTC_SU 空拍影像軌跡 CSV | yckao | 1 | 試行 |
+| formats.motc_su | `traffickit.formats.read_motc_su_vehicles`、`read_motc_su_tracks` | 讀取 MOTC_SU 空拍影像軌跡 CSV | yckao | 1 | 試行 |
 
 ## 欄位定義
 
@@ -63,9 +63,9 @@
 | --- | --- | --- | --- | --- |
 | 2026-09-09 | speed.speed_distribution | 1 | 初版 | — |
 | 2026-09-09 | speed.bin_edges | 1 | 初版 | — |
-| 2026-09-09 | volume.turn_volume | 1 | 初版 | — |
+| 2026-09-09 | volume.turn_volume | 1 | 初版（發行前把第一個參數 `passages` 更名為 `vehicles`） | — |
 | 2026-09-09 | volume.clockwise_movements | 1 | 初版 | — |
-| 2026-09-09 | formats.motc_su | 1 | 初版（發行前把 `fps` 預設由 10 調成實際速率 9.99） | — |
+| 2026-09-09 | formats.motc_su | 1 | 初版（發行前調整兩處：`fps` 預設由 10 改成實際速率 9.99；`read_motc_su_passages` 更名為 `read_motc_su_vehicles`） | — |
 
 ## speed.speed_distribution
 
@@ -97,7 +97,7 @@
 ## volume.turn_volume
 
 - 必要資料：
-  - `passages`（一列一台車）：`vehicle_id`（唯一）、`entry_gate`、`exit_gate`、`vehicle_class`。
+  - `vehicles`（一列一台車）：`vehicle_id`（唯一）、`entry_gate`、`exit_gate`、`vehicle_class`。
   - `movements`（路口轉向定義）：`entry_gate`、`exit_gate`、`turn`、`is_allowed`。
 - 參數：`vehicle_groups`（分組 → 車種，順序即報表欄位順序）、
   `pcu_weights`（分組 → {轉向: 權重}），兩者皆必填。
@@ -135,7 +135,7 @@
 ## formats.motc_su
 
 - 用途：讀取 MOTC_SU 空拍影像軌跡 CSV（無標題列、每列長度不一）。
-- 兩個入口：`read_motc_su_passages`（一列一台車，給轉向流量用）、
+- 兩個入口：`read_motc_su_vehicles`（一列一台車，給轉向流量用）、
   `read_motc_su_tracks`（一列一台車一個 frame，含四角點與中心點，像素單位）。
 - 參數：`path`、`fps`（預設 9.99 = 29.97/3 的實際拍攝速率；格式定義文件
   寫的是整數 10）、`encoding`（預設 utf-8）。

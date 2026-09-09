@@ -45,7 +45,7 @@ _VALUES_PER_POINT = 8
 _ENTRY_PATTERN = re.compile(r"^[A-Z]+I$")
 _EXIT_PATTERN = re.compile(r"^[A-Z]+O$")
 
-_PASSAGE_DTYPES = {
+_VEHICLE_DTYPES = {
     "vehicle_id": "string",
     "entry_gate": "string",
     "exit_gate": "string",
@@ -118,7 +118,7 @@ class _Record:
         )
 
 
-def read_motc_su_passages(
+def read_motc_su_vehicles(
     path: str | os.PathLike[str],
     *,
     fps: float = DEFAULT_FPS,
@@ -194,8 +194,8 @@ def read_motc_su_passages(
             record.is_complete,
         ))
 
-    frame = pd.DataFrame(rows, columns=list(_PASSAGE_DTYPES))
-    frame = frame.astype(_PASSAGE_DTYPES)
+    frame = pd.DataFrame(rows, columns=list(_VEHICLE_DTYPES))
+    frame = frame.astype(_VEHICLE_DTYPES)
     _reject_duplicate_ids(frame)
     return frame.sort_values(
         ["entry_frame", "vehicle_id"], kind="stable"
@@ -215,7 +215,7 @@ def read_motc_su_tracks(
     path : str or path-like
         MOTC_SU CSV 檔路徑。
     fps : float, optional
-        影像張數／秒，預設 9.99。見 :func:`read_motc_su_passages`。
+        影像張數／秒，預設 9.99。見 :func:`read_motc_su_vehicles`。
     encoding : str, optional
         檔案編碼，預設 "utf-8"。
 
@@ -239,7 +239,7 @@ def read_motc_su_tracks(
     由呼叫端提供比例尺；本函式不做任何換算。
 
     一個 frame 一列，資料量約等於所有車輛的 frame 數總和，
-    可能遠大於 :func:`read_motc_su_passages` 的結果。
+    可能遠大於 :func:`read_motc_su_vehicles` 的結果。
     """
     seconds_per_frame = _frame_scale(fps)
 
