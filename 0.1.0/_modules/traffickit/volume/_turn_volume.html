@@ -1,0 +1,945 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-TW" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>traffickit.volume._turn_volume &#8212; TrafficKit 0.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5eb3ec05" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../../_static/documentation_options.js?v=a7999bab"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/translations.js?v=cbf116e0"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/traffickit/volume/_turn_volume';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.21.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://yckao5888.github.io/TrafficKit/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜尋" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-TW"/>
+  <meta name="docsearch:version" content="0.1.0" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">TrafficKit 0.1.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../catalog.html">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../worksheets/index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../feature-development-guide.html">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../catalog.html">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../worksheets/index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../feature-development-guide.html">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="初始页面">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">模組原始碼</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">traffickit.volume._turn_volume</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>traffickit.volume._turn_volume 的原始碼</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""轉向流量統計的內部實作。</span>
+
+<span class="sd">公開入口是 ``traffickit.volume.summarise_turn_volume``；</span>
+<span class="sd">本檔案的其他名稱不保證穩定。</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas.api.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_bool_dtype</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.._validation</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">check_label_column</span><span class="p">,</span>
+    <span class="n">check_real</span><span class="p">,</span>
+    <span class="n">check_unique</span><span class="p">,</span>
+    <span class="n">require_columns</span><span class="p">,</span>
+    <span class="n">require_dataframe</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1">#: 本套件承認的轉向類別，同時也是輸出的排序順序。</span>
+<span class="n">TURNS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"left"</span><span class="p">,</span> <span class="s2">"straight"</span><span class="p">,</span> <span class="s2">"right"</span><span class="p">,</span> <span class="s2">"u_turn"</span><span class="p">)</span>
+
+<span class="c1">#: 舊版轉向流量調查 UI 的預設車種分組（車種代碼取自既有專案設定）。</span>
+<span class="c1">#: **必須明確傳入**，不是函式預設值；不同案件的車種對照可能不同。</span>
+<span class="n">DEFAULT_VEHICLE_GROUPS</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"大型車"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="s2">"t"</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">),</span>
+    <span class="s2">"小型車"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"c"</span><span class="p">,),</span>
+    <span class="s2">"機車"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"m"</span><span class="p">,),</span>
+<span class="p">}</span>
+
+<span class="c1">#: 舊版轉向流量調查 UI 的預設 PCU 權重。</span>
+<span class="c1">#: 來源是既有程式的設定值，本套件不認定它等同任何法規或手冊的規定值；</span>
+<span class="c1">#: 實際採用哪一組權重由呼叫端決定並記錄。</span>
+<span class="n">DEFAULT_PCU_WEIGHTS</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"大型車"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"left"</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s2">"straight"</span><span class="p">:</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s2">"right"</span><span class="p">:</span> <span class="mf">2.7</span><span class="p">,</span> <span class="s2">"u_turn"</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">},</span>
+    <span class="s2">"小型車"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"left"</span><span class="p">:</span> <span class="mf">1.05</span><span class="p">,</span> <span class="s2">"straight"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">"right"</span><span class="p">:</span> <span class="mf">1.08</span><span class="p">,</span> <span class="s2">"u_turn"</span><span class="p">:</span> <span class="mf">1.05</span><span class="p">},</span>
+    <span class="s2">"機車"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"left"</span><span class="p">:</span> <span class="mf">0.43</span><span class="p">,</span> <span class="s2">"straight"</span><span class="p">:</span> <span class="mf">0.42</span><span class="p">,</span> <span class="s2">"right"</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span> <span class="s2">"u_turn"</span><span class="p">:</span> <span class="mf">0.43</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">_REQUIRED_PASSAGES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"exit_gate"</span><span class="p">,</span> <span class="s2">"vehicle_class"</span><span class="p">)</span>
+<span class="n">_REQUIRED_MOVEMENTS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"exit_gate"</span><span class="p">,</span> <span class="s2">"turn"</span><span class="p">,</span> <span class="s2">"is_allowed"</span><span class="p">)</span>
+
+<span class="n">_MOVEMENT_DTYPES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"entry_gate"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"exit_gate"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"turn"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"vehicle_group"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"is_allowed"</span><span class="p">:</span> <span class="s2">"bool"</span><span class="p">,</span>
+    <span class="s2">"vehicle_count"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+    <span class="s2">"pcu_weight"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="s2">"pcu"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">_BY_TURN_DTYPES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">value</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">_MOVEMENT_DTYPES</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">"exit_gate"</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="TurnVolumeSummary">
+<a class="viewcode-back" href="../../../api/generated/traffickit.volume.TurnVolumeSummary.html#traffickit.volume.TurnVolumeSummary">[文件]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TurnVolumeSummary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""轉向流量統計的分母與例外計數。</span>
+
+<span class="sd">    ``input_vehicle_count == counted_vehicle_count + unassigned_vehicle_count``。</span>
+<span class="sd">    """</span>
+
+    <span class="n">input_vehicle_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">counted_vehicle_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">total_pcu</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">unassigned_vehicle_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">unassigned_classes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">disallowed_vehicle_count</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="TurnVolume">
+<a class="viewcode-back" href="../../../api/generated/traffickit.volume.TurnVolume.html#traffickit.volume.TurnVolume">[文件]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TurnVolume</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""轉向流量統計結果。</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    movements : pandas.DataFrame</span>
+<span class="sd">        最細粒度，一列 = 進入閘門 × 駛出閘門 × 轉向 × 車種分組：</span>
+<span class="sd">        entry_gate、exit_gate、turn、vehicle_group、is_allowed、</span>
+<span class="sd">        vehicle_count、pcu_weight、pcu。</span>
+<span class="sd">        **``movements`` 參數定義的每一個轉向都會出現**，沒有車就是 0，</span>
+<span class="sd">        因此呼叫端可以區分「合法但 0 台」與「這個方向不允許轉」。</span>
+<span class="sd">    by_turn : pandas.DataFrame</span>
+<span class="sd">        報表用，一列 = 進入閘門 × 轉向 × 車種分組（把駛出閘門加總）。</span>
+<span class="sd">        同一 (entry_gate, turn) 只要**有任一**駛出閘門允許，</span>
+<span class="sd">        ``is_allowed`` 即為 True。</span>
+<span class="sd">    summary : TurnVolumeSummary</span>
+<span class="sd">        總計與各項分母。</span>
+<span class="sd">    vehicle_groups : tuple of str</span>
+<span class="sd">        本次採用的分組名稱，順序與傳入的 ``vehicle_groups`` 相同，</span>
+<span class="sd">        可直接拿來產生報表欄位。</span>
+<span class="sd">    turns : tuple of str</span>
+<span class="sd">        本次 ``movements`` 中出現的轉向，依 :data:`TURNS` 順序排列。</span>
+<span class="sd">    """</span>
+
+    <span class="n">movements</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+    <span class="n">by_turn</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+    <span class="n">summary</span><span class="p">:</span> <span class="n">TurnVolumeSummary</span>
+    <span class="n">vehicle_groups</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">turns</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="summarise_turn_volume">
+<a class="viewcode-back" href="../../../api/generated/traffickit.volume.summarise_turn_volume.html#traffickit.volume.summarise_turn_volume">[文件]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">summarise_turn_volume</span><span class="p">(</span>
+    <span class="n">passages</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">movements</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">vehicle_groups</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">pcu_weights</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TurnVolume</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""統計各進入方向、各轉向、各車種分組的車輛數與 PCU。</span>
+
+<span class="sd">    轉向類別不由本函式推斷，而是查 ``movements`` 對照表得到；因此本函式</span>
+<span class="sd">    也知道哪些轉向合法，能把「合法但沒有車」與「這個方向不允許轉」分開。</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    passages : pandas.DataFrame</span>
+<span class="sd">        一列一台車的通過紀錄。必要欄位：vehicle_id（非空白字串、不可重複）、</span>
+<span class="sd">        entry_gate、exit_gate、vehicle_class（皆為非空白字串）。</span>
+<span class="sd">        允許未排序或含額外欄位；不修改輸入。</span>
+<span class="sd">        同一台車若在資料範圍內通過兩次，呼叫端須給不同的 vehicle_id。</span>
+<span class="sd">    movements : pandas.DataFrame</span>
+<span class="sd">        路口的轉向定義。必要欄位：entry_gate、exit_gate、turn、is_allowed。</span>
+<span class="sd">        turn 必須是 ``left`` / ``straight`` / ``right`` / ``u_turn`` 之一；</span>
+<span class="sd">        is_allowed 必須是布林欄位；(entry_gate, exit_gate) 不可重複；</span>
+<span class="sd">        至少一列。</span>
+<span class="sd">    vehicle_groups : mapping of str to iterable of str</span>
+<span class="sd">        分組名稱 → 車種代碼。同一車種不可出現在兩個分組。</span>
+<span class="sd">        分組順序即輸出與報表的欄位順序。</span>
+<span class="sd">    pcu_weights : mapping of str to mapping of str to float</span>
+<span class="sd">        分組名稱 → {轉向: PCU 權重}。每個分組都要涵蓋 ``movements`` 中</span>
+<span class="sd">        出現的每一個轉向；權重須為有限、非負的實數。</span>
+<span class="sd">        不提供預設權重，避免呼叫端忘記設定時套用來源不明的數字；</span>
+<span class="sd">        需要舊版 UI 的預設值時，明確傳入 :data:`DEFAULT_PCU_WEIGHTS`。</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TurnVolume</span>
+<span class="sd">        最細粒度表、報表彙整表與分母統計。</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        passages 或 movements 不是 DataFrame。</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        欄位、數值、參數不符合規格，或資料中出現 ``movements``</span>
+<span class="sd">        未定義的 (entry_gate, exit_gate) 組合。</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    本函式不判定閘門進出、不切時段、不算百分比，也不讀寫檔案。</span>
+<span class="sd">    軌跡到進出閘門的判定、分析時段的裁切由呼叫端先完成；</span>
+<span class="sd">    百分比與小計是版面呈現，用 ``movements`` 或 ``by_turn`` 自行 groupby 即可。</span>
+
+<span class="sd">    車種未被任何分組涵蓋的車輛**不計入統計**，但會記錄在</span>
+<span class="sd">    ``summary.unassigned_vehicle_count`` 與 ``summary.unassigned_classes``。</span>
+
+<span class="sd">    ``is_allowed`` 為 False 的轉向若出現車輛，仍會照實計數（可視為違規轉向），</span>
+<span class="sd">    並記錄在 ``summary.disallowed_vehicle_count``。</span>
+<span class="sd">    """</span>
+    <span class="n">require_dataframe</span><span class="p">(</span><span class="n">passages</span><span class="p">,</span> <span class="s2">"passages"</span><span class="p">)</span>
+    <span class="n">require_dataframe</span><span class="p">(</span><span class="n">movements</span><span class="p">,</span> <span class="s2">"movements"</span><span class="p">)</span>
+
+    <span class="n">group_order</span><span class="p">,</span> <span class="n">class_to_group</span> <span class="o">=</span> <span class="n">_validated_groups</span><span class="p">(</span><span class="n">vehicle_groups</span><span class="p">)</span>
+    <span class="n">turn_table</span> <span class="o">=</span> <span class="n">_validated_movements</span><span class="p">(</span><span class="n">movements</span><span class="p">)</span>
+    <span class="n">used_turns</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+        <span class="n">turn</span> <span class="k">for</span> <span class="n">turn</span> <span class="ow">in</span> <span class="n">TURNS</span> <span class="k">if</span> <span class="n">turn</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">turn_table</span><span class="p">[</span><span class="s2">"turn"</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">weight_table</span> <span class="o">=</span> <span class="n">_validated_weights</span><span class="p">(</span><span class="n">pcu_weights</span><span class="p">,</span> <span class="n">group_order</span><span class="p">,</span> <span class="n">used_turns</span><span class="p">)</span>
+
+    <span class="n">work</span> <span class="o">=</span> <span class="n">_validated_passages</span><span class="p">(</span><span class="n">passages</span><span class="p">)</span>
+    <span class="n">work</span><span class="p">[</span><span class="s2">"vehicle_group"</span><span class="p">]</span> <span class="o">=</span> <span class="n">work</span><span class="p">[</span><span class="s2">"vehicle_class"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">class_to_group</span><span class="p">)</span>
+
+    <span class="n">_reject_undefined_movements</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">turn_table</span><span class="p">)</span>
+
+    <span class="n">unassigned</span> <span class="o">=</span> <span class="n">work</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">work</span><span class="p">[</span><span class="s2">"vehicle_group"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span>
+    <span class="n">counted</span> <span class="o">=</span> <span class="n">work</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">work</span><span class="p">[</span><span class="s2">"vehicle_group"</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
+
+    <span class="n">detail</span> <span class="o">=</span> <span class="n">_build_movement_grid</span><span class="p">(</span>
+        <span class="n">counted</span><span class="p">,</span> <span class="n">turn_table</span><span class="p">,</span> <span class="n">group_order</span><span class="p">,</span> <span class="n">weight_table</span>
+    <span class="p">)</span>
+    <span class="n">by_turn</span> <span class="o">=</span> <span class="n">_aggregate_by_turn</span><span class="p">(</span><span class="n">detail</span><span class="p">,</span> <span class="n">group_order</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">TurnVolume</span><span class="p">(</span>
+        <span class="n">movements</span><span class="o">=</span><span class="n">detail</span><span class="p">,</span>
+        <span class="n">by_turn</span><span class="o">=</span><span class="n">by_turn</span><span class="p">,</span>
+        <span class="n">summary</span><span class="o">=</span><span class="n">TurnVolumeSummary</span><span class="p">(</span>
+            <span class="n">input_vehicle_count</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">work</span><span class="p">)),</span>
+            <span class="n">counted_vehicle_count</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">counted</span><span class="p">)),</span>
+            <span class="n">total_pcu</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">detail</span><span class="p">[</span><span class="s2">"pcu"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+            <span class="n">unassigned_vehicle_count</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unassigned</span><span class="p">)),</span>
+            <span class="n">unassigned_classes</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span>
+                <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">unassigned</span><span class="p">[</span><span class="s2">"vehicle_class"</span><span class="p">]))</span>
+            <span class="p">),</span>
+            <span class="n">disallowed_vehicle_count</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span>
+                <span class="n">detail</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">detail</span><span class="p">[</span><span class="s2">"is_allowed"</span><span class="p">],</span> <span class="s2">"vehicle_count"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="n">vehicle_groups</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">group_order</span><span class="p">),</span>
+        <span class="n">turns</span><span class="o">=</span><span class="n">used_turns</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validated_groups</span><span class="p">(</span>
+    <span class="n">vehicle_groups</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vehicle_groups</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"vehicle_groups 必須是「分組名稱 → 車種代碼」的對照"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">vehicle_groups</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"vehicle_groups 至少需要一個分組"</span><span class="p">)</span>
+
+    <span class="n">order</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">class_to_group</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">classes</span> <span class="ow">in</span> <span class="n">vehicle_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"vehicle_groups 的分組名稱必須是非空白字串"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">classes</span><span class="p">,</span> <span class="n">Iterable</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"vehicle_groups[</span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">] 必須是車種代碼的序列"</span><span class="p">)</span>
+        <span class="n">members</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">members</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"vehicle_groups[</span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">] 至少需要一個車種"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">code</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"vehicle_groups[</span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">] 的車種代碼必須是非空白字串"</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">class_to_group</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"車種 </span><span class="si">{</span><span class="n">code</span><span class="si">!r}</span><span class="s2"> 同時出現在 </span><span class="si">{</span><span class="n">class_to_group</span><span class="p">[</span><span class="n">code</span><span class="p">]</span><span class="si">!r}</span><span class="s2"> 與 "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">；同一車種只能屬於一個分組"</span>
+                <span class="p">)</span>
+            <span class="n">class_to_group</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">order</span><span class="p">,</span> <span class="n">class_to_group</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validated_movements</span><span class="p">(</span><span class="n">movements</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">require_columns</span><span class="p">(</span><span class="n">movements</span><span class="p">,</span> <span class="n">_REQUIRED_MOVEMENTS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"movements"</span><span class="p">)</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">movements</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">_REQUIRED_MOVEMENTS</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"movements 至少需要一列轉向定義"</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"exit_gate"</span><span class="p">,</span> <span class="s2">"turn"</span><span class="p">):</span>
+        <span class="n">check_label_column</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
+    <span class="n">unknown</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">"turn"</span><span class="p">])</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">TURNS</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"movements 的 turn 只接受 </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">TURNS</span><span class="p">)</span><span class="si">}</span><span class="s2">，收到：</span><span class="si">{</span><span class="n">unknown</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_bool_dtype</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">"is_allowed"</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"movements 的 is_allowed 必須是布林欄位"</span><span class="p">)</span>
+    <span class="n">check_unique</span><span class="p">(</span>
+        <span class="n">table</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"exit_gate"</span><span class="p">],</span>
+        <span class="n">message</span><span class="o">=</span><span class="s2">"movements 的 (entry_gate, exit_gate) 不可重複"</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"exit_gate"</span><span class="p">,</span> <span class="s2">"turn"</span><span class="p">):</span>
+        <span class="n">table</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span>
+    <span class="n">table</span><span class="p">[</span><span class="s2">"is_allowed"</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">"is_allowed"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"bool"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validated_weights</span><span class="p">(</span>
+    <span class="n">pcu_weights</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">group_order</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">used_turns</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pcu_weights</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"pcu_weights 必須是「分組名稱 → {轉向: 權重}」的對照"</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">group_order</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">pcu_weights</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"pcu_weights 缺少分組 </span><span class="si">{</span><span class="n">group</span><span class="si">!r}</span><span class="s2"> 的權重"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">turn</span> <span class="ow">in</span> <span class="n">used_turns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">turn</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">weights</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"pcu_weights[</span><span class="si">{</span><span class="n">group</span><span class="si">!r}</span><span class="s2">] 缺少轉向 </span><span class="si">{</span><span class="n">turn</span><span class="si">!r}</span><span class="s2"> 的權重"</span>
+                <span class="p">)</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">"vehicle_group"</span><span class="p">:</span> <span class="n">group</span><span class="p">,</span>
+                <span class="s2">"turn"</span><span class="p">:</span> <span class="n">turn</span><span class="p">,</span>
+                <span class="s2">"pcu_weight"</span><span class="p">:</span> <span class="n">check_real</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"pcu_weights[</span><span class="si">{</span><span class="n">group</span><span class="si">!r}</span><span class="s2">][</span><span class="si">{</span><span class="n">turn</span><span class="si">!r}</span><span class="s2">]"</span><span class="p">,</span>
+                    <span class="n">weights</span><span class="p">[</span><span class="n">turn</span><span class="p">],</span>
+                    <span class="n">minimum</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validated_passages</span><span class="p">(</span><span class="n">passages</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">require_columns</span><span class="p">(</span><span class="n">passages</span><span class="p">,</span> <span class="n">_REQUIRED_PASSAGES</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"passages"</span><span class="p">)</span>
+
+    <span class="c1"># 複製必要欄位，避免修改呼叫端持有的原始資料。</span>
+    <span class="n">work</span> <span class="o">=</span> <span class="n">passages</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">_REQUIRED_PASSAGES</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">work</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">_REQUIRED_PASSAGES</span><span class="p">:</span>
+            <span class="n">work</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">work</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">work</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">_REQUIRED_PASSAGES</span><span class="p">:</span>
+        <span class="n">check_label_column</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
+    <span class="n">check_unique</span><span class="p">(</span>
+        <span class="n">work</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">"vehicle_id"</span><span class="p">],</span>
+        <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">"passages 的 vehicle_id 不可重複；一列代表一台車的一次通過，"</span>
+            <span class="s2">"同一台車通過兩次請給不同的 vehicle_id"</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">_REQUIRED_PASSAGES</span><span class="p">:</span>
+        <span class="n">work</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">work</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">work</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reject_undefined_movements</span><span class="p">(</span>
+    <span class="n">work</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">turn_table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">work</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">defined</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">turn_table</span><span class="p">[</span><span class="s2">"entry_gate"</span><span class="p">],</span> <span class="n">turn_table</span><span class="p">[</span><span class="s2">"exit_gate"</span><span class="p">]))</span>
+    <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">work</span><span class="p">[</span><span class="s2">"entry_gate"</span><span class="p">],</span> <span class="n">work</span><span class="p">[</span><span class="s2">"exit_gate"</span><span class="p">]))</span>
+    <span class="n">undefined</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">seen</span> <span class="o">-</span> <span class="n">defined</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">undefined</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"passages 出現 movements 未定義的 (entry_gate, exit_gate)："</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">undefined</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+            <span class="o">+</span> <span class="p">(</span><span class="s2">"…"</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">undefined</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_movement_grid</span><span class="p">(</span>
+    <span class="n">counted</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">turn_table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">group_order</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">weight_table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s2">"vehicle_group"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">group_order</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"string"</span><span class="p">),</span>
+        <span class="c1"># 分組順序即報表欄位順序，排序時用得到。</span>
+        <span class="s2">"_group_rank"</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">group_order</span><span class="p">)),</span>
+    <span class="p">})</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">turn_table</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">"cross"</span><span class="p">)</span>
+
+    <span class="n">counts</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">counted</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"exit_gate"</span><span class="p">,</span> <span class="s2">"vehicle_group"</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"vehicle_count"</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">counts</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"exit_gate"</span><span class="p">,</span> <span class="s2">"vehicle_group"</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span>
+    <span class="p">)</span>
+    <span class="n">grid</span><span class="p">[</span><span class="s2">"vehicle_count"</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="s2">"vehicle_count"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"int64"</span><span class="p">)</span>
+
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">weight_table</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">"vehicle_group"</span><span class="p">,</span> <span class="s2">"turn"</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+    <span class="n">grid</span><span class="p">[</span><span class="s2">"pcu"</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="s2">"vehicle_count"</span><span class="p">]</span> <span class="o">*</span> <span class="n">grid</span><span class="p">[</span><span class="s2">"pcu_weight"</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">_sorted_output</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">_MOVEMENT_DTYPES</span><span class="p">,</span> <span class="p">[</span><span class="s2">"exit_gate"</span><span class="p">,</span> <span class="s2">"_group_rank"</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_aggregate_by_turn</span><span class="p">(</span>
+    <span class="n">detail</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">group_order</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">ranks</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">index</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">group_order</span><span class="p">)}</span>
+    <span class="n">grouped</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">detail</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"turn"</span><span class="p">,</span> <span class="s2">"vehicle_group"</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+            <span class="c1"># 同一 (entry_gate, turn) 只要有任一駛出閘門允許就算允許，</span>
+            <span class="c1"># 與舊版報表 allowed_turns 的判定一致。</span>
+            <span class="n">is_allowed</span><span class="o">=</span><span class="p">(</span><span class="s2">"is_allowed"</span><span class="p">,</span> <span class="s2">"any"</span><span class="p">),</span>
+            <span class="n">vehicle_count</span><span class="o">=</span><span class="p">(</span><span class="s2">"vehicle_count"</span><span class="p">,</span> <span class="s2">"sum"</span><span class="p">),</span>
+            <span class="n">pcu_weight</span><span class="o">=</span><span class="p">(</span><span class="s2">"pcu_weight"</span><span class="p">,</span> <span class="s2">"first"</span><span class="p">),</span>
+            <span class="n">pcu</span><span class="o">=</span><span class="p">(</span><span class="s2">"pcu"</span><span class="p">,</span> <span class="s2">"sum"</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">grouped</span><span class="p">[</span><span class="s2">"_group_rank"</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s2">"vehicle_group"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">ranks</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_sorted_output</span><span class="p">(</span><span class="n">grouped</span><span class="p">,</span> <span class="n">_BY_TURN_DTYPES</span><span class="p">,</span> <span class="p">[</span><span class="s2">"_group_rank"</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_sorted_output</span><span class="p">(</span>
+    <span class="n">frame</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">dtypes</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">tie_breakers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">ranks</span> <span class="o">=</span> <span class="p">{</span><span class="n">turn</span><span class="p">:</span> <span class="n">index</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">turn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">TURNS</span><span class="p">)}</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">frame</span><span class="p">[</span><span class="s2">"_turn_rank"</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span><span class="p">[</span><span class="s2">"turn"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">ranks</span><span class="p">)</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"_turn_rank"</span><span class="p">]</span> <span class="o">+</span> <span class="n">tie_breakers</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"stable"</span>
+    <span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">dtypes</span><span class="p">)]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">dtypes</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, TrafficKit 開發團隊.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    使用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4 建立。
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  使用 <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0构建.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+﻿traffickit.speed.speed\_bin\_edges
+==================================
+
+.. currentmodule:: traffickit.speed
+
+.. autofunction:: speed_bin_edges

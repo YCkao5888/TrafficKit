@@ -1,0 +1,6 @@
+﻿traffickit.formats.read\_motc\_su\_tracks
+=========================================
+
+.. currentmodule:: traffickit.formats
+
+.. autofunction:: read_motc_su_tracks

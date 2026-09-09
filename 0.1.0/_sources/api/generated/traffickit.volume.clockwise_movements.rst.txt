@@ -1,0 +1,6 @@
+﻿traffickit.volume.clockwise\_movements
+======================================
+
+.. currentmodule:: traffickit.volume
+
+.. autofunction:: clockwise_movements

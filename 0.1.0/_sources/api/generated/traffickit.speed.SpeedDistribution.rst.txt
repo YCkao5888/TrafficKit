@@ -1,0 +1,36 @@
+﻿traffickit.speed.SpeedDistribution
+==================================
+
+.. currentmodule:: traffickit.speed
+
+.. autoclass:: SpeedDistribution
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SpeedDistribution.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SpeedDistribution.bins
+      ~SpeedDistribution.vehicle_speeds
+      ~SpeedDistribution.summary
+      ~SpeedDistribution.statistic
+      ~SpeedDistribution.moving_threshold_mps
+      ~SpeedDistribution.input_vehicle_count
+      ~SpeedDistribution.binned_vehicle_count
+      ~SpeedDistribution.below_range_count
+      ~SpeedDistribution.above_range_count
+   
+   

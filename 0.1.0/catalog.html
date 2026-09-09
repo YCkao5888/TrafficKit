@@ -1,0 +1,1004 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-TW" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>交通功能目錄 &#8212; TrafficKit 0.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5eb3ec05" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="_static/documentation_options.js?v=a7999bab"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/translations.js?v=cbf116e0"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'catalog';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.21.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://yckao5888.github.io/TrafficKit/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜尋" href="search.html" />
+    <link rel="next" title="工作單" href="worksheets/index.html" />
+    <link rel="prev" title="traffickit.formats.read_motc_su_tracks" href="api/generated/traffickit.formats.read_motc_su_tracks.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-TW"/>
+  <meta name="docsearch:version" content="0.1.0" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">TrafficKit 0.1.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="worksheets/index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="feature-development-guide.html">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="worksheets/index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="feature-development-guide.html">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="章节导航">
+  <p class="bd-links__title" role="heading" aria-level="1">章节导航</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="初始页面">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">交通功能目錄</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="id1">
+<h1>交通功能目錄<a class="headerlink" href="#id1" title="連結到這個標頭">#</a></h1>
+<p>本目錄是功能索引。詳細 I/O 以函式 docstring 為準；範例與測試提供可執行的證據。
+新增功能時一併更新本檔，並補一份 <code class="docutils literal notranslate"><span class="pre">docs/worksheets/&lt;功能</span> <span class="pre">ID&gt;.md</span></code> 工作單。</p>
+<ul class="simple">
+<li><p>安裝套件名／Python 匯入名：<code class="docutils literal notranslate"><span class="pre">traffickit</span></code></p></li>
+<li><p>套件版本以 <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> 為準；下表的「契約版」只記錄該功能 I/O 語意的版次。</p></li>
+<li><p>開發格式見 <a class="reference internal" href="feature-development-guide.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">feature-development-guide.md</span></code></span></a>。</p></li>
+</ul>
+<p>分層：<code class="docutils literal notranslate"><span class="pre">traffickit.speed</span></code>、<code class="docutils literal notranslate"><span class="pre">traffickit.volume</span></code> 是<strong>計算層</strong>，零 I/O；
+<code class="docutils literal notranslate"><span class="pre">traffickit.formats</span></code> 是<strong>格式轉換層</strong>，可以讀檔，但只做欄位與型別轉換，
+不做任何交通判定。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>功能 ID</p></th>
+<th class="head"><p>公開入口</p></th>
+<th class="head"><p>用途</p></th>
+<th class="head"><p>負責人</p></th>
+<th class="head"><p>契約版</p></th>
+<th class="head"><p>狀態</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>speed.speed_distribution</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">traffickit.speed.summarise_speed_distribution</span></code></p></td>
+<td><p>每車代表速度的分布統計與分箱</p></td>
+<td><p>yckao</p></td>
+<td><p>1</p></td>
+<td><p>試行</p></td>
+</tr>
+<tr class="row-odd"><td><p>speed.bin_edges</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">traffickit.speed.speed_bin_edges</span></code></p></td>
+<td><p>產生等寬分箱邊界（多群組共用）</p></td>
+<td><p>yckao</p></td>
+<td><p>1</p></td>
+<td><p>試行</p></td>
+</tr>
+<tr class="row-even"><td><p>volume.turn_volume</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">traffickit.volume.summarise_turn_volume</span></code></p></td>
+<td><p>各進入方向 × 轉向 × 車種分組的車輛數與 PCU</p></td>
+<td><p>yckao</p></td>
+<td><p>1</p></td>
+<td><p>試行</p></td>
+</tr>
+<tr class="row-odd"><td><p>volume.clockwise_movements</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">traffickit.volume.clockwise_movements</span></code></p></td>
+<td><p>由順時針路口代號推導轉向對照表</p></td>
+<td><p>yckao</p></td>
+<td><p>1</p></td>
+<td><p>試行</p></td>
+</tr>
+<tr class="row-even"><td><p>formats.motc_su</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">traffickit.formats.read_motc_su_passages</span></code>、<code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code></p></td>
+<td><p>讀取 MOTC_SU 空拍影像軌跡 CSV</p></td>
+<td><p>yckao</p></td>
+<td><p>1</p></td>
+<td><p>試行</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id2">
+<h2>欄位定義<a class="headerlink" href="#id2" title="連結到這個標頭">#</a></h2>
+<section id="id3">
+<h3>負責人<a class="headerlink" href="#id3" title="連結到這個標頭">#</a></h3>
+<p>填實際能回答「這個交通定義為什麼這樣訂」的人，不填「待補」。
+新增功能時由提出需求的人指定；交接時同時更新本表與該功能的工作單。</p>
+</section>
+<section id="id4">
+<h3>契約版<a class="headerlink" href="#id4" title="連結到這個標頭">#</a></h3>
+<p>從 1 開始的整數，只記錄<strong>這個功能</strong>的 I/O 語意版次，與套件版本無關。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>變更內容</p></th>
+<th class="head"><p>契約版</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>新增／移除／改名輸入欄位或參數</p></td>
+<td><p>+1</p></td>
+</tr>
+<tr class="row-odd"><td><p>改變輸出欄位、型別或排序</p></td>
+<td><p>+1</p></td>
+</tr>
+<tr class="row-even"><td><p>改變判定規則、邊界比較、同值選取、統計口徑或分母</p></td>
+<td><p>+1</p></td>
+</tr>
+<tr class="row-odd"><td><p>新增<strong>可選</strong>參數且預設行為完全不變</p></td>
+<td><p>不變（但要在工作單註明新增時機）</p></td>
+</tr>
+<tr class="row-even"><td><p>只改內部實作、效能、註解或錯誤訊息措辭</p></td>
+<td><p>不變</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>契約版 +1 時，必須同步更新工作單、範例、測試，並在下方「契約變更紀錄」列出差異。</p>
+</section>
+<section id="id5">
+<h3>狀態<a class="headerlink" href="#id5" title="連結到這個標頭">#</a></h3>
+<p>四階段。<strong>升級條件全部達成才可改狀態，不可提前。</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>狀態</p></th>
+<th class="head"><p>進入條件</p></th>
+<th class="head"><p>呼叫端可以期待什麼</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>草擬 draft</p></td>
+<td><p>契約還在討論</p></td>
+<td><p>不要呼叫；介面隨時會改，可能整個砍掉</p></td>
+</tr>
+<tr class="row-odd"><td><p>試行 trial</p></td>
+<td><p>契約定稿；範例與測試通過；工作單完成（含驗證環境與效能紀錄）；wheel 在乾淨環境安裝後可用</p></td>
+<td><p>可以用。介面仍可能變，但變更會通知並升契約版</p></td>
+</tr>
+<tr class="row-even"><td><p>正式 stable</p></td>
+<td><p>試行的全部條件，<strong>加上</strong>：①真實資料回歸比較完成並記錄差異 ②至少一個實際呼叫端（後端／桌面程式／情境入口）在用 ③負責人確認</p></td>
+<td><p>契約凍結。要改就升契約版並列出差異，且需通知已知呼叫端</p></td>
+</tr>
+<tr class="row-odd"><td><p>淘汰 deprecated</p></td>
+<td><p>已有替代功能，且替代品至少為「試行」</p></td>
+<td><p>只修 bug，不加功能。本表指向替代品，預計移除時間寫在工作單</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>降級也可能發生：正式功能若發現契約有誤，先降回試行再修，不要在正式狀態下悄悄改語意。</p>
+<p><strong>目前五個功能都是「試行」，卡在真實資料回歸比較尚未執行。</strong>
+補上比較紀錄、並確認差異都是預期的之後，即可升為「正式」。
+<code class="docutils literal notranslate"><span class="pre">volume.turn_volume</span></code> 另缺後端舊版計算的原始碼，目前只能與前端所呈現的行為比對。</p>
+</section>
+</section>
+<section id="id6">
+<h2>契約變更紀錄<a class="headerlink" href="#id6" title="連結到這個標頭">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>日期</p></th>
+<th class="head"><p>功能 ID</p></th>
+<th class="head"><p>契約版</p></th>
+<th class="head"><p>變更內容</p></th>
+<th class="head"><p>對呼叫端的影響</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2026-09-09</p></td>
+<td><p>speed.speed_distribution</p></td>
+<td><p>1</p></td>
+<td><p>初版</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>2026-09-09</p></td>
+<td><p>speed.bin_edges</p></td>
+<td><p>1</p></td>
+<td><p>初版</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>2026-09-09</p></td>
+<td><p>volume.turn_volume</p></td>
+<td><p>1</p></td>
+<td><p>初版</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>2026-09-09</p></td>
+<td><p>volume.clockwise_movements</p></td>
+<td><p>1</p></td>
+<td><p>初版</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>2026-09-09</p></td>
+<td><p>formats.motc_su</p></td>
+<td><p>1</p></td>
+<td><p>初版（發行前把 <code class="docutils literal notranslate"><span class="pre">fps</span></code> 預設由 10 調成實際速率 9.99）</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="speed-speed-distribution">
+<h2>speed.speed_distribution<a class="headerlink" href="#speed-speed-distribution" title="連結到這個標頭">#</a></h2>
+<ul class="simple">
+<li><p>必要資料：<code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>、<code class="docutils literal notranslate"><span class="pre">time_s</span></code>、<code class="docutils literal notranslate"><span class="pre">speed_smooth_mps</span></code>（m/s，已平滑）。</p></li>
+<li><p>參數：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">bin_edges_mps</span></code>：必填，至少兩個嚴格遞增、有限、非負的邊界（m/s）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">statistic</span></code>：<code class="docutils literal notranslate"><span class="pre">mean</span></code>（預設）／<code class="docutils literal notranslate"><span class="pre">median</span></code>／<code class="docutils literal notranslate"><span class="pre">max</span></code>／<code class="docutils literal notranslate"><span class="pre">p85</span></code>，每車代表速度的取法。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">moving_threshold_mps</span></code>：選填，樣本層移動門檻；<code class="docutils literal notranslate"><span class="pre">None</span></code> 表示不過濾。</p></li>
+</ul>
+</li>
+<li><p>輸出粒度：分箱一列一箱；<code class="docutils literal notranslate"><span class="pre">vehicle_speeds</span></code> 一列一車。<strong>統計對象是車，不是樣本。</strong></p></li>
+<li><p>分箱規則：<code class="docutils literal notranslate"><span class="pre">[lower,</span> <span class="pre">upper)</span></code>，最後一箱為 <code class="docutils literal notranslate"><span class="pre">[lower,</span> <span class="pre">upper]</span></code>。</p></li>
+<li><p>統計母體：通過移動門檻後仍有樣本的所有車輛，<strong>包含落在分箱範圍外的車輛</strong>；
+<code class="docutils literal notranslate"><span class="pre">below_range_count</span></code> / <code class="docutils literal notranslate"><span class="pre">above_range_count</span></code> / <code class="docutils literal notranslate"><span class="pre">binned_vehicle_count</span></code> 分別可讀。</p></li>
+<li><p>詳細規格：函式 docstring、<code class="docutils literal notranslate"><span class="pre">docs/worksheets/speed.speed_distribution.md</span></code>。</p></li>
+<li><p>原始碼：<code class="docutils literal notranslate"><span class="pre">src/traffickit/speed/_distribution.py</span></code>。</p></li>
+<li><p>範例：<code class="docutils literal notranslate"><span class="pre">examples/speed_distribution_demo.py</span></code>。</p></li>
+<li><p>測試：<code class="docutils literal notranslate"><span class="pre">tests/test_speed_distribution.py</span></code>。</p></li>
+<li><p>前置條件：速度已平滑並換算為 m/s；資料集內 <code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code> 唯一；
+分析時段、ROI、車種與流向篩選由呼叫端先切好。</p></li>
+<li><p>限制：不做平滑、不做像素／公尺換算、不自行分車種、不回傳箱形圖數列
+（呼叫端可用 <code class="docutils literal notranslate"><span class="pre">vehicle_speeds</span></code> 自行計算）。</p></li>
+</ul>
+</section>
+<section id="speed-bin-edges">
+<h2>speed.bin_edges<a class="headerlink" href="#speed-bin-edges" title="連結到這個標頭">#</a></h2>
+<ul class="simple">
+<li><p>參數：<code class="docutils literal notranslate"><span class="pre">width_mps</span></code>（&gt; 0）、<code class="docutils literal notranslate"><span class="pre">upper_mps</span></code>（≥ <code class="docutils literal notranslate"><span class="pre">start_mps</span></code>）、<code class="docutils literal notranslate"><span class="pre">start_mps</span></code>（預設 0.0，≥ 0）。</p></li>
+<li><p>輸出：<code class="docutils literal notranslate"><span class="pre">tuple[float,</span> <span class="pre">...]</span></code>，最後一個邊界不小於 <code class="docutils literal notranslate"><span class="pre">upper_mps</span></code>。</p></li>
+<li><p>用途：多個群組（車種、方向、時段）要畫在同一張圖時，先算一組共用邊界，
+再分別呼叫 <code class="docutils literal notranslate"><span class="pre">summarise_speed_distribution</span></code>，否則各組分箱不可比較。</p></li>
+</ul>
+</section>
+<section id="volume-turn-volume">
+<h2>volume.turn_volume<a class="headerlink" href="#volume-turn-volume" title="連結到這個標頭">#</a></h2>
+<ul class="simple">
+<li><p>必要資料：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">passages</span></code>（一列一台車）：<code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>（唯一）、<code class="docutils literal notranslate"><span class="pre">entry_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">exit_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">vehicle_class</span></code>。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">movements</span></code>（路口轉向定義）：<code class="docutils literal notranslate"><span class="pre">entry_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">exit_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">turn</span></code>、<code class="docutils literal notranslate"><span class="pre">is_allowed</span></code>。</p></li>
+</ul>
+</li>
+<li><p>參數：<code class="docutils literal notranslate"><span class="pre">vehicle_groups</span></code>（分組 → 車種，順序即報表欄位順序）、
+<code class="docutils literal notranslate"><span class="pre">pcu_weights</span></code>（分組 → {轉向: 權重}），兩者皆必填。</p></li>
+<li><p>轉向類別只接受 <code class="docutils literal notranslate"><span class="pre">left</span></code>／<code class="docutils literal notranslate"><span class="pre">straight</span></code>／<code class="docutils literal notranslate"><span class="pre">right</span></code>／<code class="docutils literal notranslate"><span class="pre">u_turn</span></code>（模組常數 <code class="docutils literal notranslate"><span class="pre">TURNS</span></code>）。</p></li>
+<li><p>輸出粒度：<code class="docutils literal notranslate"><span class="pre">movements</span></code> 一列 = 進入 × 駛出 × 轉向 × 分組；
+<code class="docutils literal notranslate"><span class="pre">by_turn</span></code> 一列 = 進入 × 轉向 × 分組。<strong>合法但 0 台的組合會保留</strong>，
+與 <code class="docutils literal notranslate"><span class="pre">is_allowed=False</span></code>（不允許轉）是不同狀態。</p></li>
+<li><p>統計口徑：計數對象是車次；未被分組涵蓋的車種不計入，但記在
+<code class="docutils literal notranslate"><span class="pre">summary.unassigned_*</span></code>；違規轉向照實計數並記在 <code class="docutils literal notranslate"><span class="pre">summary.disallowed_vehicle_count</span></code>。</p></li>
+<li><p>詳細規格：函式 docstring、<code class="docutils literal notranslate"><span class="pre">docs/worksheets/volume.turn_volume.md</span></code>。</p></li>
+<li><p>原始碼：<code class="docutils literal notranslate"><span class="pre">src/traffickit/volume/_turn_volume.py</span></code>。</p></li>
+<li><p>範例：<code class="docutils literal notranslate"><span class="pre">examples/turn_volume_demo.py</span></code>。</p></li>
+<li><p>測試：<code class="docutils literal notranslate"><span class="pre">tests/test_turn_volume.py</span></code>。</p></li>
+<li><p>前置條件：進出閘門已判定、時段與區域已由呼叫端切好、車種代碼已統一。</p></li>
+<li><p>限制：不判定進出閘門、不切時段、不算百分比與小計、不匯出 CSV；
+同一台車多次通過需給不同 <code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>。</p></li>
+<li><p>常數：<code class="docutils literal notranslate"><span class="pre">DEFAULT_VEHICLE_GROUPS</span></code>、<code class="docutils literal notranslate"><span class="pre">DEFAULT_PCU_WEIGHTS</span></code> 取自舊版 UI 設定，
+<strong>必須明確傳入</strong>，本套件不認定其等同任何法規或手冊的規定值。</p></li>
+</ul>
+</section>
+<section id="volume-clockwise-movements">
+<h2>volume.clockwise_movements<a class="headerlink" href="#volume-clockwise-movements" title="連結到這個標頭">#</a></h2>
+<ul class="simple">
+<li><p>用途：產生 <code class="docutils literal notranslate"><span class="pre">summarise_turn_volume</span></code> 需要的 <code class="docutils literal notranslate"><span class="pre">movements</span></code> 對照表。</p></li>
+<li><p>參數：<code class="docutils literal notranslate"><span class="pre">gates</span></code>（<strong>依順時針排列</strong>的路口代號，非空白、不重複、數量須為偶數）、
+<code class="docutils literal notranslate"><span class="pre">disallowed</span></code>（不允許的 (進入, 駛出) 組合）。</p></li>
+<li><p>判定規則：<code class="docutils literal notranslate"><span class="pre">offset</span> <span class="pre">=</span> <span class="pre">(j</span> <span class="pre">-</span> <span class="pre">i)</span> <span class="pre">mod</span> <span class="pre">n</span></code>；0 → <code class="docutils literal notranslate"><span class="pre">u_turn</span></code>、<code class="docutils literal notranslate"><span class="pre">n/2</span></code> → <code class="docutils literal notranslate"><span class="pre">straight</span></code>、
+小於 <code class="docutils literal notranslate"><span class="pre">n/2</span></code> → <code class="docutils literal notranslate"><span class="pre">left</span></code>、其餘 → <code class="docutils literal notranslate"><span class="pre">right</span></code>。
+依據是「順時針編號時，下一個分支就在駛入車輛的左手邊」。</p></li>
+<li><p>適用來源：MOTC_SU 的 A/B/C/D 就是順時針編號，可直接使用。</p></li>
+<li><p><strong>限制：只推導幾何類別，不知道現場管制。</strong> 產生的表格預設全部
+<code class="docutils literal notranslate"><span class="pre">is_allowed=True</span></code>，這在多數路口是錯的（尤其迴轉），必須自行填 <code class="docutils literal notranslate"><span class="pre">disallowed</span></code>。
+奇數分支（五岔路口）沒有正對面的分支 → 拋錯，請自行撰寫對照表。
+分支非等角分布（歪斜路口、Y 型路口）時結果可能與現場認知不同。</p></li>
+<li><p>原始碼：<code class="docutils literal notranslate"><span class="pre">src/traffickit/volume/_movements.py</span></code>；測試：<code class="docutils literal notranslate"><span class="pre">tests/test_motc_su.py</span></code>。</p></li>
+</ul>
+</section>
+<section id="formats-motc-su">
+<h2>formats.motc_su<a class="headerlink" href="#formats-motc-su" title="連結到這個標頭">#</a></h2>
+<ul class="simple">
+<li><p>用途：讀取 MOTC_SU 空拍影像軌跡 CSV（無標題列、每列長度不一）。</p></li>
+<li><p>兩個入口：<code class="docutils literal notranslate"><span class="pre">read_motc_su_passages</span></code>（一列一台車，給轉向流量用）、
+<code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code>（一列一台車一個 frame，含四角點與中心點，像素單位）。</p></li>
+<li><p>參數：<code class="docutils literal notranslate"><span class="pre">path</span></code>、<code class="docutils literal notranslate"><span class="pre">fps</span></code>（預設 9.99 = 29.97/3 的實際拍攝速率；格式定義文件
+寫的是整數 10）、<code class="docutils literal notranslate"><span class="pre">encoding</span></code>（預設 utf-8）。</p></li>
+<li><p><strong>不完整軌跡（代號 X）照樣讀入並標記 <code class="docutils literal notranslate"><span class="pre">is_complete=False</span></code></strong>，不默默丟掉；
+要餵給 <code class="docutils literal notranslate"><span class="pre">summarise_turn_volume</span></code> 前請自行 <code class="docutils literal notranslate"><span class="pre">.query(&quot;is_complete&quot;)</span></code>。</p></li>
+<li><p>一律驗證「軌跡值數 = 8 × frame 數」，錯位或截斷的檔案會拋錯並指出行號。</p></li>
+<li><p>詳細規格與格式定義：<code class="docutils literal notranslate"><span class="pre">docs/worksheets/formats.motc_su.md</span></code>。</p></li>
+<li><p>原始碼：<code class="docutils literal notranslate"><span class="pre">src/traffickit/formats/_motc_su.py</span></code>；範例：<code class="docutils literal notranslate"><span class="pre">examples/motc_su_turn_volume_demo.py</span></code>。</p></li>
+<li><p>限制：h（聯結車車頭）與 g（車身）是同一輛車的兩列，本讀取器不合併；
+統計時把 g 留在車種分組之外，它會出現在 <code class="docutils literal notranslate"><span class="pre">unassigned_classes</span></code>。</p></li>
+</ul>
+</section>
+<section id="id7">
+<h2>指標與計算能力對照（後續整合用，尚未實作情境入口）<a class="headerlink" href="#id7" title="連結到這個標頭">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>指標 ID</p></th>
+<th class="head"><p>使用功能</p></th>
+<th class="head"><p>情境端提供的參數</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>（待填）</p></td>
+<td><p>speed.speed_distribution</p></td>
+<td><p>分箱寬度、代表速度統計量、移動門檻、車種分組</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>情境入口仍須負責指標適用性、方向範圍與統計口徑。</p>
+</section>
+<section id="data-speed-analyser-py">
+<h2>與舊版 <code class="docutils literal notranslate"><span class="pre">data/speed_analyser.py</span></code> 的對照<a class="headerlink" href="#data-speed-analyser-py" title="連結到這個標頭">#</a></h2>
+<p>舊版是後端服務類別，混合了資料存取、單位換算與呈現。本次只把「計算」搬進套件。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>舊版行為</p></th>
+<th class="head"><p>本套件的位置</p></th>
+<th class="head"><p>差異說明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>由專案 metadata 取 <code class="docutils literal notranslate"><span class="pre">Scale</span></code>，<code class="docutils literal notranslate"><span class="pre">speed</span> <span class="pre">*</span> <span class="pre">scale</span> <span class="pre">*</span> <span class="pre">3.6</span></code></p></td>
+<td><p>呼叫端</p></td>
+<td><p>核心一律接收 m/s；比例尺缺漏的擋門仍留在後端</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">speed_kmh</span> <span class="pre">&gt;</span> <span class="pre">7.2</span></code> 過濾樣本</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">moving_threshold_mps=2.0</span></code></p></td>
+<td><p>單位改為 m/s；預設不過濾，需明確指定</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">movement_filters</span></code>、<code class="docutils literal notranslate"><span class="pre">filters</span></code> 流向篩選</p></td>
+<td><p>呼叫端</p></td>
+<td><p>欄位名稱（<code class="docutils literal notranslate"><span class="pre">in</span></code>/<code class="docutils literal notranslate"><span class="pre">out</span></code> 與 <code class="docutils literal notranslate"><span class="pre">entry</span></code>/<code class="docutils literal notranslate"><span class="pre">exit</span></code>）屬於資料來源差異</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">calc_method</span></code>：mean／max／median／q85</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">statistic</span></code>：mean／max／median／<strong>p85</strong></p></td>
+<td><p>名稱改為 p85；語意相同（線性內插）</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">min_speed</span></code> / <code class="docutils literal notranslate"><span class="pre">max_speed</span></code> 先過濾再統計</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bin_edges_mps</span></code> 決定分箱範圍</p></td>
+<td><p><strong>範圍外的車不再從統計中消失</strong>，改為分別計數</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">np.histogram</span></code> 後在最前面補一個 0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bins</span></code> 一列一箱</p></td>
+<td><p>補 0 是繪圖庫的 X 軸慣例，屬於前端責任</p></td>
+</tr>
+<tr class="row-even"><td><p>單一車輛時 <code class="docutils literal notranslate"><span class="pre">std</span></code> 回傳 <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">std_mps</span></code> 回傳 <code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>0 會被誤讀為「速度很一致」；未定義就回 None</p></td>
+</tr>
+<tr class="row-odd"><td><p>空資料回傳 <code class="docutils literal notranslate"><span class="pre">SpeedStats(0,0,0,0,0)</span></code></p></td>
+<td><p>統計量為 <code class="docutils literal notranslate"><span class="pre">None</span></code>，分箱車輛數為 0</p></td>
+<td><p>同上，避免「有資料且全為 0」與「沒有資料」混淆</p></td>
+</tr>
+<tr class="row-even"><td><p>分車種 <code class="docutils literal notranslate"><span class="pre">vehicle_grouping</span></code> 產生多組數列</p></td>
+<td><p>呼叫端逐組呼叫，共用 <code class="docutils literal notranslate"><span class="pre">speed_bin_edges</span></code></p></td>
+<td><p>車種對照表是專案設定，不是交通定義</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>尚未做真實資料回歸比較。</strong> 接回舊程式前，須用同一份資料、同一組平滑結果與門檻，
+比對每車代表速度與各箱車輛數，並逐項確認上表的差異是預期的。</p>
+</section>
+<section id="data-turnvolumeanalysis-vue">
+<h2>與舊版 <code class="docutils literal notranslate"><span class="pre">data/TurnVolumeAnalysis.vue</span></code> 的對照<a class="headerlink" href="#data-turnvolumeanalysis-vue" title="連結到這個標頭">#</a></h2>
+<p><strong>該檔是前端元件，不含計算</strong>；計算在後端 <code class="docutils literal notranslate"><span class="pre">getTurnVolumeReport</span></code> 端點，其原始碼未取得。
+以下是與前端所呈現行為的比對，不是與後端算法逐行比對。完整表格見
+<a class="reference internal" href="worksheets/volume.turn_volume.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">worksheets/volume.turn_volume.md</span></code></span></a>。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>舊版行為（前端所見）</p></th>
+<th class="head"><p>本套件</p></th>
+<th class="head"><p>差異說明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>後端回傳 <code class="docutils literal notranslate"><span class="pre">result[進入][轉向][分組]</span> <span class="pre">=</span> <span class="pre">{count,</span> <span class="pre">pcu}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">by_turn</span></code> 長格式表</p></td>
+<td><p>巢狀字典改成表格，資訊等價</p></td>
+</tr>
+<tr class="row-odd"><td><p>前端 <code class="docutils literal notranslate"><span class="pre">movements.some(...)</span></code> 算 <code class="docutils literal notranslate"><span class="pre">allowed_turns</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">by_turn.is_allowed</span></code>（取 any）</p></td>
+<td><p>判定規則相同，改由套件計算</p></td>
+</tr>
+<tr class="row-even"><td><p>只有轉向層級</p></td>
+<td><p>多一張 <code class="docutils literal notranslate"><span class="pre">movements</span></code> 表保留 <code class="docutils literal notranslate"><span class="pre">exit_gate</span></code></p></td>
+<td><p>兩個出口同屬右轉時可拆開</p></td>
+</tr>
+<tr class="row-odd"><td><p>未定義的 (from,to) 行為不明</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code></p></td>
+<td><p>不要靜靜算出一份少了車的報表</p></td>
+</tr>
+<tr class="row-even"><td><p>未分組車種默默不見</p></td>
+<td><p>記入 <code class="docutils literal notranslate"><span class="pre">summary.unassigned_*</span></code></p></td>
+<td><p>分母要說得清楚</p></td>
+</tr>
+<tr class="row-odd"><td><p>違規轉向行為不明</p></td>
+<td><p>照實計數並標記</p></td>
+<td><p>這是真實資訊，不應被隱藏</p></td>
+</tr>
+<tr class="row-even"><td><p>PCU 權重寫死在前端 <code class="docutils literal notranslate"><span class="pre">DEFAULT_GROUPS</span></code></p></td>
+<td><p>必填參數，另提供 <code class="docutils literal notranslate"><span class="pre">DEFAULT_PCU_WEIGHTS</span></code> 常數</p></td>
+<td><p>權重是案件設定，不是演算法</p></td>
+</tr>
+<tr class="row-odd"><td><p>百分比、小計、總計、CSV 在前端</p></td>
+<td><p>不提供</p></td>
+<td><p>版面與輸出屬於應用端</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>尚未取得後端算法，也尚未做真實資料回歸比較。</strong> 接回舊系統前必須補其中之一。</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="api/generated/traffickit.formats.read_motc_su_tracks.html"
+       title="上一页">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一頁</p>
+        <p class="prev-next-title">traffickit.formats.read_motc_su_tracks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="worksheets/index.html"
+       title="下一页">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一頁</p>
+        <p class="prev-next-title">工作單</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 当前页面
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">欄位定義</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">負責人</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">契約版</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">狀態</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">契約變更紀錄</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speed-speed-distribution">speed.speed_distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speed-bin-edges">speed.bin_edges</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-turn-volume">volume.turn_volume</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-clockwise-movements">volume.clockwise_movements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formats-motc-su">formats.motc_su</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">指標與計算能力對照（後續整合用，尚未實作情境入口）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-speed-analyser-py">與舊版 <code class="docutils literal notranslate"><span class="pre">data/speed_analyser.py</span></code> 的對照</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-turnvolumeanalysis-vue">與舊版 <code class="docutils literal notranslate"><span class="pre">data/TurnVolumeAnalysis.vue</span></code> 的對照</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/catalog.md.txt">
+      <i class="fa-solid fa-file-lines"></i> 顯示原始碼
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, TrafficKit 開發團隊.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    使用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4 建立。
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  使用 <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0构建.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1661 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-TW" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>交通分析功能模組開發教學 &#8212; TrafficKit 0.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5eb3ec05" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="_static/documentation_options.js?v=a7999bab"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/translations.js?v=cbf116e0"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'feature-development-guide';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.21.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://yckao5888.github.io/TrafficKit/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜尋" href="search.html" />
+    <link rel="next" title="擴充功能需求單模板" href="feature-request-template.html" />
+    <link rel="prev" title="工作單：formats.motc_su" href="worksheets/formats.motc_su.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-TW"/>
+  <meta name="docsearch:version" content="0.1.0" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">TrafficKit 0.1.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="catalog.html">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="worksheets/index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="catalog.html">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="worksheets/index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="章节导航">
+  <p class="bd-links__title" role="heading" aria-level="1">章节导航</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="初始页面">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">交通分析功能模組開發教學</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="id1">
+<h1>交通分析功能模組開發教學<a class="headerlink" href="#id1" title="連結到這個標頭">#</a></h1>
+<blockquote>
+<div><p>對象：負責 Python 交通算法與分析功能的工程師。<br />
+用途：本文件是 TrafficKit 的<strong>開發約定與交付格式</strong>，每新增一個交通功能都沿用 Step 1–8。<br />
+套件的使用說明在專案根目錄的 <a class="reference external" href="https://github.com/YCkao5888/TrafficKit#readme"><code class="docutils literal notranslate"><span class="pre">README.md</span></code></a>；功能索引在 <a class="reference internal" href="catalog.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">catalog.md</span></code></span></a>。</p>
+</div></blockquote>
+<p><strong>閱讀前先知道四件事：</strong></p>
+<ol class="arabic simple">
+<li><p>本文中的 <code class="docutils literal notranslate"><span class="pre">detect_overspeed</span></code>（超速判定）是<strong>教學範例，尚未實作</strong>。它示範交付格式，不是可呼叫的功能。</p></li>
+<li><p>實際交付的第一個功能是 <code class="docutils literal notranslate"><span class="pre">speed.speed_distribution</span></code>（車速分布統計）。想看真實範本，請直接對照
+<a class="reference internal" href="worksheets/speed.speed_distribution.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">docs/worksheets/speed.speed_distribution.md</span></code></span></a>
+與 <code class="docutils literal notranslate"><span class="pre">src/traffickit/speed/_distribution.py</span></code>。</p></li>
+<li><p>已交付的第二個功能是 <code class="docutils literal notranslate"><span class="pre">volume.turn_volume</span></code>（轉向流量統計），
+工作單見 <a class="reference internal" href="worksheets/volume.turn_volume.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">docs/worksheets/volume.turn_volume.md</span></code></span></a>。</p></li>
+<li><p><strong>Step 3（建立套件骨架）只在從零開始時需要，本專案已完成。</strong> 擴充既有功能請跳過 Step 3，
+並改看下一節「要新增一個功能時，實際流程是什麼」。</p></li>
+</ol>
+<section id="id2">
+<h2>要新增一個功能時，實際流程是什麼<a class="headerlink" href="#id2" title="連結到這個標頭">#</a></h2>
+<p>骨架已存在，每次只新增一項能力，重複 Step 1、2、4、5、6、7、8。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>順序</p></th>
+<th class="head"><p>做什麼</p></th>
+<th class="head"><p>產出</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>填一份需求單，把交通定義講清楚</p></td>
+<td><p><a class="reference internal" href="feature-request-template.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">docs/feature-request-template.md</span></code></span></a> 的副本</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>確認 I/O 契約與手算答案（Step 1–2）</p></td>
+<td><p>需求單上的欄位表、判定規則、三個手算案例</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>實作（Step 4）</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">src/traffickit/&lt;領域&gt;/_&lt;功能&gt;.py</span></code> + 在 <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> 匯出</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>範例（Step 5）</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">examples/&lt;功能&gt;_demo.py</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>測試（Step 6）</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">tests/test_&lt;功能&gt;.py</span></code>，把手算答案變成測試</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>登記（Step 7）</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code> 新增一列 + <code class="docutils literal notranslate"><span class="pre">docs/worksheets/&lt;功能</span> <span class="pre">ID&gt;.md</span></code> 工作單</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>驗收（Step 8）</p></td>
+<td><p>wheel 建置、乾淨環境安裝、範例與測試重跑、填驗證紀錄</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>要請 AI 助理代做時</strong>，把需求單（或一份現成程式碼＋一句「照這個邏輯做」）交出去即可；
+專案慣例、驗證指令與必問事項寫在根目錄的 <a class="reference external" href="https://github.com/YCkao5888/TrafficKit/blob/master/CLAUDE.md"><code class="docutils literal notranslate"><span class="pre">CLAUDE.md</span></code></a>，助理會依此執行並在資訊不足時回問。</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="detect-overspeed">
+<h1>教學正文：以 detect_overspeed 為例<a class="headerlink" href="#detect-overspeed" title="連結到這個標頭">#</a></h1>
+<p>以下是完整的八步交付格式。範例功能為超速判定，<strong>尚未實作</strong>；重點在格式，不在這個算法。</p>
+<p>完成本教學後，其他工程師應能這樣使用你的功能：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">traffickit.speed</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_overspeed</span>
+
+<span class="n">events</span> <span class="o">=</span> <span class="n">detect_overspeed</span><span class="p">(</span><span class="n">tracks</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mi">50</span> <span class="o">/</span> <span class="mf">3.6</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>你交付的是 Python 套件中的交通計算能力。網頁後端、Python 桌面程式及批次工具都可以安裝同一份套件，呼叫相同函式。</p>
+<p>本文件以先前提供的非號誌路口程式為概念起點，但下列程式是獨立教學範例，並非四個既有情境程式的完整重構。輸入欄位、錯誤處理、同速時的選取規則是本範例明訂的契約；移植舊程式時應先核對差異。</p>
+<section id="id3">
+<h2>開始前：你負責什麼？<a class="headerlink" href="#id3" title="連結到這個標頭">#</a></h2>
+<p>交通功能工程師要交付四項東西：<strong>功能規格、計算程式、呼叫範例、驗證資料與測試</strong>。交付完成的判準是：其他工程師只看文件與範例，就能呼叫並理解結果。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>工作</p></th>
+<th class="head"><p>主要負責者</p></th>
+<th class="head"><p>具體例子</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>交通定義與計算方法</p></td>
+<td><p>交通功能工程師</p></td>
+<td><p>平滑速度如何取得、超速使用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 或 <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>、每車或每事件計數</p></td>
+</tr>
+<tr class="row-odd"><td><p>輸入與輸出規格、品質要求</p></td>
+<td><p>交通功能工程師</p></td>
+<td><p>欄位型別、m/s、時間基準、缺值處理、錯誤訊息</p></td>
+</tr>
+<tr class="row-even"><td><p>計算函式與正確性驗證</p></td>
+<td><p>交通功能工程師</p></td>
+<td><p>超速判定、PET、統計分母、已知答案的小樣本</p></td>
+</tr>
+<tr class="row-odd"><td><p>客戶格式轉換與資料存取</p></td>
+<td><p>後端／整合工程師，依交通規格實作</p></td>
+<td><p>讀取 CSV、欄位對照、單位轉換、資料庫查詢</p></td>
+</tr>
+<tr class="row-even"><td><p>操作介面與圖表呈現</p></td>
+<td><p>前端／桌面工程師</p></td>
+<td><p>篩選控制、事件表、地圖、圖表樣式</p></td>
+</tr>
+<tr class="row-odd"><td><p>執行、API、檔案輸出與部署</p></td>
+<td><p>後端／整合工程師</p></td>
+<td><p>任務排程、JSON、CSV 下載、安裝套件、執行監控</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>實際寫程式的人可以兼任。判斷程式應放在哪裡時，看它的責任：<strong>會改變交通結果意義的邏輯，放在交通功能；管理操作、傳輸或儲存的邏輯，放在應用端。</strong></p>
+<p>第一版使用普通 Python 函式即可。套件的領域分類、公開介面與內部實作區分，參考 <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/index.html">SciPy 的 API 設計</a>。我們借用這種組織方式，並不需要依賴 SciPy 才能建立自己的套件。</p>
+</section>
+<section id="step-1">
+<h2>Step 1：先圈定一件能驗證的交通工作<a class="headerlink" href="#step-1" title="連結到這個標頭">#</a></h2>
+<p><strong>本步產出：一句目的、一份納入範圍、一份排除範圍。</strong></p>
+<p>第一個功能定義為：</p>
+<blockquote>
+<div><p>給定同一份資料集內、已完成速度平滑的軌跡資料與速度門檻，找出最高平滑速度超過門檻的車輛，每車回傳一筆代表資料。</p>
+</div></blockquote>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>本功能負責</p></th>
+<th class="head"><p>呼叫端或其他功能負責</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>檢查必要欄位與無效資料</p></td>
+<td><p>讀取 CSV、metadata 或資料庫</p></td>
+</tr>
+<tr class="row-odd"><td><p>找出每台車最高平滑速度</p></td>
+<td><p>速度平滑與其參數設定</p></td>
+</tr>
+<tr class="row-even"><td><p>依門檻判定並回傳資料表</p></td>
+<td><p>選取哪個路口、方向或分析時段</p></td>
+</tr>
+<tr class="row-odd"><td><p>固定同速選取及輸出排序</p></td>
+<td><p>儲存 CSV、產生 API 回應、畫圖</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>本例直接分析傳入資料的全部時間範圍，不推定這些資料已經位於路口內，也不自行裁切 ROI。呼叫端必須知道自己傳入的分析範圍。</p>
+<p><strong>最小功能的判準：可以獨立說明輸入、輸出與判定規則，並用小樣本驗證。</strong> 一個功能可以包含數個內部函式；一個指標代碼也不一定要對應一份獨立算法。</p>
+<p>完成條件：你能回答「給什麼資料、算什麼、回傳什麼」，且答案中不需要提到網頁、資料庫或輸出資料夾。</p>
+</section>
+<section id="step-2-i-o">
+<h2>Step 2：先定義 I/O 與預期答案<a class="headerlink" href="#step-2-i-o" title="連結到這個標頭">#</a></h2>
+<p><strong>本步產出：功能契約。第一版就使用以下規格。</strong></p>
+<section id="id4">
+<h3>輸入資料<a class="headerlink" href="#id4" title="連結到這個標頭">#</a></h3>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>。一列是一台車在一個時間點的資料。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>欄位</p></th>
+<th class="head"><p>型別</p></th>
+<th class="head"><p>單位／基準</p></th>
+<th class="head"><p>規則</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code></p></td>
+<td><p>字串</p></td>
+<td><p>同一資料集內的車輛 ID</p></td>
+<td><p>非空白、無缺值；同一車須使用相同 ID</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time_s</span></code></p></td>
+<td><p>實數</p></td>
+<td><p>相對本資料集共同起點的秒數</p></td>
+<td><p>有限、非負、無缺值</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">speed_smooth_mps</span></code></p></td>
+<td><p>實數</p></td>
+<td><p>m/s</p></td>
+<td><p>已完成平滑；有限、非負、無缺值</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>補充約定：</p>
+<ul class="simple">
+<li><p>一次呼叫只包含一個 ID 不衝突的資料集。多影片若重複使用車輛 ID，應先分開分析或建立不衝突的識別方式。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(vehicle_id,</span> <span class="pre">time_s)</span></code> 不可重複。原始 DataFrame 的列索引可以重複，函式不依賴它。</p></li>
+<li><p>輸入可以未排序，允許其他欄位；其他欄位不參與計算，也不會自動出現在輸出。</p></li>
+<li><p>數字字串，例如 <code class="docutils literal notranslate"><span class="pre">&quot;12.5&quot;</span></code>，應由資料轉換端先轉成數值；核心函式不默默猜測型別。</p></li>
+<li><p>本例不要求時間等距，因為只取最大值；速度平滑所需的取樣規則，由平滑功能另外定義。</p></li>
+<li><p>單位與平滑方法無法只靠數值可靠辨認。整合端須依來源規格轉換，並保留平滑參數與資料來源紀錄。</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>輸入參數<a class="headerlink" href="#id5" title="連結到這個標頭">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>參數</p></th>
+<th class="head"><p>型別</p></th>
+<th class="head"><p>規則</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">threshold_mps</span></code></p></td>
+<td><p>實數</p></td>
+<td><p>必填、有限、非負；單位 m/s，不接受布林值或字串</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>不提供預設速限，避免呼叫端忘記設定時，套件自行套用錯誤門檻。</p>
+</section>
+<section id="id6">
+<h3>判定與輸出<a class="headerlink" href="#id6" title="連結到這個標頭">#</a></h3>
+<ol class="arabic simple">
+<li><p>找出每台車最高的 <code class="docutils literal notranslate"><span class="pre">speed_smooth_mps</span></code>。</p></li>
+<li><p>最高速度有多筆時，取 <code class="docutils literal notranslate"><span class="pre">time_s</span></code> 最早的一筆。</p></li>
+<li><p>僅保留最高速度 <strong>嚴格大於 <code class="docutils literal notranslate"><span class="pre">threshold_mps</span></code></strong> 的車輛。</p></li>
+<li><p>依 <code class="docutils literal notranslate"><span class="pre">time_s</span></code>、<code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code> 排序；ID 採字串排序。</p></li>
+</ol>
+<p>輸出是 DataFrame，一列代表「這台車在本次傳入範圍內符合超速條件的代表資料」，不是每一段連續超速行為。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>輸出欄位</p></th>
+<th class="head"><p>型別</p></th>
+<th class="head"><p>意義</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code></p></td>
+<td><p>pandas <code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>符合條件的車輛 ID</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time_s</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float64</span></code></p></td>
+<td><p>最高平滑速度對應的時間</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">peak_speed_mps</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float64</span></code></p></td>
+<td><p>該車最高平滑速度</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">threshold_mps</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float64</span></code></p></td>
+<td><p>本次實際採用的門檻</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id7">
+<h3>邊界情況<a class="headerlink" href="#id7" title="連結到這個標頭">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>情況</p></th>
+<th class="head"><p>本例行為</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>速度剛好等於門檻</p></td>
+<td><p>不產生結果</p></td>
+</tr>
+<tr class="row-odd"><td><p>輸入有必要欄位但沒有資料列</p></td>
+<td><p>回傳固定欄位、固定型別的空表</p></td>
+</tr>
+<tr class="row-even"><td><p>沒有符合條件的車輛</p></td>
+<td><p>回傳相同格式的空表</p></td>
+</tr>
+<tr class="row-odd"><td><p>缺必要欄位、重複樣本、無效值</p></td>
+<td><p>拋出 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，提供原因</p></td>
+</tr>
+<tr class="row-even"><td><p>傳入的不是 DataFrame</p></td>
+<td><p>拋出 <code class="docutils literal notranslate"><span class="pre">TypeError</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>函式執行完成</p></td>
+<td><p>不修改原始輸入、不自行讀寫檔案</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>以上是本教學採用的資料政策。未來若改成排除無效列，必須另外回報排除數量與原因，且更新規格與測試。</p>
+</section>
+<section id="id8">
+<h3>手算答案<a class="headerlink" href="#id8" title="連結到這個標頭">#</a></h3>
+<p>門檻先使用 10 m/s，方便人工核對。這是測試數值，不代表任何路口法定速限。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>車輛</p></th>
+<th class="head"><p>時間（秒）</p></th>
+<th class="head"><p>平滑速度（m/s）</p></th>
+<th class="head"><p>預期結果</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A</p></td>
+<td><p>0、1、2</p></td>
+<td><p>8、9、10</p></td>
+<td><p>無，最高速度等於門檻</p></td>
+</tr>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p>0、1、2</p></td>
+<td><p>9、11、12</p></td>
+<td><p>一筆：時間 2、速度 12</p></td>
+</tr>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>0、1、2</p></td>
+<td><p>11、11、9</p></td>
+<td><p>一筆：時間 0、速度 11</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>完成條件：先不看程式，就能從上述資料算出答案。若答案仍有爭議，先確認交通定義再寫算法。</p>
+</section>
+</section>
+<section id="step-3-python">
+<h2>Step 3：建立一個最小 Python 套件<a class="headerlink" href="#step-3-python" title="連結到這個標頭">#</a></h2>
+<blockquote>
+<div><p><strong>本專案已完成這一步，擴充功能時請跳過。</strong> 以下保留給「從零建立另一個套件」時參考，
+也說明現有骨架為什麼長這樣。本專案實際的 <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> 以檔案內容為準。</p>
+</div></blockquote>
+<p><strong>本步產出：可安裝的專案結構。</strong></p>
+<p>使用 Python 3.10 以上。以下指令的 <code class="docutils literal notranslate"><span class="pre">python</span></code> 必須指向你準備使用的 Python 3；Windows 也可使用對應的 <code class="docutils literal notranslate"><span class="pre">py</span> <span class="pre">-3</span></code> 建立環境。</p>
+<p>先建立並進入專案資料夾：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>traffickit
+<span class="nb">cd</span><span class="w"> </span>traffickit
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+</pre></div>
+</div>
+<p>再依下表建立資料夾與檔案。後續步驟會給出各檔案內容；表內路徑都相對於專案根目錄。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>檔案</p></th>
+<th class="head"><p>用途</p></th>
+<th class="head"><p>何時填寫</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">README.md</span></code></p></td>
+<td><p>套件使用說明（安裝、快速上手、功能索引）</p></td>
+<td><p>現在</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docs/feature-development-guide.md</span></code></p></td>
+<td><p>本教學與開發約定</p></td>
+<td><p>現在</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code></p></td>
+<td><p>套件名稱、版本、相依套件、安裝設定</p></td>
+<td><p>現在</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">src/traffickit/__init__.py</span></code></p></td>
+<td><p>套件入口</p></td>
+<td><p>Step 4</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">src/traffickit/speed/__init__.py</span></code></p></td>
+<td><p>公開的速度功能</p></td>
+<td><p>Step 4</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">src/traffickit/speed/_overspeed.py</span></code></p></td>
+<td><p>判定的內部實作</p></td>
+<td><p>Step 4</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">examples/overspeed_demo.py</span></code></p></td>
+<td><p>給其他工程師的呼叫範例</p></td>
+<td><p>Step 5</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tests/test_overspeed.py</span></code></p></td>
+<td><p>可重複執行的正確性檢查</p></td>
+<td><p>Step 6</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code></p></td>
+<td><p>功能索引與指標對照</p></td>
+<td><p>Step 7</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docs/worksheets/&lt;功能</span> <span class="pre">ID&gt;.md</span></code></p></td>
+<td><p>該功能的工作單與驗證紀錄</p></td>
+<td><p>Step 7</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> 內容如下：</p>
+<!-- file: pyproject.toml -->
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[build-system]</span>
+<span class="n">requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"setuptools&gt;=68"</span><span class="p">]</span>
+<span class="n">build-backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"setuptools.build_meta"</span>
+
+<span class="k">[project]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"traffickit"</span>
+<span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0.1.0"</span>
+<span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Traffic analysis function development example"</span>
+<span class="n">readme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"README.md"</span>
+<span class="n">requires-python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&gt;=3.10"</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"pandas&gt;=2.2,&lt;3.0"</span><span class="p">]</span>
+
+<span class="k">[tool.setuptools.packages.find]</span>
+<span class="n">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"src"</span><span class="p">]</span>
+<span class="n">include</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"traffickit*"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>本專案的安裝套件名稱與 Python <code class="docutils literal notranslate"><span class="pre">import</span></code> 名稱同為 <code class="docutils literal notranslate"><span class="pre">traffickit</span></code>。初期保留在同一個套件與程式庫內，新增功能不需要各自建立一個可部署服務。</p>
+<p>此處的 Python 與 pandas 範圍是教學設定，正式交付前應依團隊驗證過的版本調整。套件描述相容範圍；部署環境則需要另外固定實際版本。</p>
+<p>套件設定與 wheel 建置使用標準 Python 打包方式，可參考 <a class="reference external" href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">Python Packaging User Guide</a>。</p>
+</section>
+<section id="step-4">
+<h2>Step 4：實作函式，公開介面只留一個入口<a class="headerlink" href="#step-4" title="連結到這個標頭">#</a></h2>
+<p><strong>本步產出：可直接接收資料並回傳結果的函式。</strong></p>
+<p>先填入 <code class="docutils literal notranslate"><span class="pre">src/traffickit/__init__.py</span></code>：</p>
+<!-- file: src/traffickit/__init__.py -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""交通分析套件。"""</span>
+</pre></div>
+</div>
+<p>填入 <code class="docutils literal notranslate"><span class="pre">src/traffickit/speed/__init__.py</span></code>：</p>
+<!-- file: src/traffickit/speed/__init__.py -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""速度相關的公開功能。"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">._overspeed</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_overspeed</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"detect_overspeed"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>填入 <code class="docutils literal notranslate"><span class="pre">src/traffickit/speed/_overspeed.py</span></code>：</p>
+<!-- file: src/traffickit/speed/_overspeed.py -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">isfinite</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Real</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas.api.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_bool_dtype</span><span class="p">,</span>
+    <span class="n">is_complex_dtype</span><span class="p">,</span>
+    <span class="n">is_numeric_dtype</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="n">_REQUIRED</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"time_s"</span><span class="p">,</span> <span class="s2">"speed_smooth_mps"</span><span class="p">)</span>
+<span class="n">_OUTPUT_DTYPES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"vehicle_id"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+    <span class="s2">"time_s"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="s2">"peak_speed_mps"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="s2">"threshold_mps"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_empty_result</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">_OUTPUT_DTYPES</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">})</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">detect_overspeed</span><span class="p">(</span>
+    <span class="n">tracks</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">threshold_mps</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""找出最高平滑速度嚴格超過門檻的車輛，每車回傳一列。</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tracks : pandas.DataFrame</span>
+<span class="sd">        單一資料集的樣本。必要欄位：vehicle_id（非空白字串）、</span>
+<span class="sd">        time_s（共同起點的非負秒數）、speed_smooth_mps（非負 m/s）。</span>
+<span class="sd">        數值須有限、無缺值；(vehicle_id, time_s) 不可重複。</span>
+<span class="sd">        允許未排序或含額外欄位；不修改輸入。</span>
+<span class="sd">    threshold_mps : float</span>
+<span class="sd">        必填、有限且非負的速度門檻，單位 m/s。</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        vehicle_id、time_s、peak_speed_mps、threshold_mps。</span>
+<span class="sd">        同速取最早時間；按時間與字串 ID 排序；無結果時保留欄位型別。</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        tracks 不是 DataFrame。</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        欄位、數值、ID、重複樣本或參數不符合輸入規格。</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    本函式不進行平滑、ROI 或時間裁切，也不讀寫檔案。</span>
+<span class="sd">    每車一列代表本次資料範圍的超速判定，不是連續超速段落的數量。</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tracks</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"tracks 必須是 pandas.DataFrame"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">threshold_mps</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">threshold_mps</span><span class="p">,</span> <span class="n">Real</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">isfinite</span><span class="p">(</span><span class="n">threshold_mps</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">threshold_mps</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"threshold_mps 必須是有限、非負的實數（m/s）"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tracks</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"輸入不可包含重複欄名"</span><span class="p">)</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">_REQUIRED</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">tracks</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"缺少必要欄位：</span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tracks</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_empty_result</span><span class="p">()</span>
+
+    <span class="c1"># 複製必要欄位，避免修改呼叫端持有的原始資料。</span>
+    <span class="n">work</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">_REQUIRED</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">valid_ids</span> <span class="o">=</span> <span class="n">work</span><span class="p">[</span><span class="s2">"vehicle_id"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_ids</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"vehicle_id 必須是非空白字串且不可缺值"</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"time_s"</span><span class="p">,</span> <span class="s2">"speed_smooth_mps"</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">work</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="n">is_bool_dtype</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="n">is_complex_dtype</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> 必須是實數欄位，不接受數字字串"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> 不可有缺值"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">isfinite</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span><span class="n">values</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> 必須是有限且非負的數值"</span><span class="p">)</span>
+        <span class="n">work</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"float64"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">work</span><span class="o">.</span><span class="n">duplicated</span><span class="p">([</span><span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"time_s"</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"同一 vehicle_id 與 time_s 不可有重複樣本"</span><span class="p">)</span>
+    <span class="n">work</span><span class="p">[</span><span class="s2">"vehicle_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">work</span><span class="p">[</span><span class="s2">"vehicle_id"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span>
+
+    <span class="c1"># 先依時間排序。同速時，idxmax 選到該車最早的一筆。</span>
+    <span class="c1"># 重設索引，避免原始列索引重複時 .loc 選出多筆資料。</span>
+    <span class="n">work</span> <span class="o">=</span> <span class="n">work</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"time_s"</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"stable"</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">peak_indexes</span> <span class="o">=</span> <span class="n">work</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+        <span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)[</span><span class="s2">"speed_smooth_mps"</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+    <span class="n">peaks</span> <span class="o">=</span> <span class="n">work</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">peak_indexes</span><span class="p">]</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="n">peaks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="n">peaks</span><span class="p">[</span><span class="s2">"speed_smooth_mps"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold_mps</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">selected</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_empty_result</span><span class="p">()</span>
+
+    <span class="n">selected</span> <span class="o">=</span> <span class="n">selected</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"speed_smooth_mps"</span><span class="p">:</span> <span class="s2">"peak_speed_mps"</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">selected</span><span class="p">[</span><span class="s2">"threshold_mps"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">threshold_mps</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">selected</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">_OUTPUT_DTYPES</span><span class="p">)]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_OUTPUT_DTYPES</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"time_s"</span><span class="p">,</span> <span class="s2">"vehicle_id"</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"stable"</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>底線開頭的 <code class="docutils literal notranslate"><span class="pre">_overspeed.py</span></code> 是內部實作。其他工程師統一使用：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">traffickit.speed</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_overspeed</span>
+</pre></div>
+</div>
+<p>之後即使內部拆成多個檔案，這個公開匯入路徑仍可保持穩定。尚未被第二個功能需要的細節，先留在本檔案；等到兩個功能確實需要相同語意，再抽共用函式。</p>
+<p>完成條件：程式中沒有客戶專屬路徑、GUI 狀態、HTTP 物件或存檔動作。輸入、輸出與錯誤符合 Step 2。</p>
+</section>
+<section id="step-5">
+<h2>Step 5：寫一個其他工程師可以直接跑的範例<a class="headerlink" href="#step-5" title="連結到這個標頭">#</a></h2>
+<p><strong>本步產出：<code class="docutils literal notranslate"><span class="pre">examples/overspeed_demo.py</span></code>。</strong></p>
+<!-- file: examples/overspeed_demo.py -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">traffickit.speed</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_overspeed</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">tracks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s2">"vehicle_id"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"A"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"B"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"C"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"time_s"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"speed_smooth_mps"</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+    <span class="p">})</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="n">detect_overspeed</span><span class="p">(</span><span class="n">tracks</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">events</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"超速車輛數：</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>先安裝開發中的套件，再執行範例。所有指令均在專案根目錄執行；直接指定虛擬環境的 Python，不需要先啟用環境。</p>
+<p>Windows PowerShell：</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="p">.</span>
+<span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">examples</span><span class="p">/</span><span class="n">overspeed_demo</span><span class="p">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Linux／macOS：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+./.venv/bin/python<span class="w"> </span>examples/overspeed_demo.py
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">-e</span></code> 是開發用的可編輯安裝，修改原始碼後可重新執行範例。首次安裝需要能取得宣告的相依套件；公司內網環境由整合工程師提供套件來源。</p>
+<p>預期資料內容如下，顯示空白可能依版本不同：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>vehicle_id</p></th>
+<th class="head"><p>time_s</p></th>
+<th class="head"><p>peak_speed_mps</p></th>
+<th class="head"><p>threshold_mps</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>0.0</p></td>
+<td><p>11.0</p></td>
+<td><p>10.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p>2.0</p></td>
+<td><p>12.0</p></td>
+<td><p>10.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>預期印出「超速車輛數：2」。因為本功能明確約定每車一列，此處才能以 <code class="docutils literal notranslate"><span class="pre">len(events)</span></code> 計算車輛數；這個寫法不可直接套用到所有衝突事件表。</p>
+<p>CSV 寫入可以由使用者在呼叫後自行處理，例如 <code class="docutils literal notranslate"><span class="pre">events.to_csv(...)</span></code>。它不需要放入 <code class="docutils literal notranslate"><span class="pre">detect_overspeed()</span></code>。</p>
+</section>
+<section id="step-6">
+<h2>Step 6：將手算答案變成可重複執行的測試<a class="headerlink" href="#step-6" title="連結到這個標頭">#</a></h2>
+<p><strong>本步產出：<code class="docutils literal notranslate"><span class="pre">tests/test_overspeed.py</span></code>。</strong></p>
+<p>使用 Python 內建 <code class="docutils literal notranslate"><span class="pre">unittest</span></code>，本教學不需要額外安裝測試框架。測試驗證規格中的交通邊界與資料品質，不重寫一遍算法當作預期答案。</p>
+<!-- file: tests/test_overspeed.py -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas.testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_frame_equal</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">traffickit.speed</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_overspeed</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestDetectOverspeed</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s2">"vehicle_id"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"A"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"B"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"C"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"time_s"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"speed_smooth_mps"</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+        <span class="p">})</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_expected_vehicles_times_and_units</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">actual</span> <span class="o">=</span> <span class="n">detect_overspeed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s2">"vehicle_id"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="s2">"C"</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"string"</span><span class="p">),</span>
+            <span class="s2">"time_s"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>
+            <span class="s2">"peak_speed_mps"</span><span class="p">:</span> <span class="p">[</span><span class="mf">11.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">],</span>
+            <span class="s2">"threshold_mps"</span><span class="p">:</span> <span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+        <span class="p">})</span>
+        <span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_unsorted_rows_duplicate_index_and_no_mutation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">shuffled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">shuffled</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">shuffled</span><span class="p">)</span>
+        <span class="n">before</span> <span class="o">=</span> <span class="n">shuffled</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">actual</span> <span class="o">=</span> <span class="n">detect_overspeed</span><span class="p">(</span><span class="n">shuffled</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">detect_overspeed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+        <span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+        <span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">shuffled</span><span class="p">,</span> <span class="n">before</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_empty_and_no_matches_have_same_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">from_empty</span> <span class="o">=</span> <span class="n">detect_overspeed</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">0</span><span class="p">],</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span>
+        <span class="p">)</span>
+        <span class="n">from_no_matches</span> <span class="o">=</span> <span class="n">detect_overspeed</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">100.0</span>
+        <span class="p">)</span>
+        <span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">from_empty</span><span class="p">,</span> <span class="n">from_no_matches</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">from_empty</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="p">[</span>
+            <span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"time_s"</span><span class="p">,</span> <span class="s2">"peak_speed_mps"</span><span class="p">,</span> <span class="s2">"threshold_mps"</span>
+        <span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span> <span class="k">for</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">from_empty</span><span class="o">.</span><span class="n">dtypes</span><span class="p">],</span>
+            <span class="p">[</span><span class="s2">"string"</span><span class="p">,</span> <span class="s2">"float64"</span><span class="p">,</span> <span class="s2">"float64"</span><span class="p">,</span> <span class="s2">"float64"</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_missing_column_is_reported</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">invalid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">"speed_smooth_mps"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaisesRegex</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="s2">"缺少必要欄位"</span><span class="p">):</span>
+            <span class="n">detect_overspeed</span><span class="p">(</span><span class="n">invalid</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_bad_speed_values_are_rejected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">subTest</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">):</span>
+                <span class="n">invalid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s2">"speed_smooth_mps"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">})</span>
+                <span class="n">invalid</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"speed_smooth_mps"</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaisesRegex</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="s2">"speed_smooth_mps"</span><span class="p">):</span>
+                    <span class="n">detect_overspeed</span><span class="p">(</span><span class="n">invalid</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+        <span class="n">invalid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s2">"speed_smooth_mps"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">})</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaisesRegex</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="s2">"speed_smooth_mps"</span><span class="p">):</span>
+            <span class="n">detect_overspeed</span><span class="p">(</span><span class="n">invalid</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_duplicate_sample_is_rejected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">invalid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">0</span><span class="p">]]])</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaisesRegex</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="s2">"重複樣本"</span><span class="p">):</span>
+            <span class="n">detect_overspeed</span><span class="p">(</span><span class="n">invalid</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_parameters_are_rejected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="s2">"10"</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)]:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">subTest</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">):</span>
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaisesRegex</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="s2">"threshold_mps"</span><span class="p">):</span>
+                    <span class="n">detect_overspeed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_id_and_time_are_rejected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"  "</span><span class="p">),</span> <span class="p">(</span><span class="s2">"time_s"</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)]:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">subTest</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">):</span>
+                <span class="n">invalid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">invalid</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaisesRegex</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+                    <span class="n">detect_overspeed</span><span class="p">(</span><span class="n">invalid</span><span class="p">,</span> <span class="n">threshold_mps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Windows PowerShell：</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">unittest</span> <span class="n">discover</span> <span class="n">-s</span> <span class="n">tests</span> <span class="n">-v</span>
+</pre></div>
+</div>
+<p>Linux／macOS：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>完成條件：顯示 <code class="docutils literal notranslate"><span class="pre">Ran</span> <span class="pre">8</span> <span class="pre">tests</span></code> 與 <code class="docutils literal notranslate"><span class="pre">OK</span></code>。</p>
+<p><strong>要接回舊程式時，再補一份真實資料回歸比較。</strong> 使用相同資料、平滑結果、門檻及分析範圍，比較新舊輸出的車輛 ID、代表時間與速度。若改變同速選取、錯誤處理或其他規則，將差異列出並確認，不要把「與舊版相同」當成交通定義必然正確的證據。</p>
+</section>
+<section id="step-7">
+<h2>Step 7：登記功能，讓上百個功能仍找得到<a class="headerlink" href="#step-7" title="連結到這個標頭">#</a></h2>
+<p><strong>本步產出：<code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code> 的第一筆功能紀錄。</strong></p>
+<p>先維護一份簡單索引。詳細 I/O 以函式旁的 docstring 為準，範例與測試提供可執行的證據。新增功能時一併更新，功能變多後可由 docstring 自動產生分類文件。</p>
+<blockquote>
+<div><p><strong>本專案的 <code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code> 已存在</strong>，擴充時是「新增一列」而不是重建檔案。
+下列內容示範最初的樣子；實際的欄位定義、狀態升級條件與契約版規則以
+<a class="reference internal" href="catalog.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code></span></a> 開頭的說明為準。</p>
+</div></blockquote>
+<p>將下列內容存成 <code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code>：</p>
+<!-- file: docs/catalog.md -->
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh"># 交通功能目錄</span>
+
+| 功能 ID | 公開入口 | 用途 | 負責人 | 契約版 | 狀態 |
+| --- | --- | --- | --- | --- | --- |
+| speed.detect_overspeed | traffickit.speed.detect_overspeed | 每車最高平滑速度超過門檻 | 交付前填入姓名 | 1 | 試行 |
+
+<span class="gu">## speed.detect_overspeed</span>
+
+<span class="k">-</span><span class="w"> </span>必要資料：vehicle_id、time_s、speed_smooth_mps。
+<span class="k">-</span><span class="w"> </span>參數：threshold_mps，有限、非負，單位 m/s。
+<span class="k">-</span><span class="w"> </span>輸出粒度：每台符合條件的車一列；同速取最早時間。
+<span class="k">-</span><span class="w"> </span>詳細規格：函式 docstring、README 的 Step 2。
+<span class="k">-</span><span class="w"> </span>原始碼：src/traffickit/speed/_overspeed.py。
+<span class="k">-</span><span class="w"> </span>範例：examples/overspeed_demo.py。
+<span class="k">-</span><span class="w"> </span>測試：tests/test_overspeed.py。
+<span class="k">-</span><span class="w"> </span>前置條件：完成平滑；資料集內 ID 唯一；分析範圍由呼叫端決定。
+<span class="k">-</span><span class="w"> </span>限制：不輸出連續超速段落，不推定道路法定速限。
+
+<span class="gu">## 指標與計算能力對照（後續整合用，尚未實作情境入口）</span>
+
+| 指標 ID | 使用功能 | 情境端提供的參數 |
+| --- | --- | --- |
+| UNSIG_V_3 | speed.detect_overspeed | 路口設定速限，由 km/h 換算成 m/s |
+| UNSIG_V_4 | speed.detect_overspeed | 路口設定速限加 10 km/h，再換算成 m/s |
+
+加 10 km/h 來自既有程式設定，不在此認定為法規要求。
+情境入口仍需負責指標適用性、方向範圍與統計方式。
+</pre></div>
+</div>
+<p>「功能」與「指標」分開登記：V3、V4 可以共用一個算法，只使用不同參數。負責人、契約版與狀態用來協作；套件版本仍以 <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> 為準。改變輸入、輸出或計算語意時，更新契約紀錄、範例與測試。</p>
+<p>三個欄位的填法：</p>
+<ul class="simple">
+<li><p><strong>負責人</strong>：填實際能回答交通定義問題的人，不填「待補」。新增功能時由提出需求的人指定。</p></li>
+<li><p><strong>契約版</strong>：從 1 開始。改變輸入欄位、輸出欄位、判定規則或統計口徑時 +1，並在 catalog 記錄差異。
+只改內部實作、效能或錯誤訊息措辭時不動。</p></li>
+<li><p><strong>狀態</strong>：草擬／試行／正式／淘汰四階段，升級條件見 <a class="reference internal" href="catalog.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code></span></a> 的「狀態定義」。</p></li>
+</ul>
+<p>除了 catalog 的一列，每個功能還要有一份工作單 <code class="docutils literal notranslate"><span class="pre">docs/worksheets/&lt;功能</span> <span class="pre">ID&gt;.md</span></code>，
+內容就是本教學最後「每個新功能都要填的一張工作單」那份格式，加上驗證紀錄。</p>
+<p>完成條件：沒參與開發的人，能從目錄找到功能入口、I/O、負責人與可執行範例。</p>
+</section>
+<section id="step-8">
+<h2>Step 8：打包交付，驗證安裝後能用<a class="headerlink" href="#step-8" title="連結到這個標頭">#</a></h2>
+<p><strong>本步產出：wheel 安裝檔，以及一份可重現的交付紀錄。</strong></p>
+<p>正式交付使用安裝檔；開發環境中的 <code class="docutils literal notranslate"><span class="pre">-e</span></code> 安裝用於開發迭代。以下只建立本機安裝檔，不涉及發布到公開套件平台。</p>
+<p>Windows PowerShell：</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">wheel</span> <span class="p">-</span><span class="n">-no-deps</span> <span class="p">.</span> <span class="p">-</span><span class="n">-wheel-dir</span> <span class="n">dist</span>
+</pre></div>
+</div>
+<p>Linux／macOS：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>wheel<span class="w"> </span>--no-deps<span class="w"> </span>.<span class="w"> </span>--wheel-dir<span class="w"> </span>dist
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--no-deps</span></code> 表示本次只建置此專案的 wheel；pandas 等執行相依套件仍需在安裝環境中取得。此純 Python 範例的安裝檔預期為：</p>
+<p><code class="docutils literal notranslate"><span class="pre">dist/traffickit-0.1.0-py3-none-any.whl</span></code></p>
+<p>接著建立另一個驗收環境，從 wheel 安裝，再執行相同範例及測試，以發現「只有原始碼目錄裡才跑得動」的問題。</p>
+<p>Windows PowerShell：</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="p">.</span><span class="n">venv-check</span>
+<span class="p">.\.</span><span class="n">venv-check</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">dist</span><span class="p">/</span><span class="n">traffickit</span><span class="p">-</span><span class="n">0</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0-py3-none-any</span><span class="p">.</span><span class="n">whl</span>
+<span class="p">.\.</span><span class="n">venv-check</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">examples</span><span class="p">/</span><span class="n">overspeed_demo</span><span class="p">.</span><span class="n">py</span>
+<span class="p">.\.</span><span class="n">venv-check</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">unittest</span> <span class="n">discover</span> <span class="n">-s</span> <span class="n">tests</span> <span class="n">-v</span>
+<span class="p">.\.</span><span class="n">venv-check</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">freeze</span> <span class="p">&gt;</span> <span class="n">requirements-validated</span><span class="p">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Linux／macOS：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv-check
+./.venv-check/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>dist/traffickit-0.1.0-py3-none-any.whl
+./.venv-check/bin/python<span class="w"> </span>examples/overspeed_demo.py
+./.venv-check/bin/python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-v
+./.venv-check/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements-validated.txt
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">requirements-validated.txt</span></code> 用來記錄這次實際安裝的套件版本。從本機 wheel 安裝的套件可能記成含本機路徑的參照，所以這份紀錄不是可直接搬到所有主機的部署鎖檔。整合工程師應搭配該 wheel、部署平台與可取得的相依套件，整理可重建的安裝來源。離線主機也需要對應作業系統與 Python 版本的相依套件安裝檔。</p>
+<p>交付紀錄至少包含：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>項目</p></th>
+<th class="head"><p>要填寫的內容</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>版本</p></td>
+<td><p>套件版本、Git commit 或標籤</p></td>
+</tr>
+<tr class="row-odd"><td><p>驗證環境</p></td>
+<td><p>OS、Python、pandas 等實際版本</p></td>
+</tr>
+<tr class="row-even"><td><p>驗證結果</p></td>
+<td><p>8 個教學測試是否通過、真實資料比較結果</p></td>
+</tr>
+<tr class="row-odd"><td><p>效能</p></td>
+<td><p>真實資料列數、車輛數、執行時間及測試主機</p></td>
+</tr>
+<tr class="row-even"><td><p>行為變更</p></td>
+<td><p>與上一版相比，哪些輸入或結果可能不同</p></td>
+</tr>
+<tr class="row-odd"><td><p>限制</p></td>
+<td><p>本次僅支援批次資料、尚未驗證的平台或資料情況</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>效能只需先記錄一份具代表性的資料，作為後端估算任務時間的依據。教學用三台車不能代表實際路口的大量資料效能。</p>
+<p>完成條件：驗收環境從 wheel 安裝後，範例與測試均成功；另一位工程師能依紀錄重現使用方式。</p>
+</section>
+<section id="id9">
+<h2>第一個功能完成後，下一個功能怎麼加？<a class="headerlink" href="#id9" title="連結到這個標頭">#</a></h2>
+<p>每次只新增一項能力，重複 Step 1、2、4、5、6、7、8。套件骨架已存在，不必為每個功能重建。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>新需求</p></th>
+<th class="head"><p>程式放在哪裡</p></th>
+<th class="head"><p>需要先決定的事</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>速度平滑</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">traffickit.speed</span></code> 的新函式</p></td>
+<td><p>窗口代表樣本數或秒數、邊界、缺值、取樣間隔</p></td>
+</tr>
+<tr class="row-odd"><td><p>車速分布</p></td>
+<td><p>~~新函式~~ <strong>已完成</strong>：<code class="docutils literal notranslate"><span class="pre">traffickit.speed.summarise_speed_distribution</span></code></p></td>
+<td><p>每車或每樣本權重、分箱邊界、分母、時間與車種篩選</p></td>
+</tr>
+<tr class="row-even"><td><p>轉向流量</p></td>
+<td><p>~~新函式~~ <strong>已完成</strong>：<code class="docutils literal notranslate"><span class="pre">traffickit.volume.summarise_turn_volume</span></code></p></td>
+<td><p>轉向類別由誰判定、合法轉向清單、PCU 權重來源、未分組車種</p></td>
+</tr>
+<tr class="row-odd"><td><p>連續超速段落</p></td>
+<td><p>另一個公開函式</p></td>
+<td><p>起訖時間、可容忍中斷、同車多段如何編號</p></td>
+</tr>
+<tr class="row-even"><td><p>非號誌整體分析</p></td>
+<td><p>未來的 <code class="docutils literal notranslate"><span class="pre">traffickit.scenarios</span></code></p></td>
+<td><p>適用指標、前置運算、判定組合、彙整口徑</p></td>
+</tr>
+<tr class="row-odd"><td><p>CSV 輸出、網頁表格</p></td>
+<td><p>應用端</p></td>
+<td><p>欄位順序、顯示單位、下載與存放位置</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>本例第一版回傳 DataFrame 就足夠；不必先讓所有未來函式都回傳同一種大型物件。共同的是清楚的契約與資料語意，而不是強迫所有功能擁有一模一樣的參數。</p>
+<section id="id10">
+<h3>篩選與圖表的分工<a class="headerlink" href="#id10" title="連結到這個標頭">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>使用者操作</p></th>
+<th class="head"><p>交通功能工程師定義</p></th>
+<th class="head"><p>應用端處理</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>看某個時段的每車最高速度</p></td>
+<td><p>先切時段再取最大值，時間區間端點如何包含</p></td>
+<td><p>提供起訖時間並呼叫功能</p></td>
+</tr>
+<tr class="row-odd"><td><p>只看已產生事件中的某個時段</p></td>
+<td><p>事件代表時間的意義</p></td>
+<td><p>篩選結果表並重新呈現</p></td>
+</tr>
+<tr class="row-even"><td><p>看機車與汽車的速度分布</p></td>
+<td><p>每車或每樣本、分箱、分母</p></td>
+<td><p>車種選單、圖表與互動</p></td>
+</tr>
+<tr class="row-odd"><td><p>看涉及機車的衝突</p></td>
+<td><p>主體／關聯車角色及篩選規則</p></td>
+<td><p>將篩選要求傳入或套用到結果</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>先取全時段最高速度再篩選代表時間，與先切時段再計算最高速度，答案可能不同。互動設計前先確認使用者要哪一種。</p>
+<p>衝突分析還需要保留關聯車：不能為了只看機車事件，就在計算前刪除所有汽車軌跡。平滑或衝突時間窗需要的前後資料，也應由交通功能規格說明保留方式。</p>
+</section>
+<section id="id11">
+<h3>很多指標與事件的情境如何沿用？<a class="headerlink" href="#id11" title="連結到這個標頭">#</a></h3>
+<p>當要整合非號誌、機會左轉或人車衝突，再增加「情境入口」來組合已驗證的功能。情境入口及它的交通依賴關係，仍由交通功能工程師維護。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>層次</p></th>
+<th class="head"><p>例子</p></th>
+<th class="head"><p>責任</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>計算功能</p></td>
+<td><p>超速、穿越時間、間隙</p></td>
+<td><p>可獨立驗證的計算與資料結果</p></td>
+</tr>
+<tr class="row-odd"><td><p>指標規格</p></td>
+<td><p>V3、V4</p></td>
+<td><p>門檻、適用條件、依賴、統計口徑</p></td>
+</tr>
+<tr class="row-even"><td><p>情境入口</p></td>
+<td><p>非號誌分析</p></td>
+<td><p>安排前置處理與功能呼叫，整理情境結果</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>例如既有左轉程式的 C3 依賴 R5 找出的減速車輛。未來可以共享明確的減速車輛結果；只要求輸出 C3 時，仍要執行必要的前置判定。依賴關係放在情境程式與規格中，第一版用明確的 Python 呼叫即可。</p>
+<p>情境結果擴大時，再視需要分成事件、連續量測、摘要與指標狀態。須區分「成功計算且零事件」「不適用」「缺資料」「執行失敗」。也要保留未發生事件的分析對象或其總數，否則不能只靠事件表重建分母。</p>
+</section>
+<section id="api">
+<h3>網頁、API、桌面程式怎麼使用？<a class="headerlink" href="#api" title="連結到這個標頭">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>使用方式</p></th>
+<th class="head"><p>整合流程</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>網頁</p></td>
+<td><p>後端讀取與轉換資料 → 呼叫套件 → 將結果轉成 JSON → 前端呈現</p></td>
+</tr>
+<tr class="row-odd"><td><p>對外 API</p></td>
+<td><p>API 層驗證請求與權限 → 呼叫套件 → 回傳結果或任務識別碼</p></td>
+</tr>
+<tr class="row-even"><td><p>Python 桌面程式</p></td>
+<td><p>安裝套件 → 背景執行計算 → 將結果交給 GUI 顯示</p></td>
+</tr>
+<tr class="row-odd"><td><p>客戶主機的批次程式</p></td>
+<td><p>安裝固定版本 → 讀入檔案 → 呼叫套件 → 儲存結果</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>這裡的公開函式介面是 Python API；對外 HTTP API 由後端另外包裝。非 Python 桌面程式可透過 HTTP 或另外的整合方式使用，不能直接把 Python 套件當成原生函式庫匯入。資料量大時由應用端安排背景工作，避免阻塞網頁請求或 GUI。</p>
+</section>
+</section>
+<section id="id12">
+<h2>每個新功能都要填的一張工作單<a class="headerlink" href="#id12" title="連結到這個標頭">#</a></h2>
+<p>可直接複製以下格式：</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="k">-</span><span class="w"> </span>功能 ID：
+<span class="k">-</span><span class="w"> </span>一句目的：
+<span class="k">-</span><span class="w"> </span>主要負責人：
+<span class="k">-</span><span class="w"> </span>公開函式入口：
+<span class="k">-</span><span class="w"> </span>必要輸入：欄位、型別、單位、時間／座標基準。
+<span class="k">-</span><span class="w"> </span>參數：意義、單位、範圍、預設值。
+<span class="k">-</span><span class="w"> </span>輸出：一列／一筆代表什麼、欄位、型別、排序。
+<span class="k">-</span><span class="w"> </span>判定規則：比較方式、邊界與同值處理。
+<span class="k">-</span><span class="w"> </span>前置條件：平滑、校正、其他功能或情境資料。
+<span class="k">-</span><span class="w"> </span>品質政策：缺值、重複、異常、空資料如何處理。
+<span class="k">-</span><span class="w"> </span>統計口徑：計數對象、分母、時間範圍；不適用請註明。
+<span class="k">-</span><span class="w"> </span>手算範例：至少一個成立、一個不成立、一個邊界案例。
+<span class="k">-</span><span class="w"> </span>原始碼／範例／測試位置：
+<span class="k">-</span><span class="w"> </span>驗證環境與版本：
+<span class="k">-</span><span class="w"> </span>舊程式差異與已知限制：
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h2>交付前確認<a class="headerlink" href="#id13" title="連結到這個標頭">#</a></h2>
+<ul class="simple">
+<li><p>[ ] 公開入口、必要欄位、單位與輸出粒度已寫清楚。</p></li>
+<li><p>[ ] 函式不修改輸入，不依賴 UI、HTTP、客戶路徑或檔案寫入。</p></li>
+<li><p>[ ] 手算案例、門檻邊界、空結果與主要資料錯誤已驗證。</p></li>
+<li><p>[ ] 其他工程師可直接執行範例，功能目錄已有負責人。</p></li>
+<li><p>[ ] 從 wheel 安裝後可呼叫；版本與實際驗證環境有紀錄。</p></li>
+<li><p>[ ] 若替換既有算法，已比較同一份真實資料並說明差異。</p></li>
+</ul>
+<p><strong>每一次交辦都到這裡為止：完成該功能的八個步驟。這份交付通過後，再用同一格式新增下一個交通功能。</strong></p>
+</section>
+<section id="id14">
+<h2>附錄：本教學範例程式的驗證紀錄<a class="headerlink" href="#id14" title="連結到這個標頭">#</a></h2>
+<p>以下是<strong>教學範例 <code class="docutils literal notranslate"><span class="pre">detect_overspeed</span></code></strong> 的驗證紀錄，不是 TrafficKit 本身的交付紀錄。
+各功能實際的驗證紀錄寫在自己的工作單，例如
+<a class="reference internal" href="worksheets/speed.speed_distribution.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">docs/worksheets/speed.speed_distribution.md</span></code></span></a>。</p>
+<p>本文件內標記檔名的程式區塊已抽出成暫存專案，於 2026-09-09 完成以下驗證：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>項目</p></th>
+<th class="head"><p>結果</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>執行環境</p></td>
+<td><p>Linux、Python 3.12.14、pandas 2.2.3、setuptools 84.0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>可編輯安裝與範例</p></td>
+<td><p>成功；回傳 C、B 兩台車，時間及速度與手算一致</p></td>
+</tr>
+<tr class="row-even"><td><p>規格測試</p></td>
+<td><p>8 個測試全部通過</p></td>
+</tr>
+<tr class="row-odd"><td><p>wheel 建置</p></td>
+<td><p>成功產生 <code class="docutils literal notranslate"><span class="pre">traffickit-0.1.0-py3-none-any.whl</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>另一個虛擬環境安裝 wheel</p></td>
+<td><p>成功；確認匯入已安裝版本，再次通過範例與 8 個測試</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>這次驗證重用環境既有的相依套件，以離線方式安裝及建置；沒有驗證從網路下載所有依賴的流程。Windows 指令、其他 Python／pandas 版本、實際大量資料效能與四個既有情境程式的完整整合，仍需在團隊環境驗收。本範例沒有更動原有程式。</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="worksheets/formats.motc_su.html"
+       title="上一页">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一頁</p>
+        <p class="prev-next-title">工作單：formats.motc_su</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="feature-request-template.html"
+       title="下一页">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一頁</p>
+        <p class="prev-next-title">擴充功能需求單模板</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 当前页面
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">交通分析功能模組開發教學</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">要新增一個功能時，實際流程是什麼</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#detect-overspeed">教學正文：以 detect_overspeed 為例</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">開始前：你負責什麼？</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">Step 1：先圈定一件能驗證的交通工作</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-i-o">Step 2：先定義 I/O 與預期答案</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">輸入資料</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">輸入參數</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">判定與輸出</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">邊界情況</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">手算答案</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-python">Step 3：建立一個最小 Python 套件</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4">Step 4：實作函式，公開介面只留一個入口</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5">Step 5：寫一個其他工程師可以直接跑的範例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6">Step 6：將手算答案變成可重複執行的測試</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7">Step 7：登記功能，讓上百個功能仍找得到</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8">Step 8：打包交付，驗證安裝後能用</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">第一個功能完成後，下一個功能怎麼加？</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">篩選與圖表的分工</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">很多指標與事件的情境如何沿用？</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#api">網頁、API、桌面程式怎麼使用？</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">每個新功能都要填的一張工作單</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">交付前確認</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">附錄：本教學範例程式的驗證紀錄</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/feature-development-guide.md.txt">
+      <i class="fa-solid fa-file-lines"></i> 顯示原始碼
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, TrafficKit 開發團隊.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    使用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4 建立。
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  使用 <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0构建.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
