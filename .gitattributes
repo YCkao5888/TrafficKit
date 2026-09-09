@@ -1,0 +1,4 @@
+# workflow 的 run: 區塊是 bash 腳本，CRLF 會讓 heredoc 在 Linux runner 上壞掉。
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf

@@ -1,0 +1,94 @@
+name: docs
+
+# master 的每次 push 更新 /latest/；推 v* tag 時另外產生一份不再變動的版本快照。
+on:
+  push:
+    branches: [master]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: docs
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安裝套件與文件工具
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[docs]"
+
+      - name: 決定要發佈到哪個目錄
+        id: target
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=latest" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 建置文件
+        env:
+          DOCS_VERSION: ${{ steps.target.outputs.version }}
+        # -W 把警告當錯誤：docstring 語法壞掉、toctree 漏頁、交叉參照失效
+        # 都會讓建置失敗，而不是產生一份悄悄缺頁的網站。
+        run: python -m sphinx -b html -W --keep-going docs docs/_build/html
+
+      - name: 部署到 gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET: ${{ steps.target.outputs.version }}
+        run: |
+          set -euo pipefail
+          REPO="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          # 在另一個目錄操作 gh-pages，避免動到本次 checkout 的工作區。
+          rm -rf site
+          if git clone --depth 1 --branch gh-pages "$REPO" site 2>/dev/null; then
+            echo "沿用既有的 gh-pages 分支"
+          else
+            echo "gh-pages 還不存在，建立一個空分支"
+            git clone --depth 1 "$REPO" site
+            (cd site && git checkout --orphan gh-pages && git rm -rf . >/dev/null)
+          fi
+
+          # 只覆蓋這一版的目錄，其他版本原封不動。
+          rm -rf "site/${TARGET}"
+          mkdir -p "site/${TARGET}"
+          cp -r docs/_build/html/. "site/${TARGET}/"
+
+          # switcher.json 放站台根目錄，所有版本共用同一份。
+          cp docs/switcher.json site/switcher.json
+
+          # Sphinx 的 _static 等目錄開頭是底線，沒有這個檔 Jekyll 會忽略它們。
+          touch site/.nojekyll
+
+          cat > site/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=./latest/">
+          <title>TrafficKit</title>
+          <p><a href="./latest/">TrafficKit 文件</a></p>
+          HTML
+
+          cd site
+          git add -A
+          if git diff --cached --quiet; then
+            echo "文件沒有變化，不需要部署"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "docs: ${TARGET} @ ${GITHUB_SHA::7}"
+          git push origin gh-pages
