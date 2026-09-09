@@ -13,8 +13,11 @@ traffickit.formats
    :toctree: generated/
    :nosignatures:
 
-   read_motc_su_passages
+   read_motc_su_vehicles
    read_motc_su_tracks
+
+前者一列一台車（進出閘門、車種、進出 frame），後者一列一台車一個 frame
+（四角點與中心點）。兩者讀同一份檔，差別只在粒度。
 
 常數
 ----

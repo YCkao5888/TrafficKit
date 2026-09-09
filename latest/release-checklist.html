@@ -473,26 +473,25 @@
 <h1>發行與文件更新檢查表<a class="headerlink" href="#id1" title="連結到這個標頭">#</a></h1>
 <section id="id2">
 <h2>每次新增或修改功能都要做（不必發行）<a class="headerlink" href="#id2" title="連結到這個標頭">#</a></h2>
-<ol class="arabic">
-<li><p>更新 docstring——<strong>API reference 完全由 docstring 產生</strong>，改了程式沒改
-docstring，網站就會是錯的。</p></li>
-<li><p>新功能要在 <code class="docutils literal notranslate"><span class="pre">docs/api/&lt;子套件&gt;.rst</span></code> 的 <code class="docutils literal notranslate"><span class="pre">autosummary</span></code> 加上名稱，
-否則不會出現在網站上。新增子套件時另外建一頁並加進 <code class="docutils literal notranslate"><span class="pre">docs/api/index.rst</span></code>
-的 <code class="docutils literal notranslate"><span class="pre">toctree</span></code>。</p></li>
-<li><p>在 <code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code> 新增或修改該功能那一列。</p></li>
-<li><p>新增或更新 <code class="docutils literal notranslate"><span class="pre">docs/worksheets/&lt;功能</span> <span class="pre">ID&gt;.md</span></code>，並加進
-<code class="docutils literal notranslate"><span class="pre">docs/worksheets/index.md</span></code> 的 <code class="docutils literal notranslate"><span class="pre">toctree</span></code>。</p></li>
-<li><p>契約有變（輸入、輸出、判定規則、統計口徑）→ 契約版 +1，
-並在 <code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code> 的「契約變更紀錄」列出差異。</p></li>
-<li><p>本機建置一次，確認沒有新的警告：</p>
+<p>完整清單在 repo 根目錄的
+<a class="reference external" href="https://github.com/YCkao5888/TrafficKit/blob/master/CLAUDE.md"><code class="docutils literal notranslate"><span class="pre">CLAUDE.md</span></code></a>
+——「依下列清單交付」的九項表格，以及「改了什麼 → 要更新哪些檔案」對照表。
+<strong>那裡是唯一來源</strong>，本檔不重抄，只提醒與文件網站直接相關的三件事：</p>
+<ol class="arabic simple">
+<li><p><strong>改程式一定要改 docstring。</strong> API reference 完全由 docstring 產生，
+程式改了 docstring 沒改，網站上就是錯的。</p></li>
+<li><p><strong>新名稱要登記進 <code class="docutils literal notranslate"><span class="pre">autosummary</span></code>。</strong> 寫好 docstring 不等於會出現在網站上；
+沒加進 <code class="docutils literal notranslate"><span class="pre">docs/api/&lt;子套件&gt;.rst</span></code> 的清單就不會被產生。</p></li>
+<li><p><strong>契約有變就升契約版</strong>（輸入、輸出、判定規則、統計口徑），
+並在 <code class="docutils literal notranslate"><span class="pre">docs/catalog.md</span></code> 的「契約變更紀錄」列出差異與對呼叫端的影響。</p></li>
+</ol>
+<p>然後本機建置一次，確認沒有新的警告：</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="s2">".[docs]"</span>
 <span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">sphinx</span> <span class="n">-b</span> <span class="n">html</span> <span class="n">-W</span> <span class="p">-</span><span class="n">-keep-going</span> <span class="n">-d</span> <span class="n">docs</span><span class="p">\</span><span class="n">_build</span><span class="p">\</span><span class="n">doctrees</span> <span class="n">docs</span> <span class="n">docs</span><span class="p">\</span><span class="n">_build</span><span class="p">\</span><span class="n">html</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">-W</span></code> 會把警告當成錯誤。名稱拼錯、<code class="docutils literal notranslate"><span class="pre">toctree</span></code> 漏掉頁面、交叉參照失效都會在
 這一步被抓出來。</p>
-</li>
-</ol>
 <p>推上 <code class="docutils literal notranslate"><span class="pre">master</span></code> 後，GitHub Actions 會把網站更新到
 <a class="reference external" href="https://yckao5888.github.io/TrafficKit/latest/">https://yckao5888.github.io/TrafficKit/latest/</a>。</p>
 </section>

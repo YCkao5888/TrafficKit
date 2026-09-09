@@ -1,6 +1,0 @@
-﻿traffickit.formats.read\_motc\_su\_passages
-===========================================
-
-.. currentmodule:: traffickit.formats
-
-.. autofunction:: read_motc_su_passages

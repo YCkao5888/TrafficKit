@@ -54,7 +54,7 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜尋" href="../search.html" />
-    <link rel="next" title="traffickit.formats.read_motc_su_passages" href="generated/traffickit.formats.read_motc_su_passages.html" />
+    <link rel="next" title="traffickit.formats.read_motc_su_vehicles" href="generated/traffickit.formats.read_motc_su_vehicles.html" />
     <link rel="prev" title="traffickit.volume.TurnVolumeSummary" href="generated/traffickit.volume.TurnVolumeSummary.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-TW"/>
@@ -430,7 +430,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">traffickit.formats</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="generated/traffickit.formats.read_motc_su_passages.html">traffickit.formats.read_motc_su_passages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/traffickit.formats.read_motc_su_vehicles.html">traffickit.formats.read_motc_su_vehicles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/traffickit.formats.read_motc_su_tracks.html">traffickit.formats.read_motc_su_tracks</a></li>
 </ul>
 </details></li>
@@ -502,7 +502,7 @@
 <h2>函式<a class="headerlink" href="#id1" title="連結到這個標頭">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_su_passages.html#traffickit.formats.read_motc_su_passages" title="traffickit.formats.read_motc_su_passages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_motc_su_passages</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_su_vehicles.html#traffickit.formats.read_motc_su_vehicles" title="traffickit.formats.read_motc_su_vehicles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_motc_su_vehicles</span></code></a></p></td>
 <td><p>讀取 MOTC_SU 軌跡檔，回傳一列一台車的通過紀錄。</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_su_tracks.html#traffickit.formats.read_motc_su_tracks" title="traffickit.formats.read_motc_su_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code></a></p></td>
@@ -511,6 +511,8 @@
 </tbody>
 </table>
 </div>
+<p>前者一列一台車（進出閘門、車種、進出 frame），後者一列一台車一個 frame
+（四角點與中心點）。兩者讀同一份檔，差別只在粒度。</p>
 </section>
 <section id="id2">
 <h2>常數<a class="headerlink" href="#id2" title="連結到這個標頭">#</a></h2>
@@ -569,11 +571,11 @@ errors defaults to 'strict'.</p>
       </div>
     </a>
     <a class="right-next"
-       href="generated/traffickit.formats.read_motc_su_passages.html"
+       href="generated/traffickit.formats.read_motc_su_vehicles.html"
        title="下一页">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一頁</p>
-        <p class="prev-next-title">traffickit.formats.read_motc_su_passages</p>
+        <p class="prev-next-title">traffickit.formats.read_motc_su_vehicles</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

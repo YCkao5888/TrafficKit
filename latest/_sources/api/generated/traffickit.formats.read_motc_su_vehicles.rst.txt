@@ -1,0 +1,6 @@
+﻿traffickit.formats.read\_motc\_su\_vehicles
+===========================================
+
+.. currentmodule:: traffickit.formats
+
+.. autofunction:: read_motc_su_vehicles

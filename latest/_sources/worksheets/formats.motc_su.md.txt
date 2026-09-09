@@ -6,7 +6,7 @@
 - **功能 ID**：formats.motc_su
 - **一句目的**：把 MOTC_SU 空拍影像軌跡 CSV 讀成套件契約的表格。
 - **主要負責人**：yckao
-- **公開函式入口**：`traffickit.formats.read_motc_su_passages`、
+- **公開函式入口**：`traffickit.formats.read_motc_su_vehicles`、
   `traffickit.formats.read_motc_su_tracks`
 - **契約版**：1
 - **狀態**：試行
@@ -59,7 +59,7 @@ CSV，**無標題列，每列長度不一**。一列一台車：
 
 ## 輸出
 
-### `read_motc_su_passages` → DataFrame（一列一台車）
+### `read_motc_su_vehicles` → DataFrame（一列一台車）
 
 依 `entry_frame`、`vehicle_id` 排序。
 
@@ -100,7 +100,7 @@ CSV，**無標題列，每列長度不一**。一列一台車：
 | 路口代號不符 `[A-Z]+I` / `[A-Z]+O` 也不是 `X` | 拋 `ValueError`，含行號 |
 | 車種代號不在格式定義的八個之內 | 拋 `ValueError`，含行號 |
 | 軌跡值數量與 frame 數不符 | 拋 `ValueError`，含行號與兩個數字 |
-| 軌跡座標含非數值 | `read_motc_su_tracks` 拋 `ValueError`（passages 不解析座標） |
+| 軌跡座標含非數值 | `read_motc_su_tracks` 拋 `ValueError`（vehicles 不解析座標） |
 | 車輛 ID 重複 | 拋 `ValueError`，列出前 5 個 |
 | **不完整軌跡（`X`）** | **照樣讀入並標記 `is_complete=False`，不默默丟掉** |
 | 空檔案 | 回傳固定欄位與型別的空表 |
@@ -112,13 +112,13 @@ CSV，**無標題列，每列長度不一**。一列一台車：
 
 ## 統計口徑
 
-本功能不做統計。`read_motc_su_passages` 的列數 = 檔案中的車輛數（含不完整）。
+本功能不做統計。`read_motc_su_vehicles` 的列數 = 檔案中的車輛數（含不完整）。
 
 ## 手算範例
 
 三列的示範檔（見 `tests/test_motc_su.py` 的 `SAMPLE`）：
 
-| 列 | 內容 | 預期 passages |
+| 列 | 內容 | 預期 vehicles |
 | --- | --- | --- |
 | 1 | `1,0,1,BI,AO,c,` + 兩個 frame 的八個座標 | B→A、汽車、frame 0–1、frame_count 2、0 至 1/9.99 ≈ 0.1001 秒、完整 |
 | 2 | `2,2,2,AI,CO,m,` + 一個 frame | A→C、機車、frame 2、frame_count 1、2/9.99 ≈ 0.2002 秒、完整 |
@@ -148,9 +148,9 @@ CSV，**無標題列，每列長度不一**。一列一台車：
 | 真實檔案 | `(YOLOv4_2504.1)桃園市八德區廣福路_福國北街_福國街_1A架次_CSV_SU.csv`，27.8 MB |
 | 讀取結果 | 2,179 台車；不完整（X）179 台；進出代號 A–D；車種 b/c/m/t；frame 2–12678（約 21.2 分鐘 @9.99fps） |
 | 不變式檢查 | 2,179 列全部符合「軌跡值數 = 8 × frame 數」 |
-| 規格測試 | 本功能 28 個；全專案 75 個全部通過 |
-| wheel 建置與乾淨環境安裝 | 成功；範例與 75 個測試再次通過 |
-| 效能 | `read_motc_su_passages` 2,179 列約 0.08 秒；`read_motc_su_tracks` 822,185 列約 1.5 秒、約 130 MB 記憶體 |
+| 規格測試 | 本功能 28 個全部通過（當時全專案 75 個） |
+| wheel 建置與乾淨環境安裝 | 成功；範例與當時的 75 個測試再次通過 |
+| 效能 | `read_motc_su_vehicles` 2,179 列約 0.08 秒；`read_motc_su_tracks` 822,185 列約 1.5 秒、約 130 MB 記憶體 |
 
 ## 舊程式差異與已知限制
 

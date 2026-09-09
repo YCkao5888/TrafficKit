@@ -15,7 +15,7 @@
 
 ## 必要輸入
 
-### `passages`：一列一台車的通過紀錄
+### `vehicles`：一列一台車的通過紀錄
 
 | 欄位 | 型別 | 規則 |
 | --- | --- | --- |
@@ -28,7 +28,7 @@
 
 - 允許未排序、允許其他欄位；列索引可以重複，函式不依賴它。
 - 同一台車若在資料範圍內通過兩次，呼叫端須給不同的 `vehicle_id`
-  （或先切成兩份資料）。本版沒有 `passage_id` 的概念。
+  （或先切成兩份資料）。本版沒有「同一台車多次通過」的概念。
 - **軌跡 → 進出閘門的判定不在本功能內。** ROI 幾何、跨線方向、
   重複進出的處理是另一組定義，應由另一個功能負責。
 
@@ -109,18 +109,18 @@
 | 情況 | 本功能行為 |
 | --- | --- |
 | 缺必要欄位、重複欄名、空白字串、重複 `vehicle_id`、重複 `(entry, exit)` | 拋 `ValueError`，訊息指出欄位名稱 |
-| `passages` 或 `movements` 不是 DataFrame | 拋 `TypeError` |
+| `vehicles` 或 `movements` 不是 DataFrame | 拋 `TypeError` |
 | `turn` 不在四個合法值內、`is_allowed` 不是布林 | 拋 `ValueError` |
 | 資料出現未定義的 `(entry, exit)` | 拋 `ValueError`，列出前 5 組 |
 | 車種未被任何分組涵蓋 | **不計入統計**，記入 `unassigned_vehicle_count` 與 `unassigned_classes` |
 | `is_allowed=False` 卻有車 | 照實計數並標記，記入 `disallowed_vehicle_count`（可視為違規轉向） |
 | 合法但沒有車的轉向 | 保留為 0，不從表中消失 |
-| `passages` 沒有資料列 | 回傳完整格子、全部為 0；`movements` 為空則拋錯 |
+| `vehicles` 沒有資料列 | 回傳完整格子、全部為 0；`movements` 為空則拋錯 |
 | 函式執行完成 | 不修改原始輸入、不讀寫檔案 |
 
 ## 統計口徑
 
-- 計數對象：**車次**。一列 `passages` 計一次。
+- 計數對象：**車次**。一列 `vehicles` 計一次。
 - `movements` 表的分母：`movements × vehicle_groups` 的完整格子。
 - `summary.total_pcu` 的分母：納入統計（已分組）的車輛。
 - 百分比不在本功能內。舊版報表用「該進入方向的自身總計」當分母，
@@ -182,7 +182,7 @@ N→NE 的 1 台合成一列 → 小型車 1 台、PCU 1.08。
 | Python | 3.10.5 |
 | 相依套件 | pandas 2.3.3、numpy 2.2.6 |
 | 可編輯安裝與範例 | 成功；8 台車的兩張表與 summary 和手算一致 |
-| 規格測試 | 本功能 23 個；全專案 47 個全部通過 |
+| 規格測試 | 本功能 23 個全部通過（當時全專案 47 個） |
 | wheel 建置 | 成功產生 `dist/traffickit-0.1.0-py3-none-any.whl` |
 | 另一個虛擬環境安裝 wheel | 成功（`.venv-check`）；再次通過範例與 47 個測試 |
 | 效能 | 200,000 列通過紀錄／25 個轉向／3 個分組，約 0.38 秒（單次量測） |

@@ -495,8 +495,8 @@
 </ul>
 <section id="id1">
 <h2>必要輸入<a class="headerlink" href="#id1" title="連結到這個標頭">#</a></h2>
-<section id="passages">
-<h3><code class="docutils literal notranslate"><span class="pre">passages</span></code>：一列一台車的通過紀錄<a class="headerlink" href="#passages" title="連結到這個標頭">#</a></h3>
+<section id="vehicles">
+<h3><code class="docutils literal notranslate"><span class="pre">vehicles</span></code>：一列一台車的通過紀錄<a class="headerlink" href="#vehicles" title="連結到這個標頭">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>欄位</p></th>
@@ -528,7 +528,7 @@
 <ul class="simple">
 <li><p>允許未排序、允許其他欄位；列索引可以重複，函式不依賴它。</p></li>
 <li><p>同一台車若在資料範圍內通過兩次，呼叫端須給不同的 <code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>
-（或先切成兩份資料）。本版沒有 <code class="docutils literal notranslate"><span class="pre">passage_id</span></code> 的概念。</p></li>
+（或先切成兩份資料）。本版沒有「同一台車多次通過」的概念。</p></li>
 <li><p><strong>軌跡 → 進出閘門的判定不在本功能內。</strong> ROI 幾何、跨線方向、
 重複進出的處理是另一組定義，應由另一個功能負責。</p></li>
 </ul>
@@ -703,7 +703,7 @@
 <tr class="row-even"><td><p>缺必要欄位、重複欄名、空白字串、重複 <code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>、重複 <code class="docutils literal notranslate"><span class="pre">(entry,</span> <span class="pre">exit)</span></code></p></td>
 <td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，訊息指出欄位名稱</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">passages</span></code> 或 <code class="docutils literal notranslate"><span class="pre">movements</span></code> 不是 DataFrame</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vehicles</span></code> 或 <code class="docutils literal notranslate"><span class="pre">movements</span></code> 不是 DataFrame</p></td>
 <td><p>拋 <code class="docutils literal notranslate"><span class="pre">TypeError</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">turn</span></code> 不在四個合法值內、<code class="docutils literal notranslate"><span class="pre">is_allowed</span></code> 不是布林</p></td>
@@ -721,7 +721,7 @@
 <tr class="row-even"><td><p>合法但沒有車的轉向</p></td>
 <td><p>保留為 0，不從表中消失</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">passages</span></code> 沒有資料列</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vehicles</span></code> 沒有資料列</p></td>
 <td><p>回傳完整格子、全部為 0；<code class="docutils literal notranslate"><span class="pre">movements</span></code> 為空則拋錯</p></td>
 </tr>
 <tr class="row-even"><td><p>函式執行完成</p></td>
@@ -734,7 +734,7 @@
 <section id="id7">
 <h2>統計口徑<a class="headerlink" href="#id7" title="連結到這個標頭">#</a></h2>
 <ul class="simple">
-<li><p>計數對象：<strong>車次</strong>。一列 <code class="docutils literal notranslate"><span class="pre">passages</span></code> 計一次。</p></li>
+<li><p>計數對象：<strong>車次</strong>。一列 <code class="docutils literal notranslate"><span class="pre">vehicles</span></code> 計一次。</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">movements</span></code> 表的分母：<code class="docutils literal notranslate"><span class="pre">movements</span> <span class="pre">×</span> <span class="pre">vehicle_groups</span></code> 的完整格子。</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">summary.total_pcu</span></code> 的分母：納入統計（已分組）的車輛。</p></li>
 <li><p>百分比不在本功能內。舊版報表用「該進入方向的自身總計」當分母，
@@ -902,7 +902,7 @@ N→NE 的 1 台合成一列 → 小型車 1 台、PCU 1.08。
 <td><p>成功；8 台車的兩張表與 summary 和手算一致</p></td>
 </tr>
 <tr class="row-even"><td><p>規格測試</p></td>
-<td><p>本功能 23 個；全專案 47 個全部通過</p></td>
+<td><p>本功能 23 個全部通過（當時全專案 47 個）</p></td>
 </tr>
 <tr class="row-odd"><td><p>wheel 建置</p></td>
 <td><p>成功產生 <code class="docutils literal notranslate"><span class="pre">dist/traffickit-0.1.0-py3-none-any.whl</span></code></p></td>
@@ -1028,7 +1028,7 @@ N→NE 的 1 台合成一列 → 小型車 1 台、PCU 1.08。
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">必要輸入</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#passages"><code class="docutils literal notranslate"><span class="pre">passages</span></code>：一列一台車的通過紀錄</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vehicles"><code class="docutils literal notranslate"><span class="pre">vehicles</span></code>：一列一台車的通過紀錄</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#movements"><code class="docutils literal notranslate"><span class="pre">movements</span></code>：路口的轉向定義</a></li>
 </ul>
 </li>

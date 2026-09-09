@@ -430,7 +430,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../formats.html">traffickit.formats</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_su_passages.html">traffickit.formats.read_motc_su_passages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_su_vehicles.html">traffickit.formats.read_motc_su_vehicles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_su_tracks.html">traffickit.formats.read_motc_su_tracks</a></li>
 </ul>
 </details></li>
@@ -501,14 +501,14 @@
 <h1>traffickit.volume.summarise_turn_volume<a class="headerlink" href="#traffickit-volume-summarise-turn-volume" title="連結到這個標頭">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="traffickit.volume.summarise_turn_volume">
-<span class="sig-prename descclassname"><span class="pre">traffickit.volume.</span></span><span class="sig-name descname"><span class="pre">summarise_turn_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">passages</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">movements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vehicle_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pcu_weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/traffickit/volume/_turn_volume.html#summarise_turn_volume"><span class="viewcode-link"><span class="pre">[原始碼]</span></span></a><a class="headerlink" href="#traffickit.volume.summarise_turn_volume" title="連結到這個定義">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">traffickit.volume.</span></span><span class="sig-name descname"><span class="pre">summarise_turn_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicles</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">movements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vehicle_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pcu_weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/traffickit/volume/_turn_volume.html#summarise_turn_volume"><span class="viewcode-link"><span class="pre">[原始碼]</span></span></a><a class="headerlink" href="#traffickit.volume.summarise_turn_volume" title="連結到這個定義">#</a></dt>
 <dd><p>統計各進入方向、各轉向、各車種分組的車輛數與 PCU。</p>
 <p>轉向類別不由本函式推斷，而是查 <code class="docutils literal notranslate"><span class="pre">movements</span></code> 對照表得到；因此本函式
 也知道哪些轉向合法，能把「合法但沒有車」與「這個方向不允許轉」分開。</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>passages</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>一列一台車的通過紀錄。必要欄位：vehicle_id（非空白字串、不可重複）、
+<dt><strong>vehicles</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>一列一台車的通過紀錄。必要欄位：vehicle_id（非空白字串、不可重複）、
 entry_gate、exit_gate、vehicle_class（皆為非空白字串）。
 允許未排序或含額外欄位；不修改輸入。
 同一台車若在資料範圍內通過兩次，呼叫端須給不同的 vehicle_id。</p>
@@ -536,7 +536,7 @@ is_allowed 必須是布林欄位；(entry_gate, exit_gate) 不可重複；
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt>TypeError</dt><dd><p>passages 或 movements 不是 DataFrame。</p>
+<dt>TypeError</dt><dd><p>vehicles 或 movements 不是 DataFrame。</p>
 </dd>
 <dt>ValueError</dt><dd><p>欄位、數值、參數不符合規格，或資料中出現 <code class="docutils literal notranslate"><span class="pre">movements</span></code>
 未定義的 (entry_gate, exit_gate) 組合。</p>

@@ -522,7 +522,7 @@
 <td><p>試行</p></td>
 </tr>
 <tr class="row-even"><td><p>formats.motc_su</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">traffickit.formats.read_motc_su_passages</span></code>、<code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">traffickit.formats.read_motc_su_vehicles</span></code>、<code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code></p></td>
 <td><p>讀取 MOTC_SU 空拍影像軌跡 CSV</p></td>
 <td><p>yckao</p></td>
 <td><p>1</p></td>
@@ -631,7 +631,7 @@
 <tr class="row-even"><td><p>2026-09-09</p></td>
 <td><p>volume.turn_volume</p></td>
 <td><p>1</p></td>
-<td><p>初版</p></td>
+<td><p>初版（發行前把第一個參數 <code class="docutils literal notranslate"><span class="pre">passages</span></code> 更名為 <code class="docutils literal notranslate"><span class="pre">vehicles</span></code>）</p></td>
 <td><p>—</p></td>
 </tr>
 <tr class="row-odd"><td><p>2026-09-09</p></td>
@@ -643,7 +643,7 @@
 <tr class="row-even"><td><p>2026-09-09</p></td>
 <td><p>formats.motc_su</p></td>
 <td><p>1</p></td>
-<td><p>初版（發行前把 <code class="docutils literal notranslate"><span class="pre">fps</span></code> 預設由 10 調成實際速率 9.99）</p></td>
+<td><p>初版（發行前調整兩處：<code class="docutils literal notranslate"><span class="pre">fps</span></code> 預設由 10 改成實際速率 9.99；<code class="docutils literal notranslate"><span class="pre">read_motc_su_passages</span></code> 更名為 <code class="docutils literal notranslate"><span class="pre">read_motc_su_vehicles</span></code>）</p></td>
 <td><p>—</p></td>
 </tr>
 </tbody>
@@ -689,7 +689,7 @@
 <ul class="simple">
 <li><p>必要資料：</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">passages</span></code>（一列一台車）：<code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>（唯一）、<code class="docutils literal notranslate"><span class="pre">entry_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">exit_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">vehicle_class</span></code>。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vehicles</span></code>（一列一台車）：<code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>（唯一）、<code class="docutils literal notranslate"><span class="pre">entry_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">exit_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">vehicle_class</span></code>。</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">movements</span></code>（路口轉向定義）：<code class="docutils literal notranslate"><span class="pre">entry_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">exit_gate</span></code>、<code class="docutils literal notranslate"><span class="pre">turn</span></code>、<code class="docutils literal notranslate"><span class="pre">is_allowed</span></code>。</p></li>
 </ul>
 </li>
@@ -733,7 +733,7 @@
 <h2>formats.motc_su<a class="headerlink" href="#formats-motc-su" title="連結到這個標頭">#</a></h2>
 <ul class="simple">
 <li><p>用途：讀取 MOTC_SU 空拍影像軌跡 CSV（無標題列、每列長度不一）。</p></li>
-<li><p>兩個入口：<code class="docutils literal notranslate"><span class="pre">read_motc_su_passages</span></code>（一列一台車，給轉向流量用）、
+<li><p>兩個入口：<code class="docutils literal notranslate"><span class="pre">read_motc_su_vehicles</span></code>（一列一台車，給轉向流量用）、
 <code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code>（一列一台車一個 frame，含四角點與中心點，像素單位）。</p></li>
 <li><p>參數：<code class="docutils literal notranslate"><span class="pre">path</span></code>、<code class="docutils literal notranslate"><span class="pre">fps</span></code>（預設 9.99 = 29.97/3 的實際拍攝速率；格式定義文件
 寫的是整數 10）、<code class="docutils literal notranslate"><span class="pre">encoding</span></code>（預設 utf-8）。</p></li>
