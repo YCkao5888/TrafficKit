@@ -68,7 +68,7 @@ README 的功能索引是多數人第一眼看到的清單，漏掉等於新功�
 | 只改內部實作、效能或錯誤訊息措辭 | 只有程式與測試；契約版不動，文件不必改 |
 | 新增子套件 | 九項＋`docs/api/<新>.rst`＋`docs/api/index.rst` 的 toctree 與分層表＋本檔的分層表＋README 專案結構 |
 | 新增輸入格式 | 放 `traffickit.formats`，九項＋本檔「常用輸入格式」段 |
-| 新增跨功能的共同約定 | 本檔「程式碼慣例」＋README「使用前必讀」＋`docs/index.md`「使用前必讀」（三處要一致） |
+| 新增跨功能的共同約定 | 本檔「程式碼慣例」＋README「設計約定」＋`docs/index.md`「使用前必讀」（三處要一致） |
 | 新增共用驗證函式 | `src/traffickit/_validation.py`，並確認既有呼叫端的錯誤訊息沒被改掉 |
 | 要發行一個版本 | 走 `docs/release-checklist.md`（版號、`docs/switcher.json`、tag） |
 

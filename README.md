@@ -1,36 +1,102 @@
-# TrafficKit
+<h1 align="center">TrafficKit</h1>
 
-交通分析計算套件。提供可安裝、可呼叫、可驗證的交通計算功能。
+<p align="center">
+  把交通指標的定義，寫成可安裝、可呼叫、可驗證的 Python 函式。<br>
+  <sub>A Python toolkit for reproducible traffic-engineering metrics.</sub>
+</p>
 
-網頁後端、Python 桌面程式與批次工具安裝同一份套件，呼叫相同函式。
-**套件只負責計算**：資料讀取、單位換算來源、圖表與檔案輸出由呼叫端負責。
+<div align="center">
 
-- 線上文件：<https://yckao5888.github.io/TrafficKit/latest/>（API reference、功能目錄、工作單）
-- 安裝套件名／Python 匯入名：`traffickit`
-- 需求：Python ≥ 3.10、pandas 2.2–3.0、numpy ≥ 1.26
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![tests](https://github.com/YCkao5888/TrafficKit/actions/workflows/tests.yml/badge.svg)](https://github.com/YCkao5888/TrafficKit/actions/workflows/tests.yml)
+[![docs](https://github.com/YCkao5888/TrafficKit/actions/workflows/docs.yml/badge.svg)](https://github.com/YCkao5888/TrafficKit/actions/workflows/docs.yml)
+[![status](https://img.shields.io/badge/status-%E8%A9%A6%E8%A1%8C-yellow)](https://yckao5888.github.io/TrafficKit/latest/catalog.html)
+
+</div>
+
+<p align="center">
+  <a href="https://yckao5888.github.io/TrafficKit/latest/"><b>線上文件</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://yckao5888.github.io/TrafficKit/latest/api/index.html"><b>API reference</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://yckao5888.github.io/TrafficKit/latest/catalog.html"><b>功能目錄</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://yckao5888.github.io/TrafficKit/latest/worksheets/index.html"><b>工作單</b></a>
+</p>
+
+---
+
+同一份交通指標，在網頁後端、桌面程式與批次工具裡常常各寫一次，算出來的數字卻不一樣。
+TrafficKit 把「會改變交通結果意義」的邏輯集中成一個套件：**大家安裝同一份、呼叫同一個函式、
+得到同一個答案**，而且每個答案都查得到它的定義與驗證紀錄。
+
+```bash
+pip install git+https://github.com/YCkao5888/TrafficKit.git
+```
+
+```python
+from traffickit.formats import read_motc_su_vehicles
+from traffickit.volume import clockwise_movements, summarise_turn_volume
+
+vehicles = read_motc_su_vehicles("....CSV_SU.csv")          # 讀空拍軌跡檔
+movements = clockwise_movements(["A", "B", "C", "D"])       # 順時針編號推轉向
+result = summarise_turn_volume(vehicles.query("is_complete"), movements=movements, ...)
+
+result.by_turn    # 進入方向 × 轉向 × 車種分組的車輛數與 PCU
+result.summary    # 總 PCU、未分組車輛數、違規轉向車輛數
+```
+
+## 這個套件跟自己寫一份的差別
+
+- **每個數字都說得出分母。** 統計對象是「車」還是「樣本」、範圍外的資料算不算、
+  不符合條件的對象留不留在分母，全部明文寫在契約裡，不靠讀原始碼推測。
+- **資料不乾淨就拋錯，不默默丟掉。** 缺欄位、負值、重複樣本一律 `ValueError`。
+  少算了幾台車一定看得見，不會安靜地變成一份看起來正常的報表。
+- **未定義的統計量回 `None`，不填 0。** 單一車輛的標準差就是未定義；
+  填 0 會被讀成「速度很一致」。
+- **計算與讀檔分層。** 計算功能零 I/O，可以直接接後端、資料庫或測試資料；
+  只有 `traffickit.formats` 會碰檔案，而且它不做任何交通判定。
+- **每個功能都有工作單。** 完整契約、手算範例、實跑的效能數字、
+  以及「還有什麼沒驗證」，全部寫在文件裡。
+
+## 目錄
+
+- [安裝](#安裝)
+- [快速上手](#快速上手)
+- [功能索引](#功能索引)
+- [設計約定](#設計約定)
+- [文件](#文件)
+- [開發](#開發)
+- [授權](#授權)
 
 ## 安裝
 
-開發用（可編輯安裝，改原始碼不必重裝）：
+需求：Python ≥ 3.10、pandas 2.2–3.0、numpy ≥ 1.26。
+
+```bash
+pip install git+https://github.com/YCkao5888/TrafficKit.git
+```
+
+從原始碼開發（可編輯安裝，改程式不必重裝）：
 
 ```powershell
+git clone https://github.com/YCkao5888/TrafficKit.git
+cd TrafficKit
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e .
 ```
 
 ```bash
+git clone https://github.com/YCkao5888/TrafficKit.git
+cd TrafficKit
 python -m venv .venv
 ./.venv/bin/python -m pip install -e .
 ```
 
-交付用（從 wheel 安裝）：
-
-```powershell
-.\.venv\Scripts\python.exe -m pip wheel --no-deps . --wheel-dir dist
-.\.venv-check\Scripts\python.exe -m pip install dist/traffickit-0.1.0-py3-none-any.whl
-```
-
 ## 快速上手
+
+### 車速分布統計
 
 ```python
 import pandas as pd
@@ -52,12 +118,21 @@ result.vehicle_speeds  # 一列一車：可用來畫箱形圖或自行分車種�
 result.summary         # mean / std / min / median / p85 / max
 ```
 
-轉向流量統計：
+分箱與統計的對象都是**車**，不是樣本——停留較久的車不會被重複計數。
+
+<details>
+<summary><b>轉向流量統計（含 PCU）</b></summary>
+
+<br>
+
+`movements` 同時決定三件事：轉向類別怎麼查、報表要列出哪些格子、哪些轉向合法。
+因此輸出能區分「合法但 0 台」與「這個方向不允許轉」。
 
 ```python
+import pandas as pd
 from traffickit.volume import DEFAULT_PCU_WEIGHTS, summarise_turn_volume
 
-movements = pd.DataFrame([          # 路口的轉向定義，同時決定哪些轉向合法
+movements = pd.DataFrame([
     {"entry_gate": "N", "exit_gate": "S", "turn": "straight", "is_allowed": True},
     {"entry_gate": "N", "exit_gate": "E", "turn": "left",     "is_allowed": True},
 ])
@@ -78,44 +153,54 @@ result.by_turn    # 進入 × 轉向 × 分組，直接對應報表版面
 result.summary    # 總 PCU、未分組車輛數、違規轉向車輛數
 ```
 
-可執行的完整範例：
+`DEFAULT_PCU_WEIGHTS` 取自既有調查工具的設定值，**必須明確傳入**；
+本套件不認定它等同任何法規或手冊的規定值。
 
-```powershell
-.\.venv\Scripts\python.exe examples\speed_distribution_demo.py
-.\.venv\Scripts\python.exe examples	urn_volume_demo.py
-.\.venv\Scripts\python.exe examples\motc_su_turn_volume_demo.py
-```
+</details>
 
-從 MOTC_SU 空拍軌跡檔一路算到轉向流量：
+<details>
+<summary><b>從 MOTC_SU 空拍軌跡檔一路算到轉向流量</b></summary>
+
+<br>
 
 ```python
 from traffickit.formats import read_motc_su_vehicles
 from traffickit.volume import clockwise_movements, summarise_turn_volume
 
-vehicles = read_motc_su_vehicles("...._CSV_SU.csv")   # fps 預設 9.99
-complete = vehicles.query("is_complete")               # 代號 X 是不完整軌跡
+vehicles = read_motc_su_vehicles("....CSV_SU.csv")     # fps 預設 9.99
+complete = vehicles.query("is_complete")                # 代號 X 是不完整軌跡
 
-movements = clockwise_movements(                       # A/B/C/D 順時針編號
+movements = clockwise_movements(                        # A/B/C/D 順時針編號
     ["A", "B", "C", "D"],
-    disallowed=[(g, g) for g in "ABCD"],               # 合法性要自己填！
+    disallowed=[(g, g) for g in "ABCD"],                # 合法性要依現場填！
 )
-result = summarise_turn_volume(complete, movements=movements, ...)
+result = summarise_turn_volume(
+    complete,
+    movements=movements,
+    vehicle_groups={"大型車": ["b", "t", "h"], "小型車": ["c"], "機車": ["m"]},
+    pcu_weights=DEFAULT_PCU_WEIGHTS,
+)
 ```
 
-## 使用前必讀的三個約定
+不完整軌跡（代號 `X`）會照樣讀入並標記 `is_complete=False`，不會默默消失——
+過濾掉幾台是呼叫端的決定，而且看得見。
 
-1. **單位一律 m/s、時間一律「相對本資料集共同起點的秒數」。**
-   像素／公尺比例尺換算、km/h 顯示是呼叫端的責任。
-2. **輸入不乾淨就拋錯，不默默丟資料。** 缺欄位、缺值、負值、重複樣本一律 `ValueError`；
-   傳錯型別是 `TypeError`。函式不修改傳入的 DataFrame，也不讀寫檔案。
-3. **統計對象是「車」還是「樣本」由各功能明訂。** 分母怎麼算、範圍外的資料算不算，
-   都寫在該功能的工作單裡，不要用猜的。
-4. **計算功能不碰檔案。** 只有 `traffickit.formats` 會讀檔，而且它只做欄位與
-   型別轉換，不做交通判定。
+`clockwise_movements` 只推導轉向的**幾何類別**，不知道現場的管制規定；
+產生的表格預設全部允許，迴轉等限制必須自己填進 `disallowed`。
+
+</details>
+
+可執行的完整範例：
+
+```powershell
+.\.venv\Scripts\python.exe examples\speed_distribution_demo.py
+.\.venv\Scripts\python.exe examples\turn_volume_demo.py
+.\.venv\Scripts\python.exe examples\motc_su_turn_volume_demo.py
+```
 
 ## 功能索引
 
-完整索引與狀態見 [`docs/catalog.md`](docs/catalog.md)。
+完整索引、狀態定義與契約版規則見[功能目錄](https://yckao5888.github.io/TrafficKit/latest/catalog.html)。
 
 | 功能 ID | 公開入口 | 用途 | 狀態 |
 | --- | --- | --- | --- |
@@ -125,16 +210,35 @@ result = summarise_turn_volume(complete, movements=movements, ...)
 | volume.clockwise_movements | `traffickit.volume.clockwise_movements` | 由順時針路口代號推導轉向對照表 | 試行 |
 | formats.motc_su | `traffickit.formats.read_motc_su_vehicles`、`read_motc_su_tracks` | 讀取 MOTC_SU 空拍影像軌跡 CSV | 試行 |
 
-## 驗證
+**「試行」代表契約已定稿、測試與範例都通過，但尚未與既有系統做真實資料回歸比較。**
+介面仍可能調整，變更會列在功能目錄的契約變更紀錄裡。
 
-```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
+## 設計約定
+
+呼叫任何功能前先知道這四件事：
+
+1. **單位一律 m/s，時間一律「相對本資料集共同起點的秒數」。**
+   像素／公尺比例尺換算、km/h 顯示是呼叫端的責任。
+2. **輸入不乾淨就拋錯，不默默丟資料。** 缺欄位、缺值、負值、重複樣本一律 `ValueError`；
+   型別錯是 `TypeError`。函式不修改傳入的 DataFrame。
+3. **統計對象是「車」還是「樣本」由各功能明訂。** 分母怎麼算、範圍外的資料算不算，
+   都寫在該功能的工作單裡，不要用猜的。
+4. **計算功能不碰檔案。** 只有 `traffickit.formats` 會讀檔，而且它只做欄位與型別轉換，
+   不做交通判定。
 
 ## 文件
 
-線上版：<https://yckao5888.github.io/TrafficKit/latest/>，
-右上角可切換版本。本機建置：
+<https://yckao5888.github.io/TrafficKit/latest/>，右上角可切換版本。
+每個發行版的文件在發佈後就不再變動，客戶裝哪一版就查哪一版。
+
+| 內容 | 用途 |
+| --- | --- |
+| [API reference](https://yckao5888.github.io/TrafficKit/latest/api/index.html) | 每個公開函式的參數、回傳、例外與注意事項，由 docstring 產生 |
+| [功能目錄](https://yckao5888.github.io/TrafficKit/latest/catalog.html) | 功能索引、狀態定義、契約版規則、與舊程式的差異對照 |
+| [工作單](https://yckao5888.github.io/TrafficKit/latest/worksheets/index.html) | 完整契約、手算範例、實跑的驗證紀錄與已知限制 |
+| [開發指南](https://yckao5888.github.io/TrafficKit/latest/feature-development-guide.html) | 新增一個交通功能的八個步驟與交付格式 |
+
+本機建置：
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -e ".[docs]"
@@ -142,48 +246,47 @@ result = summarise_turn_volume(complete, movements=movements, ...)
 start docs\_build\html\index.html
 ```
 
-API reference 由 docstring 產生。新增或修改功能時要一併更新的項目見
-[`docs/release-checklist.md`](docs/release-checklist.md)。
+## 開發
 
-## 專案結構
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+要新增或修改功能，先讀[開發指南](https://yckao5888.github.io/TrafficKit/latest/feature-development-guide.html)，
+並複製 [`docs/feature-request-template.md`](docs/feature-request-template.md) 填成需求單，
+把交通定義（統計對象、分母、邊界比較、同值取捨）講清楚再動手寫程式。
+交付清單與各項慣例在 [`CLAUDE.md`](CLAUDE.md)。
+
+<details>
+<summary><b>專案結構</b></summary>
+
+<br>
 
 ```
 TrafficKit/
-├─ README.md                  本檔：套件使用說明
-├─ CLAUDE.md                  給 AI 助理的專案慣例與必問事項
-├─ pyproject.toml
 ├─ src/traffickit/            套件原始碼
-│   ├─ _validation.py        各功能共用的輸入驗證
-│   ├─ formats/              格式轉換層（唯一會讀檔的地方）
-│   ├─ speed/                速度相關功能
-│   └─ volume/               流量相關功能
+│   ├─ _validation.py         各功能共用的輸入驗證
+│   ├─ formats/               格式轉換層（唯一會讀檔的地方）
+│   ├─ speed/                 速度相關功能
+│   └─ volume/                流量相關功能
 ├─ examples/                  每個功能一份可執行範例
 ├─ tests/                     每個功能一份規格測試
-├─ .github/workflows/docs.yml  推 master／tag 時建置並部署文件
-├─ .claude/skills/            新增功能用的 skill
-├─ docs/                      Sphinx 文件原始碼（也是網站內容）
-│   ├─ conf.py                Sphinx 設定
-│   ├─ index.md               文件首頁
+├─ docs/                      Sphinx 文件原始碼，也就是網站內容
 │   ├─ api/                   API reference（autosummary 由 docstring 產生）
-│   ├─ switcher.json          版本切換器的來源
-│   ├─ release-checklist.md   發行與文件更新檢查表
-│   ├─ feature-development-guide.md   開發教學與交付格式（Step 1–8）
+│   ├─ catalog.md             功能索引、狀態定義、與舊程式對照
+│   ├─ worksheets/            各功能的工作單與驗證紀錄
+│   ├─ feature-development-guide.md   開發教學與交付格式
 │   ├─ feature-request-template.md    擴充功能的需求單模板
-│   ├─ catalog.md                     功能索引、狀態定義、與舊程式對照
-│   └─ worksheets/                    各功能的工作單與驗證紀錄
-└─ data/                      參考用的舊版程式，不參與建置
+│   └─ release-checklist.md   發行與文件更新檢查表
+├─ CLAUDE.md                  專案慣例、交付清單、機敏性檢查
+└─ .github/workflows/         測試 CI 與文件建置部署
 ```
 
-## 要擴充新功能？
+`data/` 放舊版參考程式與真實調查資料，**已列入 `.gitignore`，只存在於開發者本機**。
+真實案件的資料不進版控；測試與範例一律使用合成的小樣本。
 
-1. 複製 [`docs/feature-request-template.md`](docs/feature-request-template.md) 填成需求單。
-2. 依 [`docs/feature-development-guide.md`](docs/feature-development-guide.md) 的 Step 1–8 交付。
-3. 在 [`docs/catalog.md`](docs/catalog.md) 登記一列，補一份 `docs/worksheets/<功能 ID>.md`，
-   把新函式加進 `docs/api/<子套件>.rst` 的 `autosummary` 清單，
-   並在本檔的「功能索引」表加一列。
-4. **完整的九項交付清單與「改了什麼 → 要更新哪些檔案」對照表在
-   [`CLAUDE.md`](CLAUDE.md)**，那裡是唯一來源；發行版本另走
-   [`docs/release-checklist.md`](docs/release-checklist.md)。
+</details>
 
-交給 AI 助理代做時，把需求單（或一份現成程式碼加一句「照這個邏輯做」）給它即可；
-[`CLAUDE.md`](CLAUDE.md) 已寫明本專案的慣例、驗證指令，以及資訊不足時它必須回問哪些事。
+## 授權
+
+[MIT](LICENSE)
