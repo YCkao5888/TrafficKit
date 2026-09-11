@@ -33,8 +33,9 @@ jobs:
 
       - name: 範例也要能跑
         # 範例是文件的一部分，壞掉了要跟測試一樣擋下來。
-        # MOTC_SU 範例在找不到 data/ 時會自己產生合成檔，CI 上也能跑。
+        # 兩支 MOTC 範例在找不到 data/ 時會自己產生合成檔，CI 上也能跑。
         run: |
           python examples/speed_distribution_demo.py
           python examples/turn_volume_demo.py
           python examples/motc_su_turn_volume_demo.py
+          python examples/motc_ssam_demo.py

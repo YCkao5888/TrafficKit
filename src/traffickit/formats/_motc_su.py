@@ -9,31 +9,13 @@
 from __future__ import annotations
 
 import os
-import re
 from typing import Iterator
 
 import numpy as np
 import pandas as pd
 
 from .._validation import check_real
-
-#: MOTC_SU 的車種代號。
-#: h（聯結車車頭）與 g（聯結車車身）是**同一輛聯結車的兩列**，
-#: 直接計數會把一輛車算成兩輛；統計時通常只保留 h。
-MOTC_SU_VEHICLE_CLASSES: dict[str, str] = {
-    "p": "行人",
-    "u": "自行車",
-    "m": "機車",
-    "c": "汽車",
-    "t": "貨車",
-    "b": "巴士",
-    "h": "聯結車車頭",
-    "g": "聯結車車身",
-}
-
-#: 不完整軌跡的代號。官方定義為「請忽略」，本模組如實讀入並標記，
-#: 由呼叫端決定要不要濾掉。
-INCOMPLETE_CODE = "X"
+from . import _motc_common
 
 #: 軌跡檔預設的影像張數／秒。實際拍攝速率是 9.99（29.97/3，NTSC 推導）；
 #: 格式定義文件寫的是整數 10，兩者不同時以實際速率為準。
@@ -41,9 +23,6 @@ DEFAULT_FPS = 9.99
 
 _FIELDS_BEFORE_TRACK = 6
 _VALUES_PER_POINT = 8
-
-_ENTRY_PATTERN = re.compile(r"^[A-Z]+I$")
-_EXIT_PATTERN = re.compile(r"^[A-Z]+O$")
 
 _VEHICLE_DTYPES = {
     "vehicle_id": "string",
@@ -56,6 +35,7 @@ _VEHICLE_DTYPES = {
     "entry_time_s": "float64",
     "exit_time_s": "float64",
     "is_complete": "bool",
+    "is_crosswalk": "bool",
 }
 
 _POINT_COLUMNS = tuple(
@@ -70,20 +50,24 @@ _TRACK_DTYPES = {
     "center_x_px": "float64",
     "center_y_px": "float64",
     "is_complete": "bool",
+    "is_crosswalk": "bool",
 }
 
 
 class _Record:
     """一列剖析後的結果，只在本模組內流通。"""
 
-    __slots__ = ("vehicle_id", "entry_code", "exit_code", "vehicle_class",
-                 "entry_frame", "exit_frame", "tail", "line_no")
+    __slots__ = ("vehicle_id", "entry_gate", "exit_gate", "entry_kind",
+                 "exit_kind", "vehicle_class", "entry_frame", "exit_frame",
+                 "tail", "line_no")
 
-    def __init__(self, vehicle_id, entry_code, exit_code, vehicle_class,
-                 entry_frame, exit_frame, tail, line_no):
+    def __init__(self, vehicle_id, entry_gate, exit_gate, entry_kind, exit_kind,
+                 vehicle_class, entry_frame, exit_frame, tail, line_no):
         self.vehicle_id = vehicle_id
-        self.entry_code = entry_code
-        self.exit_code = exit_code
+        self.entry_gate = entry_gate
+        self.exit_gate = exit_gate
+        self.entry_kind = entry_kind
+        self.exit_kind = exit_kind
         self.vehicle_class = vehicle_class
         self.entry_frame = entry_frame
         self.exit_frame = exit_frame
@@ -96,26 +80,11 @@ class _Record:
 
     @property
     def is_complete(self) -> bool:
-        return (
-            self.entry_code != INCOMPLETE_CODE
-            and self.exit_code != INCOMPLETE_CODE
-        )
+        return _motc_common.INCOMPLETE not in (self.entry_kind, self.exit_kind)
 
     @property
-    def entry_gate(self) -> str:
-        return (
-            self.entry_code
-            if self.entry_code == INCOMPLETE_CODE
-            else self.entry_code[:-1]
-        )
-
-    @property
-    def exit_gate(self) -> str:
-        return (
-            self.exit_code
-            if self.exit_code == INCOMPLETE_CODE
-            else self.exit_code[:-1]
-        )
+    def is_crosswalk(self) -> bool:
+        return _motc_common.CROSSWALK in (self.entry_kind, self.exit_kind)
 
 
 def read_motc_su_vehicles(
@@ -158,6 +127,7 @@ def read_motc_su_vehicles(
         entry_time_s       float64    entry_frame / fps
         exit_time_s        float64    exit_frame / fps
         is_complete        bool       進出代號都不是 X
+        is_crosswalk       bool       進入或駛出代號是行穿線代號
         =================  =========  ==============================
 
     Raises
@@ -173,6 +143,12 @@ def read_motc_su_vehicles(
     不會默默消失。要餵給
     :func:`traffickit.volume.summarise_turn_volume` 前，請自行
     ``.query("is_complete")``——那個函式不接受 X 這種非路口代號。
+
+    **行人走行穿線，進出代號是兩個路口字母**，例如 ``AB``，而不是
+    ``AI``／``AO``。這類代號照樣讀入、原樣保留，並標記
+    ``is_crosswalk=True``。它同樣不是 ``summarise_turn_volume``
+    認得的路口代號，需要的話請一併過濾：
+    ``.query("is_complete and not is_crosswalk")``。
 
     車種 ``h``（聯結車車頭）與 ``g``（聯結車車身）是同一輛車的兩列。
     做車輛數統計時通常只保留 ``h``；把 ``g`` 留在車種分組之外，
@@ -192,6 +168,7 @@ def read_motc_su_vehicles(
             record.entry_frame * seconds_per_frame,
             record.exit_frame * seconds_per_frame,
             record.is_complete,
+            record.is_crosswalk,
         ))
 
     frame = pd.DataFrame(rows, columns=list(_VEHICLE_DTYPES))
@@ -224,7 +201,8 @@ def read_motc_su_tracks(
     pandas.DataFrame
         依 vehicle_id、frame 排序，欄位為 vehicle_id、frame、time_s、
         x1_px…y4_px（四個角點，第一點為車頭左上，順時針）、
-        center_x_px、center_y_px（四角點平均）、is_complete。
+        center_x_px、center_y_px（四角點平均）、is_complete、is_crosswalk。
+        後兩者是整台車的屬性，同一台車的每一列都相同。
 
     Raises
     ------
@@ -246,6 +224,7 @@ def read_motc_su_tracks(
     ids: list[str] = []
     frames: list[int] = []
     complete: list[bool] = []
+    crosswalk: list[bool] = []
     points: list[list[float]] = []
     for record in _iter_records(path, encoding, validate_tail_length=True):
         values = _parse_tail(record)
@@ -253,6 +232,7 @@ def read_motc_su_tracks(
         ids.extend([record.vehicle_id] * count)
         frames.extend(range(record.entry_frame, record.exit_frame + 1))
         complete.extend([record.is_complete] * count)
+        crosswalk.extend([record.is_crosswalk] * count)
         points.append(values)
 
     if not ids:
@@ -269,6 +249,7 @@ def read_motc_su_tracks(
     frame["center_x_px"] = coordinates[:, 0::2].mean(axis=1)
     frame["center_y_px"] = coordinates[:, 1::2].mean(axis=1)
     frame["is_complete"] = complete
+    frame["is_crosswalk"] = crosswalk
 
     frame = frame.loc[:, list(_TRACK_DTYPES)].astype(_TRACK_DTYPES)
     return frame.sort_values(
@@ -316,17 +297,13 @@ def _parse_line(line: str, line_no: int, validate_tail_length: bool) -> _Record:
             f"早於進入 frame（{entry_frame}）"
         )
 
-    _check_gate_code(entry_code, _ENTRY_PATTERN, "進入", line_no)
-    _check_gate_code(exit_code, _EXIT_PATTERN, "離開", line_no)
-    if vehicle_class not in MOTC_SU_VEHICLE_CLASSES:
-        raise ValueError(
-            f"第 {line_no} 行的車種代號 {vehicle_class!r} 不在格式定義內："
-            f"{sorted(MOTC_SU_VEHICLE_CLASSES)}"
-        )
+    entry_gate, entry_kind = _motc_common.parse(entry_code, "entry", line_no)
+    exit_gate, exit_kind = _motc_common.parse(exit_code, "exit", line_no)
+    _motc_common.check_vehicle_class(vehicle_class, line_no)
 
     record = _Record(
-        vehicle_id, entry_code, exit_code, vehicle_class,
-        entry_frame, exit_frame, tail, line_no,
+        vehicle_id, entry_gate, exit_gate, entry_kind, exit_kind,
+        vehicle_class, entry_frame, exit_frame, tail, line_no,
     )
     if validate_tail_length:
         # 不變式：軌跡值數量 = 8 × frame 數。用來擋住錯位或截斷的檔案。
@@ -350,20 +327,6 @@ def _parse_frame(value: str, line_no: int, what: str) -> int:
     if number < 0:
         raise ValueError(f"第 {line_no} 行的{what} {number} 是負數")
     return number
-
-
-def _check_gate_code(
-    code: str,
-    pattern: re.Pattern[str],
-    what: str,
-    line_no: int,
-) -> None:
-    if code == INCOMPLETE_CODE or pattern.match(code):
-        return
-    raise ValueError(
-        f"第 {line_no} 行的{what}路口代號 {code!r} 不符合格式："
-        f"應為 {pattern.pattern} 或 {INCOMPLETE_CODE!r}"
-    )
 
 
 def _parse_tail(record: _Record) -> np.ndarray:

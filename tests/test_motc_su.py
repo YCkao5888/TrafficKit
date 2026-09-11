@@ -68,12 +68,14 @@ class TestReadPassages(MotcSuFileCase):
             "entry_time_s": [0.0, 2 / 9.99, 2 / 9.99],
             "exit_time_s": [1 / 9.99, 2 / 9.99, 2 / 9.99],
             "is_complete": [True, True, False],
+            "is_crosswalk": [False, False, False],
         }).astype({
             "vehicle_id": "string", "entry_gate": "string",
             "exit_gate": "string", "vehicle_class": "string",
             "entry_frame": "int64", "exit_frame": "int64",
             "frame_count": "int64", "entry_time_s": "float64",
             "exit_time_s": "float64", "is_complete": "bool",
+            "is_crosswalk": "bool",
         })
         assert_frame_equal(actual, expected)
 
@@ -84,6 +86,20 @@ class TestReadPassages(MotcSuFileCase):
             actual.loc[actual["entry_gate"] == INCOMPLETE_CODE, "is_complete"].item(),
             False,
         )
+
+    def test_crosswalk_codes_are_read_and_flagged(self):
+        # 行人走行穿線，代號是兩個路口字母（AB），沒有 I／O 後綴。
+        line = "9,0,0,AB,BC,p," + points(*range(8))
+        actual = read_motc_su_vehicles(self.write([line]))
+        self.assertEqual(actual["entry_gate"].item(), "AB")
+        self.assertEqual(actual["exit_gate"].item(), "BC")
+        self.assertTrue(actual["is_crosswalk"].item())
+        # 行穿線代號不是不完整軌跡，兩件事要分開標記。
+        self.assertTrue(actual["is_complete"].item())
+
+    def test_gate_codes_are_not_mistaken_for_crosswalks(self):
+        actual = read_motc_su_vehicles(self.path)
+        self.assertEqual(actual["is_crosswalk"].tolist(), [False, False, False])
 
     def test_fps_only_changes_seconds_not_frames(self):
         default = read_motc_su_vehicles(self.path)
@@ -113,7 +129,7 @@ class TestReadPassages(MotcSuFileCase):
         self.assertEqual(
             [str(dtype) for dtype in actual.dtypes],
             ["string", "string", "string", "string", "int64", "int64",
-             "int64", "float64", "float64", "bool"],
+             "int64", "float64", "float64", "bool", "bool"],
         )
 
     def test_point_count_must_match_frame_count(self):
@@ -199,6 +215,12 @@ class TestReadTracks(MotcSuFileCase):
             [False],
         )
 
+    def test_is_crosswalk_is_carried_to_every_frame(self):
+        line = ("9,0,1,AB,BC,p," + points(*range(8))
+                + "," + points(*range(8)))
+        actual = read_motc_su_tracks(self.write([line]))
+        self.assertEqual(actual["is_crosswalk"].tolist(), [True, True])
+
     def test_row_count_matches_total_frame_count(self):
         vehicles = read_motc_su_vehicles(self.path)
         tracks = read_motc_su_tracks(self.path)
@@ -212,7 +234,7 @@ class TestReadTracks(MotcSuFileCase):
             ["vehicle_id", "frame", "time_s",
              "x1_px", "y1_px", "x2_px", "y2_px",
              "x3_px", "y3_px", "x4_px", "y4_px",
-             "center_x_px", "center_y_px", "is_complete"],
+             "center_x_px", "center_y_px", "is_complete", "is_crosswalk"],
         )
 
     def test_non_numeric_coordinate_is_rejected(self):
@@ -327,6 +349,27 @@ class TestEndToEnd(MotcSuFileCase):
                 vehicle_groups={"小型車": ["c"], "機車": ["m"]},
                 pcu_weights=DEFAULT_PCU_WEIGHTS,
             )
+
+
+    def test_crosswalk_rows_break_turn_volume_if_not_filtered(self):
+        # 行穿線代號同樣不是路口代號，理由與 X 相同：忘記過濾要爆炸。
+        lines = SAMPLE[:2] + ["9,2,2,AB,BC,p," + points(*range(8))]
+        vehicles = read_motc_su_vehicles(self.write(lines))
+        self.assertTrue(vehicles["is_complete"].all())
+        movements = clockwise_movements(["A", "B", "C", "D"])
+        with self.assertRaisesRegex(ValueError, "未定義的"):
+            summarise_turn_volume(
+                vehicles,
+                movements=movements,
+                vehicle_groups={"小型車": ["c"], "機車": ["m"]},
+                pcu_weights=DEFAULT_PCU_WEIGHTS,
+            )
+
+    def test_filtering_both_flags_leaves_only_ordinary_vehicles(self):
+        lines = SAMPLE + ["9,2,2,AB,BC,p," + points(*range(8))]
+        vehicles = read_motc_su_vehicles(self.write(lines))
+        usable = vehicles.query("is_complete and not is_crosswalk")
+        self.assertEqual(usable["vehicle_id"].tolist(), ["1", "2"])
 
 
 class TestVehicleClasses(unittest.TestCase):

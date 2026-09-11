@@ -17,7 +17,8 @@
 | speed.bin_edges | `traffickit.speed.speed_bin_edges` | 產生等寬分箱邊界（多群組共用） | yckao | 1 | 試行 |
 | volume.turn_volume | `traffickit.volume.summarise_turn_volume` | 各進入方向 × 轉向 × 車種分組的車輛數與 PCU | yckao | 1 | 試行 |
 | volume.clockwise_movements | `traffickit.volume.clockwise_movements` | 由順時針路口代號推導轉向對照表 | yckao | 1 | 試行 |
-| formats.motc_su | `traffickit.formats.read_motc_su_vehicles`、`read_motc_su_tracks` | 讀取 MOTC_SU 空拍影像軌跡 CSV | yckao | 1 | 試行 |
+| formats.motc_su | `traffickit.formats.read_motc_su_vehicles`、`read_motc_su_tracks` | 讀取 MOTC 空拍影像軌跡 CSV 的 Pixel Frame 版 | yckao | 2 | 試行 |
+| formats.motc_ssam | `traffickit.formats.read_motc_ssam_vehicles`、`read_motc_ssam_tracks` | 讀取 MOTC 空拍影像軌跡 CSV 的 SSAM 版 | yckao | 1 | 試行 |
 
 ## 欄位定義
 
@@ -53,9 +54,13 @@
 
 降級也可能發生：正式功能若發現契約有誤，先降回試行再修，不要在正式狀態下悄悄改語意。
 
-**目前五個功能都是「試行」，卡在真實資料回歸比較尚未執行。**
+**目前六個功能都是「試行」，卡在真實資料回歸比較尚未執行。**
 補上比較紀錄、並確認差異都是預期的之後，即可升為「正式」。
 `volume.turn_volume` 另缺後端舊版計算的原始碼，目前只能與前端所呈現的行為比對。
+
+註：兩個 `formats.*` 功能都已用真實檔**跑過**（見各自工作單的驗證紀錄），
+但那是「讀得進來且不變式成立」，不是「與舊程式的輸出逐項比對」。
+回歸比較仍未做。
 
 ## 契約變更紀錄
 
@@ -66,6 +71,8 @@
 | 2026-09-09 | volume.turn_volume | 1 | 初版（發行前把第一個參數 `passages` 更名為 `vehicles`） | — |
 | 2026-09-09 | volume.clockwise_movements | 1 | 初版 | — |
 | 2026-09-09 | formats.motc_su | 1 | 初版（發行前調整兩處：`fps` 預設由 10 改成實際速率 9.99；`read_motc_su_passages` 更名為 `read_motc_su_vehicles`） | — |
+| 2026-09-11 | formats.motc_su | 2 | 接受行人的行穿線代號（兩個路口字母，例如 `AB`），原本只接受 `[A-Z]+I`／`[A-Z]+O`／`X`；兩個入口的輸出各新增一欄 `is_crosswalk` | 原本會拋錯的檔案現在讀得進來；依欄位位置取值的呼叫端要注意新增欄位排在最後 |
+| 2026-09-11 | formats.motc_ssam | 1 | 初版 | — |
 
 ## speed.speed_distribution
 
@@ -134,18 +141,40 @@
 
 ## formats.motc_su
 
-- 用途：讀取 MOTC_SU 空拍影像軌跡 CSV（無標題列、每列長度不一）。
+- 用途：讀取 MOTC 空拍影像軌跡 CSV 的 **Pixel Frame 版**（無標題列、每列長度不一）。
 - 兩個入口：`read_motc_su_vehicles`（一列一台車，給轉向流量用）、
   `read_motc_su_tracks`（一列一台車一個 frame，含四角點與中心點，像素單位）。
 - 參數：`path`、`fps`（預設 9.99 = 29.97/3 的實際拍攝速率；格式定義文件
   寫的是整數 10）、`encoding`（預設 utf-8）。
-- **不完整軌跡（代號 X）照樣讀入並標記 `is_complete=False`**，不默默丟掉；
-  要餵給 `summarise_turn_volume` 前請自行 `.query("is_complete")`。
+- **不完整軌跡（代號 X）照樣讀入並標記 `is_complete=False`**，不默默丟掉。
+- **行人與自行車走行穿線，代號是兩個路口字母（例如 AB）**，照樣讀入並標記
+  `is_crosswalk=True`。兩者都不是路口代號，要餵給 `summarise_turn_volume`
+  前請自行 `.query("is_complete and not is_crosswalk")`。
 - 一律驗證「軌跡值數 = 8 × frame 數」，錯位或截斷的檔案會拋錯並指出行號。
 - 詳細規格與格式定義：`docs/worksheets/formats.motc_su.md`。
 - 原始碼：`src/traffickit/formats/_motc_su.py`；範例：`examples/motc_su_turn_volume_demo.py`。
 - 限制：h（聯結車車頭）與 g（車身）是同一輛車的兩列，本讀取器不合併；
   統計時把 g 留在車種分組之外，它會出現在 `unassigned_classes`。
+
+## formats.motc_ssam
+
+- 用途：讀取同一批分析成果的 **SSAM 版**（有標題列，前面還有 FORMAT／
+  DIMENSIONS 區塊；一列一台車一個時間步，座標是公尺）。
+- 兩個入口：`read_motc_ssam_vehicles`（一列一台車）、
+  `read_motc_ssam_tracks`（一列一台車一個時間步，含車頭車尾中點、車長車寬、
+  還原出的四角點與中心點，公尺單位）。
+- 參數：`path`、`encoding`（預設 utf-8-sig）。**沒有比例尺參數也沒有 fps
+  參數**——座標原本就是公尺、時間原本就是秒，本層不做換算。
+- 欄位以**名稱**定位（去空白、轉小寫），標題列的欄位順序可以不同。
+- 與 Pixel Frame 版共用路口代號與車種代號，因此 `*_vehicles` 的輸出同樣能
+  直接餵給 `summarise_turn_volume`；差別是沒有 frame 編號，改以
+  `sample_count` 表示取樣列數。
+- 詳細規格與格式定義：`docs/worksheets/formats.motc_ssam.md`。
+- 原始碼：`src/traffickit/formats/_motc_ssam.py`
+  （共用代號剖析在 `_motc_common.py`）；範例：`examples/motc_ssam_demo.py`。
+- 限制：`Speed` 與 `Acceleration` 目前不讀（單位未經產製端確認，實測像是
+  m/s）；`length_m` 與車頭車尾距離不一致的列約 3%；角點還原的 Y 軸朝向
+  尚未用影片核對；與 Pixel Frame 版的時間原點是否對齊尚未驗證。
 
 ## 指標與計算能力對照（後續整合用，尚未實作情境入口）
 

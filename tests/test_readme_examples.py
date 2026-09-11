@@ -17,9 +17,9 @@ from pathlib import Path
 
 README = Path(__file__).resolve().parents[1] / "README.md"
 
-# 需要本機 MOTC_SU 軌跡檔的區塊無法在這裡執行，
-# 該路徑改由 examples/motc_su_turn_volume_demo.py 與 tests/test_motc_su.py 覆蓋。
-_NEEDS_LOCAL_FILE = "_CSV_SU.csv"
+# 需要本機 MOTC 軌跡檔的區塊無法在這裡執行，
+# 該路徑改由 examples/ 底下的示範程式與 tests/test_motc_*.py 覆蓋。
+_NEEDS_LOCAL_FILE = ("_CSV_SU.csv", "_CSV_SSAM.csv")
 
 _FENCE = re.compile(r"^```([^\n]*)\n(.*?)^```", re.DOTALL | re.MULTILINE)
 
@@ -63,7 +63,7 @@ class TestReadmeExamples(unittest.TestCase):
     def test_every_example_runs_and_prints_what_readme_claims(self):
         checked_output = 0
         for index, source, expected in self.examples:
-            if _NEEDS_LOCAL_FILE in source:
+            if any(marker in source for marker in _NEEDS_LOCAL_FILE):
                 continue
             with self.subTest(block=index):
                 captured = io.StringIO()

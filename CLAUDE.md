@@ -27,11 +27,27 @@ TrafficKit（`traffickit`）是交通分析**計算**套件。只放會改變交
 | `traffickit.formats` | 外部檔案 → 套件契約的表格 | 是，但只做欄位與型別轉換 |
 | `traffickit._validation` | 兩個以上功能共用的輸入驗證 | 否 |
 
-常用輸入格式：**MOTC_SU** 空拍影像軌跡 CSV（`*_CSV_SU.csv`），
-讀取器與完整格式定義見 `docs/worksheets/formats.motc_su.md`。
-路口代號順時針 A/B/C/D、進入結尾 I、離開結尾 O、X 為不完整軌跡、
-FPS 預設 9.99（= 29.97/3 實際速率，格式定義文件寫的是整數 10）、
-車種 h（聯結車車頭）與 g（車身）是同一輛車的兩列。
+常用輸入格式：**MOTC 空拍影像軌跡 CSV**，同一批分析成果有兩種輸出版本，
+各有一份工作單：
+
+| 版本 | 檔名 | 座標／時間 | 工作單 |
+| --- | --- | --- | --- |
+| Pixel Frame | `*_CSV_SU.csv` | 像素／frame 編號 | `docs/worksheets/formats.motc_su.md` |
+| SSAM | `*_CSV_SSAM.csv` | 公尺／秒 | `docs/worksheets/formats.motc_ssam.md` |
+
+兩版**共用**這些約定，定義放在 `src/traffickit/formats/_motc_common.py`：
+
+- 路口代號順時針 A/B/C/D，進入結尾 I、離開結尾 O，X 為不完整軌跡。
+- **行人與自行車走行穿線，代號是兩個路口字母**（`AB`、`BC`），沒有 I／O
+  後綴。兩個讀取器都接受並標記 `is_crosswalk=True`；它跟 X 一樣不是路口
+  代號，餵進轉向流量前要 `.query("is_complete and not is_crosswalk")`。
+- 車種 p/u/m/c/t/b/h/g；h（聯結車車頭）與 g（車身）是同一輛車的兩列。
+- 取樣率 9.99（= 29.97/3 實際速率，格式定義文件寫的是整數 10）。
+  Pixel Frame 版由 `fps` 參數換算；SSAM 版的 `Timestep` 已經是秒，
+  實測乘 9.99 為整數，兩版的取樣率一致。
+
+**SSAM 版沒有比例尺參數**：座標原本就是公尺。檔案裡 DIMENSIONS 區塊的
+`Scale` 是佔位值，不要拿來用。
 
 ## 收到擴充需求時的固定流程
 
@@ -61,7 +77,8 @@ README 的功能索引是多數人第一眼看到的清單，漏掉等於新功�
 每個區塊都會被跑過，區塊後面若緊接一個沒有語言標記的 ``` 區塊，還會逐字比對
 標準輸出。因此 README 的範例必須是**複製貼上就能跑**的完整程式（含 import 與
 `print`），不可以留 `...`；要更新輸出時**實際跑一次再貼上**，不要用手改數字。
-需要本機軌跡檔的範例會被跳過（以 `_CSV_SU.csv` 判斷），由 `examples/` 覆蓋。
+需要本機軌跡檔的範例會被跳過（以 `_CSV_SU.csv`、`_CSV_SSAM.csv` 判斷），
+由 `examples/` 覆蓋。
 
 4. 執行驗證（見下方指令），把實際數字填進工作單，再回報。
 
@@ -173,8 +190,9 @@ python -m venv .venv-check
 
 `data/` **已列入 `.gitignore`，整個目錄不在版控內、也不參與建置**，只存在於
 開發者本機。裡面放三種東西：舊版參考程式（`speed_analyser.py`、
-`TurnVolumeAnalysis.vue`）、真實資料範例（`*_CSV_SU.csv`）、
-以及客戶端的格式定義文件（`空拍影像分析_輸出資料相關定義_v1.1.xlsx`）。
+`TurnVolumeAnalysis.vue`、`video_add_veh_bbox.py`）、真實軌跡檔
+（`*_CSV_SU.csv`、`*_CSV_SSAM.csv`）、以及客戶端的格式定義文件
+（`空拍影像分析_輸出資料相關定義_v1.1.xlsx`）。
 文件中引用這些檔名時，要註明是本機參考而非 repo 內的檔案。移植時：
 
 - 逐項列出新舊差異，寫進 `docs/catalog.md` 的對照表，並向使用者確認每一項是預期的。
@@ -213,6 +231,11 @@ git status --short --untracked-files=all
 
 只要是**真實案件的資料**，預設就是不要提交。測試與範例一律用合成的小樣本
 （見 `tests/test_motc_su.py` 的 `SAMPLE`），需要真實檔案時由使用者本機提供路徑。
+
+**文件裡也不要寫出真實案件的檔名或路口名稱。** 工作單的「驗證環境與版本」
+要記錄用真實檔驗過什麼，但寫法是「本機一份 `*_CSV_SU.csv`，27.8 MB，
+四岔路口單一架次」這種不可識別的描述——檔名通常含縣市、路口與架次代號，
+等於公開一個調查地點。檔案大小、車輛數、車種分布這些數字可以照實寫。
 
 一併掃一次已追蹤檔案的內容：
 

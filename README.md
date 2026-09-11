@@ -179,11 +179,11 @@ entry_gate     turn vehicle_group  is_allowed  vehicle_count  pcu_weight  pcu
 </details>
 
 <details>
-<summary><b>從 MOTC_SU 空拍軌跡檔一路算到轉向流量</b></summary>
+<summary><b>從 MOTC 空拍軌跡檔一路算到轉向流量</b></summary>
 
 <br>
 
-需要一份 MOTC_SU 軌跡檔，把路徑換成你自己的：
+需要一份空拍軌跡檔，把路徑換成你自己的：
 
 ```python
 from traffickit.formats import read_motc_su_vehicles
@@ -193,17 +193,20 @@ from traffickit.volume import (
     summarise_turn_volume,
 )
 
-GATES = ["A", "B", "C", "D"]        # 順時針從左側路口起算，MOTC_SU 的既定規則
+GATES = ["A", "B", "C", "D"]        # 順時針從左側路口起算，這個格式的既定規則
 
 vehicles = read_motc_su_vehicles("your_file_CSV_SU.csv")   # fps 預設 9.99
-complete = vehicles.query("is_complete")                    # 代號 X 是不完整軌跡
+
+# 代號 X 是不完整軌跡；AB 這種兩個字母的代號是行人／自行車走的行穿線。
+# 兩者都不是路口代號，要先濾掉。
+usable = vehicles.query("is_complete and not is_crosswalk")
 
 movements = clockwise_movements(
     GATES,
     disallowed=[(gate, gate) for gate in GATES],            # 合法性要依現場填！
 )
 result = summarise_turn_volume(
-    complete,
+    usable,
     movements=movements,
     vehicle_groups={"大型車": ["b", "t", "h"], "小型車": ["c"], "機車": ["m"]},
     pcu_weights=DEFAULT_PCU_WEIGHTS,
@@ -214,11 +217,24 @@ print(f"納入統計 {result.summary.counted_vehicle_count} 台、"
       f"總 PCU {result.summary.total_pcu:.2f}")
 ```
 
-不完整軌跡（代號 `X`）會照樣讀入並標記 `is_complete=False`，不會默默消失——
-過濾掉幾台是呼叫端的決定，而且看得見。
+不完整軌跡與行穿線都會照樣讀入並標記，不會默默消失——過濾掉幾台是呼叫端的
+決定，而且看得見。
 
 `clockwise_movements` 只推導轉向的**幾何類別**，不知道現場的管制規定；
 產生的表格預設全部允許，迴轉等限制必須自己填進 `disallowed`。
+
+同一批分析成果還有另一種輸出：**SSAM 版**，一列一台車一個時間步、座標是
+公尺。換一個讀取器就好，後面完全一樣：
+
+```python
+from traffickit.formats import read_motc_ssam_vehicles
+
+vehicles = read_motc_ssam_vehicles("your_file_CSV_SSAM.csv")
+usable = vehicles.query("is_complete and not is_crosswalk")
+```
+
+兩版的路口代號與車種代號完全相同，所以下游接法一致；差別是 SSAM 版沒有
+frame 編號（改用 `sample_count`），而且座標本來就是公尺，不需要比例尺。
 
 </details>
 
@@ -228,6 +244,7 @@ print(f"納入統計 {result.summary.counted_vehicle_count} 台、"
 .\.venv\Scripts\python.exe examples\speed_distribution_demo.py
 .\.venv\Scripts\python.exe examples\turn_volume_demo.py
 .\.venv\Scripts\python.exe examples\motc_su_turn_volume_demo.py
+.\.venv\Scripts\python.exe examples\motc_ssam_demo.py
 ```
 
 ## 功能索引
@@ -240,7 +257,8 @@ print(f"納入統計 {result.summary.counted_vehicle_count} 台、"
 | speed.bin_edges | `traffickit.speed.speed_bin_edges` | 產生等寬分箱邊界（多群組共用） | 試行 |
 | volume.turn_volume | `traffickit.volume.summarise_turn_volume` | 各進入方向 × 轉向 × 車種分組的車輛數與 PCU | 試行 |
 | volume.clockwise_movements | `traffickit.volume.clockwise_movements` | 由順時針路口代號推導轉向對照表 | 試行 |
-| formats.motc_su | `traffickit.formats.read_motc_su_vehicles`、`read_motc_su_tracks` | 讀取 MOTC_SU 空拍影像軌跡 CSV | 試行 |
+| formats.motc_su | `traffickit.formats.read_motc_su_vehicles`、`read_motc_su_tracks` | 讀取 MOTC 空拍影像軌跡 CSV 的 Pixel Frame 版（像素座標） | 試行 |
+| formats.motc_ssam | `traffickit.formats.read_motc_ssam_vehicles`、`read_motc_ssam_tracks` | 讀取 MOTC 空拍影像軌跡 CSV 的 SSAM 版（公尺座標） | 試行 |
 
 **「試行」代表契約已定稿、測試與範例都通過，但尚未與既有系統做真實資料回歸比較。**
 介面仍可能調整，變更會列在功能目錄的契約變更紀錄裡。
