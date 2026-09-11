@@ -510,6 +510,10 @@
 </pre></div>
 </div>
 <p>這一份是版本切換器的唯一來源，漏加的話新版文件上線但選單裡看不到。</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">&quot;preferred&quot;:</span> <span class="pre">true</span></code> 固定留在 <code class="docutils literal notranslate"><span class="pre">latest</span></code> 那一筆，不要跟著新版本搬。</strong>
+它是版本警告橫幅的基準：掛在 <code class="docutils literal notranslate"><span class="pre">latest</span></code> 時，舊版頁面才會顯示「你看的
+不是最新版」。掛到某個版號上會反過來——在 <code class="docutils literal notranslate"><span class="pre">latest</span></code> 顯示警告，把讀者
+導去舊快照。站台根目錄的 <code class="docutils literal notranslate"><span class="pre">index.html</span></code> 一律轉址到 <code class="docutils literal notranslate"><span class="pre">latest/</span></code>。</p>
 </li>
 <li><p>更新各功能工作單的「驗證環境與版本」表。</p></li>
 <li><p>提交後打 tag 並推上去：</p>

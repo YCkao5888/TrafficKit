@@ -2,12 +2,12 @@
   {
     "name": "latest",
     "version": "latest",
-    "url": "https://yckao5888.github.io/TrafficKit/latest/"
+    "url": "https://yckao5888.github.io/TrafficKit/latest/",
+    "preferred": true
   },
   {
     "name": "0.1.0",
     "version": "0.1.0",
-    "url": "https://yckao5888.github.io/TrafficKit/0.1.0/",
-    "preferred": true
+    "url": "https://yckao5888.github.io/TrafficKit/0.1.0/"
   }
 ]
