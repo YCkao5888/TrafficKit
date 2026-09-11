@@ -52,6 +52,14 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Qt 需要的系統函式庫
+        # PySide6 的 wheel 自帶 Qt，但仍然依賴這幾個系統元件。即使用
+        # offscreen 平台也一樣——少了它們 import PySide6 就會失敗。
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            libegl1 libgl1 libxkbcommon0 libdbus-1-3 libfontconfig1
+
       - name: 安裝核心與視覺化套件
         # 順序不能反：traffickit-viz 宣告依賴 traffickit，但兩者都還沒上
         # PyPI，先裝好核心，pip 才會認定需求已滿足而不去 PyPI 找。
@@ -61,8 +69,14 @@ jobs:
           python -m pip install -e packages/traffickit-viz
 
       - name: 視覺化套件的測試
+        # 介面測試用 Qt 的 offscreen 平台，不需要螢幕。測試檔自己也會設，
+        # 這裡再設一次是為了讓整個 job 的行為一致。
+        env:
+          QT_QPA_PLATFORM: offscreen
         run: python -m unittest discover -s packages/traffickit-viz/tests -v
 
       - name: 範例也要能跑
-        # 找不到 data/ 時會自己產生合成軌跡檔，CI 上也能跑。
-        run: python packages/traffickit-viz/examples/draw_frame_demo.py
+        # 兩支範例在沒有素材時都會自己合成（軌跡檔／影片），CI 上也能跑。
+        run: |
+          python packages/traffickit-viz/examples/draw_frame_demo.py
+          python packages/traffickit-viz/examples/render_video_demo.py

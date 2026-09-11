@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "traffickit-viz"
-version = "0.0.2"
+version = "0.2.0"
 description = "Visualisation and video output layer for TrafficKit"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -25,19 +25,26 @@ dependencies = [
     # 兩個套件都還沒上 PyPI，所以要先安裝 traffickit，pip 才不會去 PyPI
     # 找不到而失敗。安裝方式見 README。
     "traffickit>=0.1",
-    # headless 版沒有 GUI 相依（在 Linux CI 上不需要 libGL），
-    # 而影片的解碼、繪製與編碼都用得到。只有在真的要用 cv2 開視窗時
-    # 才需要換成 opencv-python——預覽介面預計用 tkinter，不走 cv2 視窗。
+    # headless 版沒有 cv2 自己的 GUI 相依，而影片的解碼、繪製與編碼都用得到。
+    # 視窗與預覽一律由 Qt 負責，不走 cv2.imshow，所以不需要完整版 opencv。
     "opencv-python-headless>=4.8",
     "numpy>=1.26",
+    # 圖形介面。列為必要相依是刻意的決定：使用者不必記 extras 就有介面。
+    # 代價是後端、CI 與批次使用也會裝進 Qt（約 150–200 MB）；只要繪製與
+    # 影片輸出的場合仍然完全不 import 它，所以功能上沒有負擔，只有體積。
+    "PySide6>=6.6",
 ]
 
 [project.optional-dependencies]
-# 命令列進度條與預覽畫面的加速路徑，兩者缺了都還能跑。
+# 命令列進度條，缺了也還能跑。
 extras = [
     "tqdm>=4.66",
-    "Pillow>=10.0",
 ]
+
+[project.scripts]
+# 用 console script 而不是 gui script：這是給工程人員用的工具，
+# 出錯時看得到訊息比少一個主控台視窗重要。
+traffickit-viz = "traffickit_viz.gui:main"
 
 [project.urls]
 Documentation = "https://yckao5888.github.io/TrafficKit/latest/"

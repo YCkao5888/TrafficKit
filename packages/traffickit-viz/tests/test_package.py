@@ -8,6 +8,8 @@
 """
 
 import re
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -58,20 +60,40 @@ class TestDependencies(unittest.TestCase):
 
         self.assertTrue(hasattr(cv2, "VideoCapture"))
 
-    def test_required_dependencies_are_the_expected_three(self):
+    def test_required_dependencies_are_the_expected_four(self):
         self.assertEqual(
             sorted(_dependency_names("dependencies")),
-            ["numpy", "opencv-python-headless", "traffickit"],
+            ["PySide6", "numpy", "opencv-python-headless", "traffickit"],
         )
 
-    def test_progress_bar_and_image_helpers_stay_optional(self):
-        # tqdm 只用在命令列進度條、Pillow 只用在預覽的加速路徑，
-        # 兩者缺了都要還能跑，所以不可以出現在必要相依裡。
+    def test_progress_bar_stays_optional(self):
+        # tqdm 只用在命令列進度條，缺了要還能跑。
         required = sorted(_dependency_names("dependencies"))
         optional = sorted(_dependency_names("extras"))
-        self.assertEqual(optional, ["Pillow", "tqdm"])
+        self.assertEqual(optional, ["tqdm"])
         for name in optional:
             self.assertNotIn(name, required)
+
+    def test_importing_the_package_does_not_load_qt(self):
+        """PySide6 是必要相依，但只有介面用得到；其餘場合不該載入它。
+
+        必須開子行程才驗得準：同一個行程裡的 GUI 測試早就把 Qt 載進
+        ``sys.modules`` 了，在這裡直接檢查只會驗到別人的副作用。
+        """
+        code = (
+            "import sys, traffickit_viz;"
+            "print([n for n in sys.modules "
+            "if n.startswith(('PySide6', 'shiboken'))])"
+        )
+        finished = subprocess.run(
+            [sys.executable, "-c", code],
+            capture_output=True, text=True, check=True,
+        )
+        self.assertEqual(
+            finished.stdout.strip(), "[]",
+            "import traffickit_viz 之後不應該有 Qt 被載入；"
+            "檢查是不是有人在頂層 import 了 gui 子套件",
+        )
 
 
 if __name__ == "__main__":

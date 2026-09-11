@@ -1,7 +1,7 @@
 """TrafficKit 的視覺化與影片輸出層。
 
-目前提供的是**繪製層**：把 ``traffickit.formats`` 讀出來的逐影格軌跡畫成
-車身框。讀寫影片檔與互動介面還沒搬進來。
+目前提供**繪製層與影片輸出**：把 ``traffickit.formats`` 讀出來的逐影格軌跡
+畫成車身框，並疊到影片上輸出。互動介面還沒搬進來。
 
 為什麼獨立成一個套件
 --------------------
@@ -46,6 +46,15 @@ bbox 繪製與疊圖         交通計算（``speed``、``volume``）
 
     frame_boxes = tracks.query("vehicle_id in @wanted and frame == 100")
     draw_boxes(image, frame_boxes, style=style)   # image 就地被改
+
+整段影片輸出：
+
+.. code-block:: python
+
+    from traffickit_viz import render_video
+
+    result = render_video("aerial.mp4", tracks, style=style, codec="MJPG")
+    print(result.output_path, result.frames_written, result.missing_vehicle_ids)
 """
 
 from ._colors import (
@@ -57,21 +66,41 @@ from ._colors import (
 )
 from ._draw import draw_boxes
 from ._heading import CORNER_COLUMNS, add_headings
+from ._resample import resample_tracks
 from ._style import FRONT_MODES, LABEL_MODES, BoxStyle, default_style
+from ._timespec import frame_span, parse_time_spec, resolve_center_range
+from ._video import (
+    CODECS,
+    RenderResult,
+    VideoInfo,
+    probe_video,
+    render_video,
+    resolve_output_path,
+)
 
-__version__ = "0.0.2"
+__version__ = "0.1.0"
 
 __all__ = [
     "BoxStyle",
+    "CODECS",
     "CORNER_COLUMNS",
     "DEFAULT_PALETTE",
     "FRONT_MODES",
     "LABEL_MODES",
     "NAMED_COLORS",
+    "RenderResult",
+    "VideoInfo",
     "add_headings",
     "assign_colors",
     "color_to_hex",
     "default_style",
     "draw_boxes",
+    "frame_span",
     "parse_color",
+    "parse_time_spec",
+    "probe_video",
+    "render_video",
+    "resample_tracks",
+    "resolve_center_range",
+    "resolve_output_path",
 ]
