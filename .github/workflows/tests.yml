@@ -62,3 +62,7 @@ jobs:
 
       - name: 視覺化套件的測試
         run: python -m unittest discover -s packages/traffickit-viz/tests -v
+
+      - name: 範例也要能跑
+        # 找不到 data/ 時會自己產生合成軌跡檔，CI 上也能跑。
+        run: python packages/traffickit-viz/examples/draw_frame_demo.py

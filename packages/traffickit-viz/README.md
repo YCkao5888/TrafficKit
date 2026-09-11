@@ -2,9 +2,8 @@
 
 TrafficKit 的視覺化與影片輸出層。
 
-> **目前是骨架，還沒有公開函式。** 這一版建立的是套件結構、相依邊界與測試
-> 框架，功能會逐項搬進來。想找可以用的東西請看
-> [traffickit 本體](../../README.md)。
+> **目前只有繪製層。** 讀寫影片檔與互動介面還沒搬進來，功能逐項移植中。
+> 交通計算請看 [traffickit 本體](../../README.md)。
 
 ## 為什麼是獨立的套件
 
@@ -63,6 +62,45 @@ pip install "traffickit-viz[extras]"
 > 那需要在核心的 `optional-dependencies` 寫一筆 `traffickit-viz`，而它還不在
 > PyPI 上，寫成 git 直接參照又會讓核心以後上不了 PyPI。等真的要發佈時再補。
 
+## 公開函式
+
+| 名稱 | 用途 |
+| --- | --- |
+| `add_headings(tracks, *, window, order_by)` | 由四角點推出車頭方向並沿時間平滑，多出 `heading_x`／`heading_y` 兩欄 |
+| `assign_colors(vehicle_ids, *, palette, overrides)` | 替一批車輛配色，**整段影片一次算好** |
+| `BoxStyle(colors, ...)` | 框線粗細、標籤、填色、車頭標示等外觀設定 |
+| `default_style(vehicle_ids, **options)` | 用預設配色建樣式的起手式 |
+| `draw_boxes(image, boxes, *, style)` | 把一個影格的車輛框畫到影像上 |
+| `parse_color` / `color_to_hex` | 顏色寫法與 BGR 的互轉 |
+
+```python
+from traffickit.formats import read_motc_su_tracks
+from traffickit_viz import BoxStyle, add_headings, assign_colors, draw_boxes
+
+tracks = add_headings(read_motc_su_tracks("your_file_CSV_SU.csv"))
+style = BoxStyle(assign_colors(sorted(tracks["vehicle_id"].unique())), front="arrow")
+
+draw_boxes(image, tracks.query("frame == 100"), style=style)   # image 就地被改
+```
+
+可執行範例（會輸出一張 PNG）：
+
+```powershell
+.\.venv\Scripts\python.exe packages/traffickit-viz/examples/draw_frame_demo.py
+```
+
+### 三個要知道的約定
+
+1. **`draw_boxes` 就地修改影像。** 這是整個套件唯一會修改輸入的地方——
+   影片一秒數十張 4K 影像，每張都複製一份會慢到不能用。需要保留原圖請自己
+   傳 `image.copy()`。表格類的函式（`add_headings`）仍然不修改輸入。
+2. **配色要一次算好整段影片。** 若在繪製時才依當下影格出現的車輛順序配色，
+   同一台車的顏色會隨別的車進出畫面而改變，畫面會閃爍且不會有錯誤訊息。
+   `draw_boxes` 因此要求顏色表涵蓋所有要畫的車，缺了就拋錯。
+3. **樣式參數有預設值**，與核心「不給預設門檻」的規則不同。差別在猜錯的
+   後果：核心的門檻猜錯會算出看起來正常的錯數字；這裡猜錯只是線粗一點，
+   看一眼就知道。
+
 ## 測試
 
 ```powershell
@@ -70,6 +108,9 @@ pip install "traffickit-viz[extras]"
 ```
 
 核心的測試不會跑到這裡，這樣沒裝 OpenCV 也能跑核心測試。CI 也是分成兩個 job。
+
+繪製的測試驗的是**看得出差別的性質**：該被塗到的像素有沒有變、不該被碰的
+有沒有保持原樣、缺資料時會不會拋錯。車頭方向的期望值則全部手算。
 
 ## 預計搬進來的東西
 
@@ -83,3 +124,10 @@ pip install "traffickit-viz[extras]"
   這裡也一樣——填錯比例尺畫出來的框會整體偏移，應該報錯而不是默默套用。
 - `_fix_heading_flips`（修正車頭／車尾角點被對調的影格）改變的是**資料的
   意義**不只是畫面，應該進核心的格式層，不是這裡。
+
+已搬進來的：`RenderOptions` → `BoxStyle`、bbox 與標籤繪製、車頭標示、
+車頭方向平滑（`_smoothed_heading` → `add_headings`）、顏色剖析與配色。
+
+移植時修掉的一個舊行為：舊工具把標籤位置無條件夾進畫面內，結果**完全在
+畫面外的車也會在邊緣留下一個沒有框的標籤**。現在整台跳過；部分露出的車
+照畫。
