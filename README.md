@@ -314,11 +314,13 @@ start docs\_build\html\index.html
 
 ```
 TrafficKit/
-├─ src/traffickit/            套件原始碼
+├─ src/traffickit/            套件原始碼（只依賴 pandas、numpy）
 │   ├─ _validation.py         各功能共用的輸入驗證
 │   ├─ formats/               格式轉換層（唯一會讀檔的地方）
 │   ├─ speed/                 速度相關功能
 │   └─ volume/                流量相關功能
+├─ packages/
+│   └─ traffickit-viz/        視覺化與影片輸出，**獨立的套件**（相依 OpenCV）
 ├─ examples/                  每個功能一份可執行範例
 ├─ tests/                     每個功能一份規格測試
 ├─ docs/                      Sphinx 文件原始碼，也就是網站內容
@@ -334,6 +336,10 @@ TrafficKit/
 
 `data/` 放舊版參考程式與真實調查資料，**已列入 `.gitignore`，只存在於開發者本機**。
 真實案件的資料不進版控；測試與範例一律使用合成的小樣本。
+
+`packages/traffickit-viz/` 是同一個 repo 裡的**第二個套件**，不會跟著
+`pip install traffickit` 一起裝。詳見
+[它自己的 README](packages/traffickit-viz/README.md)。
 
 </details>
 

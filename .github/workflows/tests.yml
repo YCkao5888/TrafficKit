@@ -39,3 +39,26 @@ jobs:
           python examples/turn_volume_demo.py
           python examples/motc_su_turn_volume_demo.py
           python examples/motc_ssam_demo.py
+
+  # 視覺化套件獨立一個 job：它要裝 OpenCV，不該拖慢核心的測試矩陣。
+  # 核心 job 完全不碰這裡的相依，也證明了核心沒有 OpenCV 也跑得起來。
+  viz:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安裝核心與視覺化套件
+        # 順序不能反：traffickit-viz 宣告依賴 traffickit，但兩者都還沒上
+        # PyPI，先裝好核心，pip 才會認定需求已滿足而不去 PyPI 找。
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install -e packages/traffickit-viz
+
+      - name: 視覺化套件的測試
+        run: python -m unittest discover -s packages/traffickit-viz/tests -v

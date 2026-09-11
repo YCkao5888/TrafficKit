@@ -27,6 +27,19 @@ TrafficKit（`traffickit`）是交通分析**計算**套件。只放會改變交
 | `traffickit.formats` | 外部檔案 → 套件契約的表格 | 是，但只做欄位與型別轉換 |
 | `traffickit._validation` | 兩個以上功能共用的輸入驗證 | 否 |
 
+**這個 repo 有兩個套件**（monorepo）：
+
+| 路徑 | 套件名 | 相依 | 什麼進去 |
+| --- | --- | --- | --- |
+| `src/traffickit/` | `traffickit` | pandas、numpy | 會改變**數字**的邏輯 |
+| `packages/traffickit-viz/` | `traffickit-viz` | traffickit、OpenCV | 會改變**畫面**的邏輯 |
+
+**相依方向是單向的**：`traffickit_viz` 可以 import `traffickit`，
+反過來永遠不行——核心一旦沾上 OpenCV，後端與 CI 就裝不動了。
+`tests/test_layering.py` 專門守這條線，違反時所有功能測試仍會通過，
+只有它會失敗。放哪一邊的判準：**改變數字的留核心，改變畫面的放 viz**。
+`traffickit-viz` 詳見 `packages/traffickit-viz/README.md`。
+
 常用輸入格式：**MOTC 空拍影像軌跡 CSV**，同一批分析成果有兩種輸出版本，
 各有一份工作單：
 
@@ -93,6 +106,7 @@ README 的功能索引是多數人第一眼看到的清單，漏掉等於新功�
 | 新增輸入格式 | 放 `traffickit.formats`，九項＋本檔「常用輸入格式」段 |
 | 新增跨功能的共同約定 | 本檔「程式碼慣例」＋README「設計約定」＋`docs/index.md`「使用前必讀」（三處要一致） |
 | 新增共用驗證函式 | `src/traffickit/_validation.py`，並確認既有呼叫端的錯誤訊息沒被改掉 |
+| 新增視覺化／影片輸出功能 | 放 `packages/traffickit-viz`，**不要動核心**；該套件的 `__all__`、`README.md` 與 `tests/`，以及本檔的分層表 |
 | 要發行一個版本 | 走 `docs/release-checklist.md`（版號、`docs/switcher.json`、tag） |
 
 ## 程式碼慣例
@@ -143,6 +157,17 @@ README 的功能索引是多數人第一眼看到的清單，漏掉等於新功�
 .\.venv\Scripts\python.exe examples\<功能>_demo.py
 .\.venv\Scripts\python.exe -m sphinx -b html -W --keep-going -d docs\_build\doctrees docs docs\_build\html
 ```
+
+動到 `packages/traffickit-viz` 時另外跑（**先裝核心再裝它**，兩者都還沒上
+PyPI，順序反了 pip 會去 PyPI 找 `traffickit` 而失敗）：
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -e packages/traffickit-viz
+.\.venv\Scripts\python.exe -m unittest discover -s packages/traffickit-viz/tests -v
+```
+
+核心的 `unittest discover -s tests` **不會**跑到 viz 的測試，這是刻意的：
+沒裝 OpenCV 的環境仍然要能跑完核心測試。CI 也分成兩個 job。
 
 文件建置用 `-W`（警告即失敗），會抓出 docstring 語法錯誤、toctree 漏頁、
 交叉參照失效。**繁體中文 docstring 的 RST 陷阱**：行內標記的結束符後面不能
@@ -271,7 +296,9 @@ git ls-files | git check-ignore --no-index --stdin
 ## 不要做的事
 
 - 不要為了通過測試而放寬契約；契約要改就先跟使用者確認，並在 catalog 升「契約版」。
-- 不要新增相依套件（目前只有 pandas、numpy）；需要時先問。
+- **不要為核心 `traffickit` 新增相依套件**（目前只有 pandas、numpy）；需要時先問。
+  視覺化相關的相依（OpenCV、Pillow、tqdm、GUI）一律放 `packages/traffickit-viz`，
+  那邊可以有自己的相依，但仍然要先問。
 - 不要動 `data/` 裡的舊程式。
 - 不要在功能還沒做真實資料回歸比較前，把 catalog 狀態寫成「正式」。
 - 不要只改程式不改 docstring——API reference 完全由 docstring 產生，

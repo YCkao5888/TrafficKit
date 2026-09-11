@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "traffickit-viz"
+version = "0.0.1"
+description = "Visualisation and video output layer for TrafficKit"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "YU-CHENG KAO" }]
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = [
+    # 相依方向是單向的：這裡可以依賴 traffickit，反過來永遠不行。
+    # 兩個套件都還沒上 PyPI，所以要先安裝 traffickit，pip 才不會去 PyPI
+    # 找不到而失敗。安裝方式見 README。
+    "traffickit>=0.1",
+    # headless 版沒有 GUI 相依（在 Linux CI 上不需要 libGL），
+    # 而影片的解碼、繪製與編碼都用得到。只有在真的要用 cv2 開視窗時
+    # 才需要換成 opencv-python——預覽介面預計用 tkinter，不走 cv2 視窗。
+    "opencv-python-headless>=4.8",
+    "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+# 命令列進度條與預覽畫面的加速路徑，兩者缺了都還能跑。
+extras = [
+    "tqdm>=4.66",
+    "Pillow>=10.0",
+]
+
+[project.urls]
+Documentation = "https://yckao5888.github.io/TrafficKit/latest/"
+Source = "https://github.com/YCkao5888/TrafficKit"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["traffickit_viz*"]
