@@ -432,6 +432,8 @@
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">traffickit.formats</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="generated/traffickit.formats.read_motc_su_vehicles.html">traffickit.formats.read_motc_su_vehicles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/traffickit.formats.read_motc_su_tracks.html">traffickit.formats.read_motc_su_tracks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/traffickit.formats.read_motc_ssam_vehicles.html">traffickit.formats.read_motc_ssam_vehicles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/traffickit.formats.read_motc_ssam_tracks.html">traffickit.formats.read_motc_ssam_tracks</a></li>
 </ul>
 </details></li>
 </ul>
@@ -508,11 +510,41 @@
 <tr class="row-even"><td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_su_tracks.html#traffickit.formats.read_motc_su_tracks" title="traffickit.formats.read_motc_su_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code></a></p></td>
 <td><p>讀取 MOTC_SU 軌跡檔，回傳一列一台車一個 frame 的位置。</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_ssam_vehicles.html#traffickit.formats.read_motc_ssam_vehicles" title="traffickit.formats.read_motc_ssam_vehicles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_motc_ssam_vehicles</span></code></a></p></td>
+<td><p>讀取 MOTC_SSAM 軌跡檔，回傳一列一台車的通過紀錄。</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_ssam_tracks.html#traffickit.formats.read_motc_ssam_tracks" title="traffickit.formats.read_motc_ssam_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_motc_ssam_tracks</span></code></a></p></td>
+<td><p>讀取 MOTC_SSAM 軌跡檔，回傳一列一台車一個時間步的位置。</p></td>
+</tr>
 </tbody>
 </table>
 </div>
-<p>前者一列一台車（進出閘門、車種、進出 frame），後者一列一台車一個 frame
-（四角點與中心點）。兩者讀同一份檔，差別只在粒度。</p>
+<p>同一批空拍影像分析成果有兩種輸出版本，各有兩個入口：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>版本</p></th>
+<th class="head"><p>一列一台車</p></th>
+<th class="head"><p>一列一台車一個時間點</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Pixel Frame</p></td>
+<td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_su_vehicles.html#traffickit.formats.read_motc_su_vehicles" title="traffickit.formats.read_motc_su_vehicles"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_motc_su_vehicles()</span></code></a></p></td>
+<td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_su_tracks.html#traffickit.formats.read_motc_su_tracks" title="traffickit.formats.read_motc_su_tracks"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_motc_su_tracks()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>SSAM</p></td>
+<td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_ssam_vehicles.html#traffickit.formats.read_motc_ssam_vehicles" title="traffickit.formats.read_motc_ssam_vehicles"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_motc_ssam_vehicles()</span></code></a></p></td>
+<td><p><a class="reference internal" href="generated/traffickit.formats.read_motc_ssam_tracks.html#traffickit.formats.read_motc_ssam_tracks" title="traffickit.formats.read_motc_ssam_tracks"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_motc_ssam_tracks()</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">*_vehicles</span></code> 給轉向流量用（進出閘門、車種、進出時間）；<code class="docutils literal notranslate"><span class="pre">*_tracks</span></code>
+給逐點分析用（四角點與中心點）。同一版的兩個入口讀同一份檔，差別只在粒度。</p>
+<p>兩版的差別在座標與時間軸：Pixel Frame 版是**像素**座標配 frame 編號，
+SSAM 版是**公尺**座標配秒數，車身以車頭中點、車尾中點與車寬表示。
+路口代號與車種代號兩版完全相同，因此 <code class="docutils literal notranslate"><span class="pre">*_vehicles</span></code> 的輸出都能直接餵給
+<a class="reference internal" href="generated/traffickit.volume.summarise_turn_volume.html#traffickit.volume.summarise_turn_volume" title="traffickit.volume.summarise_turn_volume"><code class="xref py py-func docutils literal notranslate"><span class="pre">summarise_turn_volume()</span></code></a>。</p>
 </section>
 <section id="id2">
 <h2>常數<a class="headerlink" href="#id2" title="連結到這個標頭">#</a></h2>
@@ -543,10 +575,14 @@ errors defaults to 'strict'.</p>
 
 <div class="admonition note">
 <p class="admonition-title">備註</p>
-<p>不完整軌跡（代號 <code class="docutils literal notranslate"><span class="pre">X</span></code>）會照樣讀入並標記 <code class="docutils literal notranslate"><span class="pre">is_complete=False</span></code>，
-不會默默消失。要餵給 <a class="reference internal" href="generated/traffickit.volume.summarise_turn_volume.html#traffickit.volume.summarise_turn_volume" title="traffickit.volume.summarise_turn_volume"><code class="xref py py-func docutils literal notranslate"><span class="pre">summarise_turn_volume()</span></code></a>
-之前請自行 <code class="docutils literal notranslate"><span class="pre">.query(&quot;is_complete&quot;)</span></code>。</p>
-<p>完整的格式定義見 <a class="reference internal" href="../worksheets/formats.motc_su.html"><span class="doc">工作單：formats.motc_su</span></a>。</p>
+<p>兩種代號不是路口代號，但都會照樣讀入並標記，不會默默消失：
+不完整軌跡（<code class="docutils literal notranslate"><span class="pre">X</span></code>）標 <code class="docutils literal notranslate"><span class="pre">is_complete=False</span></code>；
+行人與自行車走的行穿線（兩個路口字母，例如 <code class="docutils literal notranslate"><span class="pre">AB</span></code>）標
+<code class="docutils literal notranslate"><span class="pre">is_crosswalk=True</span></code>。要餵給
+<a class="reference internal" href="generated/traffickit.volume.summarise_turn_volume.html#traffickit.volume.summarise_turn_volume" title="traffickit.volume.summarise_turn_volume"><code class="xref py py-func docutils literal notranslate"><span class="pre">summarise_turn_volume()</span></code></a> 之前請自行
+<code class="docutils literal notranslate"><span class="pre">.query(&quot;is_complete</span> <span class="pre">and</span> <span class="pre">not</span> <span class="pre">is_crosswalk&quot;)</span></code>。</p>
+<p>完整的格式定義見 <a class="reference internal" href="../worksheets/formats.motc_su.html"><span class="doc">工作單：formats.motc_su</span></a> 與
+<a class="reference internal" href="../worksheets/formats.motc_ssam.html"><span class="doc">工作單：formats.motc_ssam</span></a>。</p>
 </div>
 </section>
 </section>

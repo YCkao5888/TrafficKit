@@ -1,0 +1,1098 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-TW" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>工作單：formats.motc_ssam &#8212; TrafficKit 0.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5eb3ec05" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../_static/documentation_options.js?v=a7999bab"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/translations.js?v=cbf116e0"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'worksheets/formats.motc_ssam';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.21.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://yckao5888.github.io/TrafficKit/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜尋" href="../search.html" />
+    <link rel="next" title="交通分析功能模組開發教學" href="../feature-development-guide.html" />
+    <link rel="prev" title="工作單：formats.motc_su" href="formats.motc_su.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-TW"/>
+  <meta name="docsearch:version" content="0.1.0" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">TrafficKit 0.1.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../catalog.html">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../feature-development-guide.html">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜尋" aria-label="搜尋" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜尋</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../catalog.html">
+    交通功能目錄
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    工作單
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../feature-development-guide.html">
+    開發指南
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../feature-request-template.html">
+    擴充功能需求單模板
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../release-checklist.html">
+    發行與文件更新檢查表
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YCkao5888/TrafficKit" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="章节导航">
+  <p class="bd-links__title" role="heading" aria-level="1">章节导航</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="speed.speed_distribution.html">工作單：speed.speed_distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="volume.turn_volume.html">工作單：volume.turn_volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.motc_su.html">工作單：formats.motc_su</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">工作單：formats.motc_ssam</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="初始页面">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">工作單</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">工作單：formats.motc_ssam</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="formats-motc-ssam">
+<h1>工作單：formats.motc_ssam<a class="headerlink" href="#formats-motc-ssam" title="連結到這個標頭">#</a></h1>
+<p>依 <a class="reference internal" href="../feature-development-guide.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">feature-development-guide.md</span></code></span></a>
+「每個新功能都要填的一張工作單」填寫。</p>
+<ul class="simple">
+<li><p><strong>功能 ID</strong>：formats.motc_ssam</p></li>
+<li><p><strong>一句目的</strong>：把 MOTC 空拍影像軌跡檔的 SSAM 版讀成套件契約的表格。</p></li>
+<li><p><strong>主要負責人</strong>：yckao</p></li>
+<li><p><strong>公開函式入口</strong>：<code class="docutils literal notranslate"><span class="pre">traffickit.formats.read_motc_ssam_vehicles</span></code>、
+<code class="docutils literal notranslate"><span class="pre">traffickit.formats.read_motc_ssam_tracks</span></code></p></li>
+<li><p><strong>契約版</strong>：1</p></li>
+<li><p><strong>狀態</strong>：試行</p></li>
+<li><p><strong>參考來源</strong>：<code class="docutils literal notranslate"><span class="pre">空拍影像分析_輸出資料相關定義_v1.1.xlsx</span></code> 的「軌跡檔_SSAM」分頁
+（該分頁只寫路口代號與車種代號，欄位定義轉引 SSAM tutorial）；
+舊程式 <code class="docutils literal notranslate"><span class="pre">video_add_veh_bbox.py</span></code> 的 <code class="docutils literal notranslate"><span class="pre">load_ssam_csv</span></code>（本機參考，未納入版控）；
+一份真實的 <code class="docutils literal notranslate"><span class="pre">*_CSV_SSAM.csv</span></code>（本機參考，未納入版控；
+依慣例不在文件中記錄真實案件的檔名或路口名稱）</p></li>
+</ul>
+<blockquote>
+<div><p><strong>這一層為什麼可以讀檔？</strong> <code class="docutils literal notranslate"><span class="pre">traffickit.formats</span></code> 是格式轉換層，只做欄位與
+型別轉換，不做任何交通判定。計算功能（<code class="docutils literal notranslate"><span class="pre">traffickit.speed</span></code>、
+<code class="docutils literal notranslate"><span class="pre">traffickit.volume</span></code>）仍維持零 I/O。</p>
+</div></blockquote>
+<section id="pixel-frame">
+<h2>與 Pixel Frame 版的關係<a class="headerlink" href="#pixel-frame" title="連結到這個標頭">#</a></h2>
+<p>同一批分析成果的兩種輸出，<strong>不是兩種不同的資料</strong>：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Pixel Frame 版（<code class="docutils literal notranslate"><span class="pre">formats.motc_su</span></code>）</p></th>
+<th class="head"><p>SSAM 版（本功能）</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>粒度</p></td>
+<td><p>一列一台車，軌跡接在同一列</p></td>
+<td><p>一列一台車一個時間步</p></td>
+</tr>
+<tr class="row-odd"><td><p>座標</p></td>
+<td><p>像素</p></td>
+<td><p>公尺</p></td>
+</tr>
+<tr class="row-even"><td><p>時間</p></td>
+<td><p>frame 編號</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Timestep</span></code>，秒</p></td>
+</tr>
+<tr class="row-odd"><td><p>車身</p></td>
+<td><p>四個角點</p></td>
+<td><p>車頭中點、車尾中點、車長、車寬</p></td>
+</tr>
+<tr class="row-even"><td><p>路口代號</p></td>
+<td><p>A/B/C/D＋I/O，X 為不完整</p></td>
+<td><p><strong>完全相同</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>車種代號</p></td>
+<td><p>p/u/m/c/t/b/h/g</p></td>
+<td><p><strong>完全相同</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>標題列</p></td>
+<td><p>無</p></td>
+<td><p>有，前面還有 FORMAT／DIMENSIONS 區塊</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>因為代號共用，兩版的 <code class="docutils literal notranslate"><span class="pre">*_vehicles</span></code> 輸出都能直接餵給 <code class="docutils literal notranslate"><span class="pre">summarise_turn_volume</span></code>。
+共用的代號剖析放在 <code class="docutils literal notranslate"><span class="pre">src/traffickit/formats/_motc_common.py</span></code>。</p>
+</section>
+<section id="id1">
+<h2>格式定義<a class="headerlink" href="#id1" title="連結到這個標頭">#</a></h2>
+<p>檔案開頭是 FORMAT／DIMENSIONS 區塊，接著是標題列，之後才是資料：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FORMAT,,,,,,,,,,,,,,
+ ,Byte Order,L,,,,,,,,,,,,
+ ,Version,1.04,,,,,,,,,,,,
+DIMENSIONS,,,,,,,,,,,,,,
+ ,Units,1,,,,,,,,,,,,
+ ,Scale,1,,,,,,,,,,,,
+Timestep,Vehicle ID,Link ID,Lane ID,Front X,Front Y,Rear X,Rear Y,Length,Width,Speed,Acceleration,intersection in,intersection out,class
+0.1001001,,,,,,,,,,,,,,
+0.1001001,1,1,1,87.819,55.2979,82.6862,55.2177,5.1253,2.3800,8.02,-0.1,AI,BO,c
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>DIMENSIONS 區塊的 <code class="docutils literal notranslate"><span class="pre">Scale</span></code>、<code class="docutils literal notranslate"><span class="pre">MaxX</span></code> 等值是佔位值</strong>，與真實比例無關
+（實測 <code class="docutils literal notranslate"><span class="pre">MaxX,100</span></code> 但資料中有 125 的座標）。不要拿它當比例尺。</p></li>
+<li><p><strong>每個時間步前有一列只有 <code class="docutils literal notranslate"><span class="pre">Timestep</span></code> 的分隔列。</strong> 有兩種寫法：只有一個
+欄位，或把逗號補滿到與標題列同寬。本讀取器以「除了第一欄以外都是空的」
+判斷，兩種都略過。</p></li>
+<li><p><strong>標題列的欄位順序不固定</strong>，且與 SSAM tutorial 的欄位清單不完全相同
+（實測檔多了 <code class="docutils literal notranslate"><span class="pre">Acceleration</span></code>，且 <code class="docutils literal notranslate"><span class="pre">class</span></code> 排在最後）。本讀取器<strong>以欄位名稱
+定位</strong>，比對時去空白並轉小寫，不依賴位置。</p></li>
+</ul>
+<p>必要欄位（缺任一個就拋錯）：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>標題列名稱</p></th>
+<th class="head"><p>輸出欄位</p></th>
+<th class="head"><p>意義</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Timestep</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time_s</span></code></p></td>
+<td><p>秒</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Vehicle</span> <span class="pre">ID</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code></p></td>
+<td><p>車輛 ID</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Front</span> <span class="pre">X</span></code> / <code class="docutils literal notranslate"><span class="pre">Front</span> <span class="pre">Y</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">front_x_m</span></code> / <code class="docutils literal notranslate"><span class="pre">front_y_m</span></code></p></td>
+<td><p>車頭中點（公尺）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Rear</span> <span class="pre">X</span></code> / <code class="docutils literal notranslate"><span class="pre">Rear</span> <span class="pre">Y</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rear_x_m</span></code> / <code class="docutils literal notranslate"><span class="pre">rear_y_m</span></code></p></td>
+<td><p>車尾中點（公尺）</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Length</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">length_m</span></code></p></td>
+<td><p>宣告車長（公尺）</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Width</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">width_m</span></code></p></td>
+<td><p>車寬（公尺）</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">class</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vehicle_class</span></code></p></td>
+<td><p>車種代號</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">intersection</span> <span class="pre">in</span></code> / <code class="docutils literal notranslate"><span class="pre">intersection</span> <span class="pre">out</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">entry_gate</span></code> / <code class="docutils literal notranslate"><span class="pre">exit_gate</span></code></p></td>
+<td><p>路口代號</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Link</span> <span class="pre">ID</span></code>、<code class="docutils literal notranslate"><span class="pre">Lane</span> <span class="pre">ID</span></code>、<code class="docutils literal notranslate"><span class="pre">Speed</span></code>、<code class="docutils literal notranslate"><span class="pre">Acceleration</span></code> 目前不讀，見「已知限制」。</p>
+<section id="id2">
+<h3>時間基準<a class="headerlink" href="#id2" title="連結到這個標頭">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Timestep</span></code> 是秒。實測<strong>每個值乘以 9.99 都是整數</strong>（最大偏差 5e-7），
+與 Pixel Frame 版的 <code class="docutils literal notranslate"><span class="pre">DEFAULT_FPS</span> <span class="pre">=</span> <span class="pre">9.99</span></code> 完全一致——這是兩份來自不同架次的
+檔案各自得到的結果，互相佐證了 9.99（= 29.97/3）就是實際拍攝速率。</p>
+<p><strong>但這不表示兩版的時間原點對齊。</strong> 手上兩份檔是不同架次，無法驗證同一架次
+的 SSAM <code class="docutils literal notranslate"><span class="pre">Timestep</span> <span class="pre">×</span> <span class="pre">fps</span></code> 是否等於 Pixel Frame 版的 frame 編號。兩版要合用時
+請自行校正，或提供同一架次的兩個檔補做驗證。</p>
+</section>
+<section id="id3">
+<h3>行穿線代號<a class="headerlink" href="#id3" title="連結到這個標頭">#</a></h3>
+<p>格式定義文件的 SSAM_TTC_PET 分頁寫「車輛範例為 AI、BI，不完整軌跡為 X，
+<strong>行人則是 AB、BC</strong>」。也就是行人走行穿線時，代號是<strong>兩個路口字母</strong>、
+沒有 I／O 後綴。</p>
+<p>實測完全吻合：1275 台車中有 398 台使用行穿線代號（AB／BC／CD／DA），
+正好是全部 386 個行人加 12 台自行車，<strong>沒有任何一台汽機車使用這種代號</strong>。</p>
+<p>本讀取器接受這種代號、原樣保留，並標記 <code class="docutils literal notranslate"><span class="pre">is_crosswalk=True</span></code>。
+<code class="docutils literal notranslate"><span class="pre">formats.motc_su</span></code> 同步放寬（見該功能契約版 2）。</p>
+</section>
+</section>
+<section id="id4">
+<h2>參數<a class="headerlink" href="#id4" title="連結到這個標頭">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>參數</p></th>
+<th class="head"><p>型別</p></th>
+<th class="head"><p>預設</p></th>
+<th class="head"><p>意義</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">path</span></code></p></td>
+<td><p>str / path-like</p></td>
+<td><p>無（必填）</p></td>
+<td><p>CSV 檔路徑</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">encoding</span></code></p></td>
+<td><p>str</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;utf-8-sig&quot;</span></code></p></td>
+<td><p>檔案編碼。有沒有 BOM 都讀得到</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>沒有比例尺參數，也沒有 fps 參數。</strong> 座標原本就是公尺、時間原本就是秒，
+本層不做任何換算。要畫到影像上才需要比例尺，那屬於呼叫端。</p>
+</section>
+<section id="id5">
+<h2>輸出<a class="headerlink" href="#id5" title="連結到這個標頭">#</a></h2>
+<section id="read-motc-ssam-vehicles-dataframe">
+<h3><code class="docutils literal notranslate"><span class="pre">read_motc_ssam_vehicles</span></code> → DataFrame（一列一台車）<a class="headerlink" href="#read-motc-ssam-vehicles-dataframe" title="連結到這個標頭">#</a></h3>
+<p>依 <code class="docutils literal notranslate"><span class="pre">entry_time_s</span></code>、<code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code> 排序。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>欄位</p></th>
+<th class="head"><p>型別</p></th>
+<th class="head"><p>意義</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code></p></td>
+<td><p>string</p></td>
+<td><p>車輛 ID</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">entry_gate</span></code> / <code class="docutils literal notranslate"><span class="pre">exit_gate</span></code></p></td>
+<td><p>string</p></td>
+<td><p>路口代號，<strong>已去掉結尾 I／O</strong>；不完整者為 <code class="docutils literal notranslate"><span class="pre">X</span></code>；行穿線代號原樣保留</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vehicle_class</span></code></p></td>
+<td><p>string</p></td>
+<td><p>車種代號</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">entry_time_s</span></code> / <code class="docutils literal notranslate"><span class="pre">exit_time_s</span></code></p></td>
+<td><p>float64</p></td>
+<td><p>該車最早／最晚出現的 <code class="docutils literal notranslate"><span class="pre">Timestep</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sample_count</span></code></p></td>
+<td><p>int64</p></td>
+<td><p>該車在檔案中的列數</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">is_complete</span></code></p></td>
+<td><p>bool</p></td>
+<td><p>進出代號都不是 <code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">is_crosswalk</span></code></p></td>
+<td><p>bool</p></td>
+<td><p>進入或駛出代號是行穿線代號</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>與 <code class="docutils literal notranslate"><span class="pre">read_motc_su_vehicles</span></code> 的差別只有一處：<strong>SSAM 版沒有 frame 編號</strong>，
+因此沒有 <code class="docutils literal notranslate"><span class="pre">entry_frame</span></code>／<code class="docutils literal notranslate"><span class="pre">exit_frame</span></code>／<code class="docutils literal notranslate"><span class="pre">frame_count</span></code>，改以 <code class="docutils literal notranslate"><span class="pre">sample_count</span></code>
+表示取樣列數。</p>
+</section>
+<section id="read-motc-ssam-tracks-dataframe">
+<h3><code class="docutils literal notranslate"><span class="pre">read_motc_ssam_tracks</span></code> → DataFrame（一列一台車一個時間步）<a class="headerlink" href="#read-motc-ssam-tracks-dataframe" title="連結到這個標頭">#</a></h3>
+<p>依 <code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>、<code class="docutils literal notranslate"><span class="pre">time_s</span></code> 排序。欄位：<code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>、<code class="docutils literal notranslate"><span class="pre">time_s</span></code>、
+<code class="docutils literal notranslate"><span class="pre">front_x_m</span></code>、<code class="docutils literal notranslate"><span class="pre">front_y_m</span></code>、<code class="docutils literal notranslate"><span class="pre">rear_x_m</span></code>、<code class="docutils literal notranslate"><span class="pre">rear_y_m</span></code>、<code class="docutils literal notranslate"><span class="pre">length_m</span></code>、<code class="docutils literal notranslate"><span class="pre">width_m</span></code>、
+<code class="docutils literal notranslate"><span class="pre">x1_m</span></code>…<code class="docutils literal notranslate"><span class="pre">y4_m</span></code>、<code class="docutils literal notranslate"><span class="pre">center_x_m</span></code>、<code class="docutils literal notranslate"><span class="pre">center_y_m</span></code>、<code class="docutils literal notranslate"><span class="pre">is_complete</span></code>、<code class="docutils literal notranslate"><span class="pre">is_crosswalk</span></code>。</p>
+<p>四個角點由車頭中點、車尾中點與車寬<strong>幾何還原</strong>：車身方向的單位向量取
+<code class="docutils literal notranslate"><span class="pre">(front</span> <span class="pre">−</span> <span class="pre">rear)</span> <span class="pre">/</span> <span class="pre">|front</span> <span class="pre">−</span> <span class="pre">rear|</span></code>，垂直方向取其法向量，往兩側各展開半個車寬。
+繞行順序刻意對齊 Pixel Frame 版：<code class="docutils literal notranslate"><span class="pre">x1</span></code>／<code class="docutils literal notranslate"><span class="pre">x2</span></code> 是車頭兩角、<code class="docutils literal notranslate"><span class="pre">x3</span></code>／<code class="docutils literal notranslate"><span class="pre">x4</span></code> 是車尾兩角。</p>
+</section>
+</section>
+<section id="id6">
+<h2>判定規則<a class="headerlink" href="#id6" title="連結到這個標頭">#</a></h2>
+<ol class="arabic simple">
+<li><p>逐列剖析。找到第一欄是 <code class="docutils literal notranslate"><span class="pre">Timestep</span></code> 的列之前，全部略過。</p></li>
+<li><p>空白列與時間步分隔列略過；其餘欄位數不足的列拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，<strong>訊息含行號</strong>。</p></li>
+<li><p>欄位以名稱定位（去空白、轉小寫），不依賴位置。</p></li>
+<li><p>路口代號去掉結尾 I／O；<code class="docutils literal notranslate"><span class="pre">X</span></code> 與行穿線代號原樣保留並設對應旗標。</p></li>
+<li><p>同一個 <code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code> 的進出代號與車種必須全檔一致，不一致拋錯並指出兩個行號。</p></li>
+<li><p>同一個 <code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code> 不可在同一個 <code class="docutils literal notranslate"><span class="pre">Timestep</span></code> 出現兩次。</p></li>
+</ol>
+</section>
+<section id="id7">
+<h2>前置條件<a class="headerlink" href="#id7" title="連結到這個標頭">#</a></h2>
+<p>無。這是最上游的讀取層。</p>
+</section>
+<section id="id8">
+<h2>品質政策<a class="headerlink" href="#id8" title="連結到這個標頭">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>情況</p></th>
+<th class="head"><p>本功能行為</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>找不到 <code class="docutils literal notranslate"><span class="pre">Timestep</span></code> 標題列</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>標題列缺必要欄位</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，列出缺哪些、實際有哪些</p></td>
+</tr>
+<tr class="row-even"><td><p>欄位數不足且不是分隔列</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號</p></td>
+</tr>
+<tr class="row-odd"><td><p>數值欄位不是數值，或是 inf／nan</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號與欄位名</p></td>
+</tr>
+<tr class="row-even"><td><p>車輛 ID 空白</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號</p></td>
+</tr>
+<tr class="row-odd"><td><p>路口代號不符格式</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號</p></td>
+</tr>
+<tr class="row-even"><td><p>車種代號不在格式定義的八個之內</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號</p></td>
+</tr>
+<tr class="row-odd"><td><p>車寬不是正數</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>車頭與車尾座標相同</strong></p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號</p></td>
+</tr>
+<tr class="row-odd"><td><p>同一台車的代號或車種前後不一致</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含兩個行號</p></td>
+</tr>
+<tr class="row-even"><td><p>同一台車在同一時間步重複出現</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>不完整軌跡（<code class="docutils literal notranslate"><span class="pre">X</span></code>）</strong></p></td>
+<td><p><strong>照樣讀入並標記 <code class="docutils literal notranslate"><span class="pre">is_complete=False</span></code></strong></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>行穿線代號（<code class="docutils literal notranslate"><span class="pre">AB</span></code>）</strong></p></td>
+<td><p><strong>照樣讀入並標記 <code class="docutils literal notranslate"><span class="pre">is_crosswalk=True</span></code></strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>只有標題列、沒有資料</p></td>
+<td><p>回傳固定欄位與型別的空表</p></td>
+</tr>
+<tr class="row-even"><td><p>檔案不存在</p></td>
+<td><p>拋 <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>「車頭與車尾座標相同」之所以拋錯而不是略過：這種列算不出車身方向，還原出
+的角點會是任意方向，畫出來或拿去算角度都是錯的，而且錯得不明顯。實測的
+真實檔沒有這種列；若之後遇到（例如車長為 0 的行人），再依實際情況調整，
+不要先放寬。</p>
+</section>
+<section id="id9">
+<h2>統計口徑<a class="headerlink" href="#id9" title="連結到這個標頭">#</a></h2>
+<p>本功能不做統計。<code class="docutils literal notranslate"><span class="pre">read_motc_ssam_vehicles</span></code> 的列數 = 檔案中的車輛數
+（含不完整與行穿線）。<code class="docutils literal notranslate"><span class="pre">sample_count</span></code> 的總和 = <code class="docutils literal notranslate"><span class="pre">read_motc_ssam_tracks</span></code> 的列數。</p>
+</section>
+<section id="id10">
+<h2>手算範例<a class="headerlink" href="#id10" title="連結到這個標頭">#</a></h2>
+<p>四台車的示範檔（見 <code class="docutils literal notranslate"><span class="pre">tests/test_motc_ssam.py</span></code> 的 <code class="docutils literal notranslate"><span class="pre">SAMPLE</span></code>）：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>車</p></th>
+<th class="head"><p>內容</p></th>
+<th class="head"><p>預期 vehicles</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>兩個時間步，<code class="docutils literal notranslate"><span class="pre">BI</span></code>→<code class="docutils literal notranslate"><span class="pre">AO</span></code>，汽車</p></td>
+<td><p>B→A、entry 0.1、exit 0.2、sample_count 2、完整</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>一個時間步，<code class="docutils literal notranslate"><span class="pre">AI</span></code>→<code class="docutils literal notranslate"><span class="pre">CO</span></code>，機車</p></td>
+<td><p>A→C、sample_count 1、完整</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>一個時間步，<code class="docutils literal notranslate"><span class="pre">AB</span></code>→<code class="docutils literal notranslate"><span class="pre">AB</span></code>，行人</p></td>
+<td><p>代號原樣保留、<strong><code class="docutils literal notranslate"><span class="pre">is_crosswalk=True</span></code></strong>、<code class="docutils literal notranslate"><span class="pre">is_complete=True</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>一個時間步，<code class="docutils literal notranslate"><span class="pre">X</span></code>→<code class="docutils literal notranslate"><span class="pre">CO</span></code>，汽車</p></td>
+<td><p>entry_gate <code class="docutils literal notranslate"><span class="pre">X</span></code>、<strong><code class="docutils literal notranslate"><span class="pre">is_complete=False</span></code></strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>角點還原手算</strong>：車 1 在 0.1 秒，車頭中點 (10, 5)、車尾中點 (6, 5)、車寬 2。
+車身方向 (1, 0)，法向量 (0, −1)，半寬 1 →
+車頭兩角 (10, 4)、(10, 6)；車尾兩角 (6, 6)、(6, 4)。
+中心點 (8, 5)，同時等於四角點平均與車頭車尾中點的中點。</p>
+<p><strong>邊界案例</strong>：車頭與車尾座標相同 →
+<code class="docutils literal notranslate"><span class="pre">ValueError：第</span> <span class="pre">4</span> <span class="pre">行的車頭與車尾座標相同，無法決定車身方向</span></code>。</p>
+</section>
+<section id="id11">
+<h2>原始碼／範例／測試位置<a class="headerlink" href="#id11" title="連結到這個標頭">#</a></h2>
+<ul class="simple">
+<li><p>原始碼：<code class="docutils literal notranslate"><span class="pre">src/traffickit/formats/_motc_ssam.py</span></code>
+（共用代號剖析在 <code class="docutils literal notranslate"><span class="pre">src/traffickit/formats/_motc_common.py</span></code>）</p></li>
+<li><p>範例：<code class="docutils literal notranslate"><span class="pre">examples/motc_ssam_demo.py</span></code>（讀檔 → 公尺位移 → 轉向流量）</p></li>
+<li><p>測試：<code class="docutils literal notranslate"><span class="pre">tests/test_motc_ssam.py</span></code>（33 個測試，含格式、品質政策與端到端）</p></li>
+</ul>
+</section>
+<section id="id12">
+<h2>驗證環境與版本<a class="headerlink" href="#id12" title="連結到這個標頭">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>項目</p></th>
+<th class="head"><p>內容</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>日期</p></td>
+<td><p>2026-09-11</p></td>
+</tr>
+<tr class="row-odd"><td><p>套件版本</p></td>
+<td><p>traffickit 0.1.0</p></td>
+</tr>
+<tr class="row-even"><td><p>OS</p></td>
+<td><p>Windows 11 Pro 10.0.26200</p></td>
+</tr>
+<tr class="row-odd"><td><p>Python</p></td>
+<td><p>3.10.5</p></td>
+</tr>
+<tr class="row-even"><td><p>相依套件</p></td>
+<td><p>pandas 2.3.3、numpy 2.2.6</p></td>
+</tr>
+<tr class="row-odd"><td><p>真實檔案</p></td>
+<td><p>本機一份 <code class="docutils literal notranslate"><span class="pre">*_CSV_SSAM.csv</span></code>，20.8 MB，四岔路口單一架次</p></td>
+</tr>
+<tr class="row-even"><td><p>讀取結果</p></td>
+<td><p>1,275 台車；不完整（X）305 台；行穿線 398 台；進出代號 A–D／AB／BC／CD／DA／X；車種 m 535、p 386、c 304、t 31、u 12、b 6、g 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>時間範圍</p></td>
+<td><p>0.1001 ~ 308.7087 秒（約 5.1 分鐘）</p></td>
+</tr>
+<tr class="row-even"><td><p>時間基準檢查</p></td>
+<td><p>全部 <code class="docutils literal notranslate"><span class="pre">Timestep</span> <span class="pre">×</span> <span class="pre">9.99</span></code> 與整數的最大偏差 5e-7</p></td>
+</tr>
+<tr class="row-odd"><td><p>轉向流量</p></td>
+<td><p>過濾 X 與行穿線後 571 台，總 PCU 397.97</p></td>
+</tr>
+<tr class="row-even"><td><p>規格測試</p></td>
+<td><p>本功能 33 個全部通過（當時全專案 117 個）</p></td>
+</tr>
+<tr class="row-odd"><td><p>效能</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">read_motc_ssam_vehicles</span></code> 1,275 台約 1.5 秒；<code class="docutils literal notranslate"><span class="pre">read_motc_ssam_tracks</span></code> 224,166 列約 3.1 秒、常駐約 44 MB（另一次開啟 tracemalloc 追蹤時測得峰值約 240 MB，該次耗時 9.4 秒）</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id13">
+<h2>舊程式差異與已知限制<a class="headerlink" href="#id13" title="連結到這個標頭">#</a></h2>
+<p>舊程式是本機的 <code class="docutils literal notranslate"><span class="pre">video_add_veh_bbox.py</span></code>（在空拍影片上畫 bbox 的工具），
+其 <code class="docutils literal notranslate"><span class="pre">load_ssam_csv</span></code> 讀同一種檔案。差異：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>舊程式</p></th>
+<th class="head"><p>本讀取器</p></th>
+<th class="head"><p>理由</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>必須傳入比例尺，讀完就把公尺換成像素</p></td>
+<td><p>不接受比例尺，輸出公尺</p></td>
+<td><p>公尺是檔案的原生單位，也是本套件的單位慣例；換像素是繪圖需求</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">intersection</span> <span class="pre">in/out</span></code>、<code class="docutils literal notranslate"><span class="pre">class</span></code> 是選填，沒有就留空</p></td>
+<td><p>必要欄位，缺了拋錯</p></td>
+<td><p>缺這些就算不出轉向流量，早點擋下來</p></td>
+</tr>
+<tr class="row-even"><td><p>無法解析的列靜默跳過</p></td>
+<td><p>拋錯並指出行號</p></td>
+<td><p>不默默排除無效列</p></td>
+</tr>
+<tr class="row-odd"><td><p>同一車同一時間步重複取樣時保留第一筆</p></td>
+<td><p>拋錯</p></td>
+<td><p>重複代表資料有問題，不該由讀取器替呼叫端選</p></td>
+</tr>
+<tr class="row-even"><td><p>依 <code class="docutils literal notranslate"><span class="pre">Timestep</span> <span class="pre">×</span> <span class="pre">fps</span></code> 換算成影格編號</p></td>
+<td><p>保留原始秒數</p></td>
+<td><p>frame 編號是影片的概念，不是這份資料的</p></td>
+</tr>
+<tr class="row-odd"><td><p>會修正車頭／車尾角點被對調的影格</p></td>
+<td><p>不做</p></td>
+<td><p>SSAM 版的車頭車尾是分開的欄位，不會對調；這是 Pixel Frame 版才有的問題</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>已知限制：</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Speed</span></code> 與 <code class="docutils literal notranslate"><span class="pre">Acceleration</span></code> 欄位不讀。</strong> 實測 <code class="docutils literal notranslate"><span class="pre">Speed</span></code> 的單位是公尺／秒
+（用相鄰時間步的位移比對，18,987 個樣本的中位數比值 1.03；若是 km/h
+應為 0.28），但這是量出來的，格式定義文件沒有寫明，因此暫不納入契約。
+要納入前請先向產製端確認。</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">length_m</span></code> 不等於車頭中點到車尾中點的距離。</strong> 實測 224,166 列中有
+6,838 列（3.0%）相差超過 0.5 公尺，最大差 13.6 公尺，出現在聯結車車身
+（<code class="docutils literal notranslate"><span class="pre">g</span></code>，宣告車長 16.4 公尺但車頭車尾只隔 2.8 公尺）。還原角點用的是
+車頭車尾座標，不是這個欄位；兩個都給，由呼叫端決定要量哪一個。</p></li>
+<li><p><strong>Y 軸朝向未確認。</strong> 角點的繞行順序是照舊程式對齊 Pixel Frame 版寫的，
+但「哪一角是左」取決於座標系 Y 軸方向，格式定義文件沒寫。要在影像上疊圖
+之前應先用真實影片核對一次。</p></li>
+<li><p><strong>與 Pixel Frame 版的時間原點是否對齊，尚未驗證</strong>（手上兩份檔是不同架次）。</p></li>
+<li><p>實測檔出現 1 台車種 <code class="docutils literal notranslate"><span class="pre">g</span></code>（聯結車車身）卻沒有對應的 <code class="docutils literal notranslate"><span class="pre">h</span></code>（車頭）。與
+Pixel Frame 版一樣，本讀取器不合併這兩者，統計時把 <code class="docutils literal notranslate"><span class="pre">g</span></code> 留在車種分組之外。</p></li>
+<li><p>不做座標單位換算、不做速度計算、不判定轉向、不內插取樣點之間的位置。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">read_motc_ssam_tracks</span></code> 一次載入全部列，超大檔案需要分批時要另外設計。</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="formats.motc_su.html"
+       title="上一页">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一頁</p>
+        <p class="prev-next-title">工作單：formats.motc_su</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../feature-development-guide.html"
+       title="下一页">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一頁</p>
+        <p class="prev-next-title">交通分析功能模組開發教學</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 当前页面
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pixel-frame">與 Pixel Frame 版的關係</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">格式定義</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">時間基準</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">行穿線代號</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">參數</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">輸出</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-motc-ssam-vehicles-dataframe"><code class="docutils literal notranslate"><span class="pre">read_motc_ssam_vehicles</span></code> → DataFrame（一列一台車）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-motc-ssam-tracks-dataframe"><code class="docutils literal notranslate"><span class="pre">read_motc_ssam_tracks</span></code> → DataFrame（一列一台車一個時間步）</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">判定規則</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">前置條件</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">品質政策</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">統計口徑</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">手算範例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">原始碼／範例／測試位置</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">驗證環境與版本</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">舊程式差異與已知限制</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/worksheets/formats.motc_ssam.md.txt">
+      <i class="fa-solid fa-file-lines"></i> 顯示原始碼
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, TrafficKit 開發團隊.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    使用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4 建立。
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  使用 <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0构建.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

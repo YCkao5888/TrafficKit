@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>traffickit.formats.read_motc_su_vehicles &#8212; TrafficKit 0.1.0</title>
+    <title>traffickit.formats.read_motc_ssam_vehicles &#8212; TrafficKit 0.1.0</title>
   
   
   
@@ -43,7 +43,7 @@
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/translations.js?v=cbf116e0"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/traffickit.formats.read_motc_su_vehicles';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/traffickit.formats.read_motc_ssam_vehicles';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.21.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://yckao5888.github.io/TrafficKit/switcher.json';
@@ -54,8 +54,8 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="索引" href="../../genindex.html" />
     <link rel="search" title="搜尋" href="../../search.html" />
-    <link rel="next" title="traffickit.formats.read_motc_su_tracks" href="traffickit.formats.read_motc_su_tracks.html" />
-    <link rel="prev" title="traffickit.formats" href="../formats.html" />
+    <link rel="next" title="traffickit.formats.read_motc_ssam_tracks" href="traffickit.formats.read_motc_ssam_tracks.html" />
+    <link rel="prev" title="traffickit.formats.read_motc_su_tracks" href="traffickit.formats.read_motc_su_tracks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-TW"/>
   <meta name="docsearch:version" content="0.1.0" />
@@ -430,9 +430,9 @@
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../formats.html">traffickit.formats</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">traffickit.formats.read_motc_su_vehicles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_su_vehicles.html">traffickit.formats.read_motc_su_vehicles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_su_tracks.html">traffickit.formats.read_motc_su_tracks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_ssam_vehicles.html">traffickit.formats.read_motc_ssam_vehicles</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">traffickit.formats.read_motc_ssam_vehicles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_ssam_tracks.html">traffickit.formats.read_motc_ssam_tracks</a></li>
 </ul>
 </details></li>
@@ -482,7 +482,7 @@
     
     <li class="breadcrumb-item"><a href="../formats.html" class="nav-link">traffickit.formats</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">traffickit.formats.read_motc_su_vehicles</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">traffickit.formats.read_motc_ssam_vehicles</span></li>
   </ul>
 </nav>
 </div>
@@ -499,30 +499,27 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="traffickit-formats-read-motc-su-vehicles">
-<h1>traffickit.formats.read_motc_su_vehicles<a class="headerlink" href="#traffickit-formats-read-motc-su-vehicles" title="連結到這個標頭">#</a></h1>
+  <section id="traffickit-formats-read-motc-ssam-vehicles">
+<h1>traffickit.formats.read_motc_ssam_vehicles<a class="headerlink" href="#traffickit-formats-read-motc-ssam-vehicles" title="連結到這個標頭">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="traffickit.formats.read_motc_su_vehicles">
-<span class="sig-prename descclassname"><span class="pre">traffickit.formats.</span></span><span class="sig-name descname"><span class="pre">read_motc_su_vehicles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9.99</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/traffickit/formats/_motc_su.html#read_motc_su_vehicles"><span class="viewcode-link"><span class="pre">[原始碼]</span></span></a><a class="headerlink" href="#traffickit.formats.read_motc_su_vehicles" title="連結到這個定義">#</a></dt>
-<dd><p>讀取 MOTC_SU 軌跡檔，回傳一列一台車的通過紀錄。</p>
-<p>軌跡座標本身不會讀進記憶體，只驗證其數量；需要逐 frame 位置時改用
-<a class="reference internal" href="traffickit.formats.read_motc_su_tracks.html#traffickit.formats.read_motc_su_tracks" title="traffickit.formats.read_motc_su_tracks"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_motc_su_tracks()</span></code></a>。</p>
+<dt class="sig sig-object py" id="traffickit.formats.read_motc_ssam_vehicles">
+<span class="sig-prename descclassname"><span class="pre">traffickit.formats.</span></span><span class="sig-name descname"><span class="pre">read_motc_ssam_vehicles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8-sig'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/traffickit/formats/_motc_ssam.html#read_motc_ssam_vehicles"><span class="viewcode-link"><span class="pre">[原始碼]</span></span></a><a class="headerlink" href="#traffickit.formats.read_motc_ssam_vehicles" title="連結到這個定義">#</a></dt>
+<dd><p>讀取 MOTC_SSAM 軌跡檔，回傳一列一台車的通過紀錄。</p>
+<p>座標本身不會留在結果裡，只用來確認每一列都是有效數值；需要逐時間步
+的位置時改用 <a class="reference internal" href="traffickit.formats.read_motc_ssam_tracks.html#traffickit.formats.read_motc_ssam_tracks" title="traffickit.formats.read_motc_ssam_tracks"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_motc_ssam_tracks()</span></code></a>。</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>path</strong><span class="classifier">str or path-like</span></dt><dd><p>MOTC_SU CSV 檔路徑。檔案沒有標題列。</p>
+<dt><strong>path</strong><span class="classifier">str or path-like</span></dt><dd><p>MOTC_SSAM CSV 檔路徑。檔案開頭有 FORMAT／DIMENSIONS 區塊，
+本函式會略過它們，直到出現以 <code class="docutils literal notranslate"><span class="pre">Timestep</span></code> 開頭的表頭列。</p>
 </dd>
-<dt><strong>fps</strong><span class="classifier">float, optional</span></dt><dd><p>影像張數／秒，用來把 frame 換算成秒。必須有限且大於 0。
-預設 9.99，也就是 29.97/3 的實際拍攝速率；格式定義文件寫的是整數
-10，兩者不同時以實際速率為準。拍攝設定不同時務必傳入正確值。</p>
-</dd>
-<dt><strong>encoding</strong><span class="classifier">str, optional</span></dt><dd><p>檔案編碼，預設 &quot;utf-8&quot;。</p>
+<dt><strong>encoding</strong><span class="classifier">str, optional</span></dt><dd><p>檔案編碼，預設 <code class="docutils literal notranslate"><span class="pre">&quot;utf-8-sig&quot;</span></code>，有沒有 BOM 都讀得到。</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt>pandas.DataFrame</dt><dd><p>一列一台車，依 entry_frame、vehicle_id 排序：</p>
+<dt>pandas.DataFrame</dt><dd><p>一列一台車，依 entry_time_s、vehicle_id 排序：</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>欄位</p></th>
@@ -547,25 +544,17 @@
 <td><p>string</p></td>
 <td><p>車種代號</p></td>
 </tr>
-<tr class="row-even"><td><p>entry_frame</p></td>
-<td><p>int64</p></td>
-<td><p>進入路口的 frame</p></td>
-</tr>
-<tr class="row-odd"><td><p>exit_frame</p></td>
-<td><p>int64</p></td>
-<td><p>離開路口的 frame</p></td>
-</tr>
-<tr class="row-even"><td><p>frame_count</p></td>
-<td><p>int64</p></td>
-<td><p>exit_frame - entry_frame + 1</p></td>
-</tr>
-<tr class="row-odd"><td><p>entry_time_s</p></td>
+<tr class="row-even"><td><p>entry_time_s</p></td>
 <td><p>float64</p></td>
-<td><p>entry_frame / fps</p></td>
+<td><p>該車最早出現的 Timestep</p></td>
 </tr>
-<tr class="row-even"><td><p>exit_time_s</p></td>
+<tr class="row-odd"><td><p>exit_time_s</p></td>
 <td><p>float64</p></td>
-<td><p>exit_frame / fps</p></td>
+<td><p>該車最晚出現的 Timestep</p></td>
+</tr>
+<tr class="row-even"><td><p>sample_count</p></td>
+<td><p>int64</p></td>
+<td><p>該車在檔案中的列數</p></td>
 </tr>
 <tr class="row-odd"><td><p>is_complete</p></td>
 <td><p>bool</p></td>
@@ -583,7 +572,7 @@
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt>ValueError</dt><dd><p>fps 無效，或檔案內容不符合格式（訊息會指出行號與原因）。</p>
+<dt>ValueError</dt><dd><p>找不到表頭列、缺少必要欄位，或內容不符合格式（訊息會指出行號）。</p>
 </dd>
 <dt>FileNotFoundError</dt><dd><p>檔案不存在。</p>
 </dd>
@@ -591,18 +580,16 @@
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p><strong>不完整軌跡（代號 X）會照樣讀入並標記 ``is_complete=False``</strong>，
-不會默默消失。要餵給
-<a class="reference internal" href="traffickit.volume.summarise_turn_volume.html#traffickit.volume.summarise_turn_volume" title="traffickit.volume.summarise_turn_volume"><code class="xref py py-func docutils literal notranslate"><span class="pre">traffickit.volume.summarise_turn_volume()</span></code></a> 前，請自行
-<code class="docutils literal notranslate"><span class="pre">.query(&quot;is_complete&quot;)</span></code>——那個函式不接受 X 這種非路口代號。</p>
-<p><strong>行人走行穿線，進出代號是兩個路口字母</strong>，例如 <code class="docutils literal notranslate"><span class="pre">AB</span></code>，而不是
-<code class="docutils literal notranslate"><span class="pre">AI</span></code>／<code class="docutils literal notranslate"><span class="pre">AO</span></code>。這類代號照樣讀入、原樣保留，並標記
-<code class="docutils literal notranslate"><span class="pre">is_crosswalk=True</span></code>。它同樣不是 <code class="docutils literal notranslate"><span class="pre">summarise_turn_volume</span></code>
-認得的路口代號，需要的話請一併過濾：
+<p>欄位刻意與 <a class="reference internal" href="traffickit.formats.read_motc_su_vehicles.html#traffickit.formats.read_motc_su_vehicles" title="traffickit.formats.read_motc_su_vehicles"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_motc_su_vehicles()</span></code></a> 對齊，可以直接餵給
+<a class="reference internal" href="traffickit.volume.summarise_turn_volume.html#traffickit.volume.summarise_turn_volume" title="traffickit.volume.summarise_turn_volume"><code class="xref py py-func docutils literal notranslate"><span class="pre">traffickit.volume.summarise_turn_volume()</span></code></a>。<strong>唯一的差別是
+SSAM 版沒有 frame 編號</strong>，因此沒有 <code class="docutils literal notranslate"><span class="pre">entry_frame</span></code> 與 <code class="docutils literal notranslate"><span class="pre">exit_frame</span></code>，
+改以 <code class="docutils literal notranslate"><span class="pre">sample_count</span></code> 表示該車的取樣列數。</p>
+<p><code class="docutils literal notranslate"><span class="pre">entry_time_s</span></code> 與 <code class="docutils literal notranslate"><span class="pre">exit_time_s</span></code> 是檔案裡 <code class="docutils literal notranslate"><span class="pre">Timestep</span></code> 的原值，
+單位是秒。<strong>它的時間原點由產製端決定，不保證與同一架次 Pixel Frame
+版的 frame 0 對齊</strong>，兩版要合用時請自行校正。</p>
+<p>不完整軌跡（代號 X）與行穿線代號（例如 <code class="docutils literal notranslate"><span class="pre">AB</span></code>）都會照樣讀入並分別
+標記 <code class="docutils literal notranslate"><span class="pre">is_complete</span></code> 與 <code class="docutils literal notranslate"><span class="pre">is_crosswalk</span></code>，不會默默消失；需要時請自行
 <code class="docutils literal notranslate"><span class="pre">.query(&quot;is_complete</span> <span class="pre">and</span> <span class="pre">not</span> <span class="pre">is_crosswalk&quot;)</span></code>。</p>
-<p>車種 <code class="docutils literal notranslate"><span class="pre">h``（聯結車車頭）與</span> <span class="pre">``g``（聯結車車身）是同一輛車的兩列。</span>
-<span class="pre">做車輛數統計時通常只保留</span> <span class="pre">``h</span></code>；把 <code class="docutils literal notranslate"><span class="pre">g</span></code> 留在車種分組之外，
-它就會出現在 <code class="docutils literal notranslate"><span class="pre">summary.unassigned_classes</span></code> 而不會被默默計入。</p>
 </dd></dl>
 
 </section>
@@ -618,20 +605,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../formats.html"
+       href="traffickit.formats.read_motc_su_tracks.html"
        title="上一页">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">上一頁</p>
-        <p class="prev-next-title">traffickit.formats</p>
+        <p class="prev-next-title">traffickit.formats.read_motc_su_tracks</p>
       </div>
     </a>
     <a class="right-next"
-       href="traffickit.formats.read_motc_su_tracks.html"
+       href="traffickit.formats.read_motc_ssam_tracks.html"
        title="下一页">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一頁</p>
-        <p class="prev-next-title">traffickit.formats.read_motc_su_tracks</p>
+        <p class="prev-next-title">traffickit.formats.read_motc_ssam_tracks</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -654,14 +641,14 @@
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#traffickit.formats.read_motc_su_vehicles"><code class="docutils literal notranslate"><span class="pre">read_motc_su_vehicles()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#traffickit.formats.read_motc_ssam_vehicles"><code class="docutils literal notranslate"><span class="pre">read_motc_ssam_vehicles()</span></code></a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../../_sources/api/generated/traffickit.formats.read_motc_su_vehicles.rst.txt">
+    <a href="../../_sources/api/generated/traffickit.formats.read_motc_ssam_vehicles.rst.txt">
       <i class="fa-solid fa-file-lines"></i> 顯示原始碼
     </a>
   </div>

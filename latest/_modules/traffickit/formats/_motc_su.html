@@ -463,31 +463,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.._validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_real</span>
-
-<span class="c1">#: MOTC_SU 的車種代號。</span>
-<span class="c1">#: h（聯結車車頭）與 g（聯結車車身）是**同一輛聯結車的兩列**，</span>
-<span class="c1">#: 直接計數會把一輛車算成兩輛；統計時通常只保留 h。</span>
-<span class="n">MOTC_SU_VEHICLE_CLASSES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"行人"</span><span class="p">,</span>
-    <span class="s2">"u"</span><span class="p">:</span> <span class="s2">"自行車"</span><span class="p">,</span>
-    <span class="s2">"m"</span><span class="p">:</span> <span class="s2">"機車"</span><span class="p">,</span>
-    <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"汽車"</span><span class="p">,</span>
-    <span class="s2">"t"</span><span class="p">:</span> <span class="s2">"貨車"</span><span class="p">,</span>
-    <span class="s2">"b"</span><span class="p">:</span> <span class="s2">"巴士"</span><span class="p">,</span>
-    <span class="s2">"h"</span><span class="p">:</span> <span class="s2">"聯結車車頭"</span><span class="p">,</span>
-    <span class="s2">"g"</span><span class="p">:</span> <span class="s2">"聯結車車身"</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="c1">#: 不完整軌跡的代號。官方定義為「請忽略」，本模組如實讀入並標記，</span>
-<span class="c1">#: 由呼叫端決定要不要濾掉。</span>
-<span class="n">INCOMPLETE_CODE</span> <span class="o">=</span> <span class="s2">"X"</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">_motc_common</span>
 
 <span class="c1">#: 軌跡檔預設的影像張數／秒。實際拍攝速率是 9.99（29.97/3，NTSC 推導）；</span>
 <span class="c1">#: 格式定義文件寫的是整數 10，兩者不同時以實際速率為準。</span>
@@ -495,9 +477,6 @@
 
 <span class="n">_FIELDS_BEFORE_TRACK</span> <span class="o">=</span> <span class="mi">6</span>
 <span class="n">_VALUES_PER_POINT</span> <span class="o">=</span> <span class="mi">8</span>
-
-<span class="n">_ENTRY_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^[A-Z]+I$"</span><span class="p">)</span>
-<span class="n">_EXIT_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^[A-Z]+O$"</span><span class="p">)</span>
 
 <span class="n">_VEHICLE_DTYPES</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"vehicle_id"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
@@ -510,6 +489,7 @@
     <span class="s2">"entry_time_s"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
     <span class="s2">"exit_time_s"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
     <span class="s2">"is_complete"</span><span class="p">:</span> <span class="s2">"bool"</span><span class="p">,</span>
+    <span class="s2">"is_crosswalk"</span><span class="p">:</span> <span class="s2">"bool"</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">_POINT_COLUMNS</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
@@ -524,20 +504,24 @@
     <span class="s2">"center_x_px"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
     <span class="s2">"center_y_px"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
     <span class="s2">"is_complete"</span><span class="p">:</span> <span class="s2">"bool"</span><span class="p">,</span>
+    <span class="s2">"is_crosswalk"</span><span class="p">:</span> <span class="s2">"bool"</span><span class="p">,</span>
 <span class="p">}</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_Record</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""一列剖析後的結果，只在本模組內流通。"""</span>
 
-    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"entry_code"</span><span class="p">,</span> <span class="s2">"exit_code"</span><span class="p">,</span> <span class="s2">"vehicle_class"</span><span class="p">,</span>
-                 <span class="s2">"entry_frame"</span><span class="p">,</span> <span class="s2">"exit_frame"</span><span class="p">,</span> <span class="s2">"tail"</span><span class="p">,</span> <span class="s2">"line_no"</span><span class="p">)</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"vehicle_id"</span><span class="p">,</span> <span class="s2">"entry_gate"</span><span class="p">,</span> <span class="s2">"exit_gate"</span><span class="p">,</span> <span class="s2">"entry_kind"</span><span class="p">,</span>
+                 <span class="s2">"exit_kind"</span><span class="p">,</span> <span class="s2">"vehicle_class"</span><span class="p">,</span> <span class="s2">"entry_frame"</span><span class="p">,</span> <span class="s2">"exit_frame"</span><span class="p">,</span>
+                 <span class="s2">"tail"</span><span class="p">,</span> <span class="s2">"line_no"</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle_id</span><span class="p">,</span> <span class="n">entry_code</span><span class="p">,</span> <span class="n">exit_code</span><span class="p">,</span> <span class="n">vehicle_class</span><span class="p">,</span>
-                 <span class="n">entry_frame</span><span class="p">,</span> <span class="n">exit_frame</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">line_no</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle_id</span><span class="p">,</span> <span class="n">entry_gate</span><span class="p">,</span> <span class="n">exit_gate</span><span class="p">,</span> <span class="n">entry_kind</span><span class="p">,</span> <span class="n">exit_kind</span><span class="p">,</span>
+                 <span class="n">vehicle_class</span><span class="p">,</span> <span class="n">entry_frame</span><span class="p">,</span> <span class="n">exit_frame</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">line_no</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vehicle_id</span> <span class="o">=</span> <span class="n">vehicle_id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span> <span class="o">=</span> <span class="n">entry_code</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span> <span class="o">=</span> <span class="n">exit_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_gate</span> <span class="o">=</span> <span class="n">entry_gate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_gate</span> <span class="o">=</span> <span class="n">exit_gate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_kind</span> <span class="o">=</span> <span class="n">entry_kind</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_kind</span> <span class="o">=</span> <span class="n">exit_kind</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vehicle_class</span> <span class="o">=</span> <span class="n">vehicle_class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">entry_frame</span> <span class="o">=</span> <span class="n">entry_frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exit_frame</span> <span class="o">=</span> <span class="n">exit_frame</span>
@@ -550,26 +534,11 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span> <span class="o">!=</span> <span class="n">INCOMPLETE_CODE</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span> <span class="o">!=</span> <span class="n">INCOMPLETE_CODE</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_motc_common</span><span class="o">.</span><span class="n">INCOMPLETE</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entry_kind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_kind</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">entry_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span> <span class="o">==</span> <span class="n">INCOMPLETE_CODE</span>
-            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_code</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">exit_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span> <span class="o">==</span> <span class="n">INCOMPLETE_CODE</span>
-            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_code</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_crosswalk</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_motc_common</span><span class="o">.</span><span class="n">CROSSWALK</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entry_kind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_kind</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="read_motc_su_vehicles">
@@ -614,6 +583,7 @@
 <span class="sd">        entry_time_s       float64    entry_frame / fps</span>
 <span class="sd">        exit_time_s        float64    exit_frame / fps</span>
 <span class="sd">        is_complete        bool       進出代號都不是 X</span>
+<span class="sd">        is_crosswalk       bool       進入或駛出代號是行穿線代號</span>
 <span class="sd">        =================  =========  ==============================</span>
 
 <span class="sd">    Raises</span>
@@ -629,6 +599,12 @@
 <span class="sd">    不會默默消失。要餵給</span>
 <span class="sd">    :func:`traffickit.volume.summarise_turn_volume` 前，請自行</span>
 <span class="sd">    ``.query("is_complete")``——那個函式不接受 X 這種非路口代號。</span>
+
+<span class="sd">    **行人走行穿線，進出代號是兩個路口字母**，例如 ``AB``，而不是</span>
+<span class="sd">    ``AI``／``AO``。這類代號照樣讀入、原樣保留，並標記</span>
+<span class="sd">    ``is_crosswalk=True``。它同樣不是 ``summarise_turn_volume``</span>
+<span class="sd">    認得的路口代號，需要的話請一併過濾：</span>
+<span class="sd">    ``.query("is_complete and not is_crosswalk")``。</span>
 
 <span class="sd">    車種 ``h``（聯結車車頭）與 ``g``（聯結車車身）是同一輛車的兩列。</span>
 <span class="sd">    做車輛數統計時通常只保留 ``h``；把 ``g`` 留在車種分組之外，</span>
@@ -648,6 +624,7 @@
             <span class="n">record</span><span class="o">.</span><span class="n">entry_frame</span> <span class="o">*</span> <span class="n">seconds_per_frame</span><span class="p">,</span>
             <span class="n">record</span><span class="o">.</span><span class="n">exit_frame</span> <span class="o">*</span> <span class="n">seconds_per_frame</span><span class="p">,</span>
             <span class="n">record</span><span class="o">.</span><span class="n">is_complete</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">is_crosswalk</span><span class="p">,</span>
         <span class="p">))</span>
 
     <span class="n">frame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">_VEHICLE_DTYPES</span><span class="p">))</span>
@@ -683,7 +660,8 @@
 <span class="sd">    pandas.DataFrame</span>
 <span class="sd">        依 vehicle_id、frame 排序，欄位為 vehicle_id、frame、time_s、</span>
 <span class="sd">        x1_px…y4_px（四個角點，第一點為車頭左上，順時針）、</span>
-<span class="sd">        center_x_px、center_y_px（四角點平均）、is_complete。</span>
+<span class="sd">        center_x_px、center_y_px（四角點平均）、is_complete、is_crosswalk。</span>
+<span class="sd">        後兩者是整台車的屬性，同一台車的每一列都相同。</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
@@ -705,6 +683,7 @@
     <span class="n">ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">frames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">complete</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">crosswalk</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">points</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">_iter_records</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">validate_tail_length</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">_parse_tail</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
@@ -712,6 +691,7 @@
         <span class="n">ids</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">record</span><span class="o">.</span><span class="n">vehicle_id</span><span class="p">]</span> <span class="o">*</span> <span class="n">count</span><span class="p">)</span>
         <span class="n">frames</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">entry_frame</span><span class="p">,</span> <span class="n">record</span><span class="o">.</span><span class="n">exit_frame</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">complete</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">record</span><span class="o">.</span><span class="n">is_complete</span><span class="p">]</span> <span class="o">*</span> <span class="n">count</span><span class="p">)</span>
+        <span class="n">crosswalk</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">record</span><span class="o">.</span><span class="n">is_crosswalk</span><span class="p">]</span> <span class="o">*</span> <span class="n">count</span><span class="p">)</span>
         <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ids</span><span class="p">:</span>
@@ -728,6 +708,7 @@
     <span class="n">frame</span><span class="p">[</span><span class="s2">"center_x_px"</span><span class="p">]</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">frame</span><span class="p">[</span><span class="s2">"center_y_px"</span><span class="p">]</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">frame</span><span class="p">[</span><span class="s2">"is_complete"</span><span class="p">]</span> <span class="o">=</span> <span class="n">complete</span>
+    <span class="n">frame</span><span class="p">[</span><span class="s2">"is_crosswalk"</span><span class="p">]</span> <span class="o">=</span> <span class="n">crosswalk</span>
 
     <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">_TRACK_DTYPES</span><span class="p">)]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_TRACK_DTYPES</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">frame</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
@@ -776,17 +757,13 @@
             <span class="sa">f</span><span class="s2">"早於進入 frame（</span><span class="si">{</span><span class="n">entry_frame</span><span class="si">}</span><span class="s2">）"</span>
         <span class="p">)</span>
 
-    <span class="n">_check_gate_code</span><span class="p">(</span><span class="n">entry_code</span><span class="p">,</span> <span class="n">_ENTRY_PATTERN</span><span class="p">,</span> <span class="s2">"進入"</span><span class="p">,</span> <span class="n">line_no</span><span class="p">)</span>
-    <span class="n">_check_gate_code</span><span class="p">(</span><span class="n">exit_code</span><span class="p">,</span> <span class="n">_EXIT_PATTERN</span><span class="p">,</span> <span class="s2">"離開"</span><span class="p">,</span> <span class="n">line_no</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">vehicle_class</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">MOTC_SU_VEHICLE_CLASSES</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的車種代號 </span><span class="si">{</span><span class="n">vehicle_class</span><span class="si">!r}</span><span class="s2"> 不在格式定義內："</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">MOTC_SU_VEHICLE_CLASSES</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-        <span class="p">)</span>
+    <span class="n">entry_gate</span><span class="p">,</span> <span class="n">entry_kind</span> <span class="o">=</span> <span class="n">_motc_common</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">entry_code</span><span class="p">,</span> <span class="s2">"entry"</span><span class="p">,</span> <span class="n">line_no</span><span class="p">)</span>
+    <span class="n">exit_gate</span><span class="p">,</span> <span class="n">exit_kind</span> <span class="o">=</span> <span class="n">_motc_common</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">exit_code</span><span class="p">,</span> <span class="s2">"exit"</span><span class="p">,</span> <span class="n">line_no</span><span class="p">)</span>
+    <span class="n">_motc_common</span><span class="o">.</span><span class="n">check_vehicle_class</span><span class="p">(</span><span class="n">vehicle_class</span><span class="p">,</span> <span class="n">line_no</span><span class="p">)</span>
 
     <span class="n">record</span> <span class="o">=</span> <span class="n">_Record</span><span class="p">(</span>
-        <span class="n">vehicle_id</span><span class="p">,</span> <span class="n">entry_code</span><span class="p">,</span> <span class="n">exit_code</span><span class="p">,</span> <span class="n">vehicle_class</span><span class="p">,</span>
-        <span class="n">entry_frame</span><span class="p">,</span> <span class="n">exit_frame</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">line_no</span><span class="p">,</span>
+        <span class="n">vehicle_id</span><span class="p">,</span> <span class="n">entry_gate</span><span class="p">,</span> <span class="n">exit_gate</span><span class="p">,</span> <span class="n">entry_kind</span><span class="p">,</span> <span class="n">exit_kind</span><span class="p">,</span>
+        <span class="n">vehicle_class</span><span class="p">,</span> <span class="n">entry_frame</span><span class="p">,</span> <span class="n">exit_frame</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">line_no</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">validate_tail_length</span><span class="p">:</span>
         <span class="c1"># 不變式：軌跡值數量 = 8 × frame 數。用來擋住錯位或截斷的檔案。</span>
@@ -810,20 +787,6 @@
     <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的</span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2"> 是負數"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">number</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">_check_gate_code</span><span class="p">(</span>
-    <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">pattern</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-    <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">line_no</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">INCOMPLETE_CODE</span> <span class="ow">or</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
-        <span class="k">return</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"第 </span><span class="si">{</span><span class="n">line_no</span><span class="si">}</span><span class="s2"> 行的</span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2">路口代號 </span><span class="si">{</span><span class="n">code</span><span class="si">!r}</span><span class="s2"> 不符合格式："</span>
-        <span class="sa">f</span><span class="s2">"應為 </span><span class="si">{</span><span class="n">pattern</span><span class="o">.</span><span class="n">pattern</span><span class="si">}</span><span class="s2"> 或 </span><span class="si">{</span><span class="n">INCOMPLETE_CODE</span><span class="si">!r}</span><span class="s2">"</span>
-    <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parse_tail</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="n">_Record</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>

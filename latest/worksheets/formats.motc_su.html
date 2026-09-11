@@ -54,7 +54,7 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜尋" href="../search.html" />
-    <link rel="next" title="交通分析功能模組開發教學" href="../feature-development-guide.html" />
+    <link rel="next" title="工作單：formats.motc_ssam" href="formats.motc_ssam.html" />
     <link rel="prev" title="工作單：volume.turn_volume" href="volume.turn_volume.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-TW"/>
@@ -418,6 +418,7 @@
 <li class="toctree-l1"><a class="reference internal" href="speed.speed_distribution.html">工作單：speed.speed_distribution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="volume.turn_volume.html">工作單：volume.turn_volume</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">工作單：formats.motc_su</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.motc_ssam.html">工作單：formats.motc_ssam</a></li>
 </ul>
 </div>
 </nav></div>
@@ -484,15 +485,16 @@
 「每個新功能都要填的一張工作單」填寫。</p>
 <ul class="simple">
 <li><p><strong>功能 ID</strong>：formats.motc_su</p></li>
-<li><p><strong>一句目的</strong>：把 MOTC_SU 空拍影像軌跡 CSV 讀成套件契約的表格。</p></li>
+<li><p><strong>一句目的</strong>：把 MOTC 空拍影像軌跡 CSV 的 Pixel Frame 版讀成套件契約的表格。</p></li>
 <li><p><strong>主要負責人</strong>：yckao</p></li>
 <li><p><strong>公開函式入口</strong>：<code class="docutils literal notranslate"><span class="pre">traffickit.formats.read_motc_su_vehicles</span></code>、
 <code class="docutils literal notranslate"><span class="pre">traffickit.formats.read_motc_su_tracks</span></code></p></li>
-<li><p><strong>契約版</strong>：1</p></li>
+<li><p><strong>契約版</strong>：2</p></li>
 <li><p><strong>狀態</strong>：試行</p></li>
 <li><p><strong>參考來源</strong>：<code class="docutils literal notranslate"><span class="pre">空拍影像分析_輸出資料相關定義_v1.1.xlsx</span></code> 的
 「軌跡檔_Pixel Frame」分頁（權威定義）；
-範例檔 <code class="docutils literal notranslate"><span class="pre">data/(YOLOv4_2504.1)…_1A架次_CSV_SU.csv</span></code>（本機參考，未納入版控）</p></li>
+以及一份真實的 <code class="docutils literal notranslate"><span class="pre">*_CSV_SU.csv</span></code>（本機參考，未納入版控；
+依慣例不在文件中記錄真實案件的檔名或路口名稱）</p></li>
 </ul>
 <blockquote>
 <div><p><strong>這一層為什麼可以讀檔？</strong> <code class="docutils literal notranslate"><span class="pre">traffickit.formats</span></code> 是格式轉換層，只做欄位與
@@ -527,11 +529,11 @@
 </tr>
 <tr class="row-odd"><td><p>4</p></td>
 <td><p>進入路口代號</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">[A-Z]+I</span></code>（例如 <code class="docutils literal notranslate"><span class="pre">AI</span></code>）或 <code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[A-Z]+I</span></code>（例如 <code class="docutils literal notranslate"><span class="pre">AI</span></code>）、行穿線代號（例如 <code class="docutils literal notranslate"><span class="pre">AB</span></code>）或 <code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>5</p></td>
 <td><p>離開路口代號</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">[A-Z]+O</span></code>（例如 <code class="docutils literal notranslate"><span class="pre">AO</span></code>）或 <code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[A-Z]+O</span></code>（例如 <code class="docutils literal notranslate"><span class="pre">AO</span></code>）、行穿線代號或 <code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>6</p></td>
 <td><p>車種代號</p></td>
@@ -547,6 +549,9 @@
 <ul class="simple">
 <li><p><strong>路口代號順時針編號</strong>：從左側路口起為 A，依序 B、C、D。進入結尾 <code class="docutils literal notranslate"><span class="pre">I</span></code>、
 離開結尾 <code class="docutils literal notranslate"><span class="pre">O</span></code>。<code class="docutils literal notranslate"><span class="pre">X</span></code> 代表不完整軌跡，官方定義是「請忽略」。</p></li>
+<li><p><strong>行人與自行車走行穿線</strong>，代號是<strong>兩個路口字母</strong>（<code class="docutils literal notranslate"><span class="pre">AB</span></code>、<code class="docutils literal notranslate"><span class="pre">BC</span></code>），沒有
+I／O 後綴。這個規則寫在同一份定義文件的 SSAM_TTC_PET 分頁，
+軌跡檔分頁沒有提；在 SSAM 版的真實檔中實測吻合（398 台全是行人或自行車）。</p></li>
 <li><p><strong>座標單位是像素</strong>，原點在影像左上、Y 軸向下。</p></li>
 <li><p><strong>FPS 預設 9.99</strong>（= 29.97/3，NTSC 推導的實際拍攝速率）。
 格式定義文件寫的是整數 10，兩者不同時以實際速率為準；拍攝設定不同時要明確傳入 <code class="docutils literal notranslate"><span class="pre">fps</span></code>。</p></li>
@@ -607,7 +612,7 @@
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">entry_gate</span></code> / <code class="docutils literal notranslate"><span class="pre">exit_gate</span></code></p></td>
 <td><p>string</p></td>
-<td><p>路口代號，<strong>已去掉結尾 I／O</strong>；不完整者為 <code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
+<td><p>路口代號，<strong>已去掉結尾 I／O</strong>；不完整者為 <code class="docutils literal notranslate"><span class="pre">X</span></code>；行穿線代號原樣保留</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vehicle_class</span></code></p></td>
 <td><p>string</p></td>
@@ -629,6 +634,10 @@
 <td><p>bool</p></td>
 <td><p>進出代號都不是 <code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">is_crosswalk</span></code></p></td>
+<td><p>bool</p></td>
+<td><p>進入或駛出代號是行穿線代號</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -637,14 +646,16 @@
 <section id="read-motc-su-tracks-dataframe-frame">
 <h3><code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code> → DataFrame（一列一台車一個 frame）<a class="headerlink" href="#read-motc-su-tracks-dataframe-frame" title="連結到這個標頭">#</a></h3>
 <p>依 <code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>、<code class="docutils literal notranslate"><span class="pre">frame</span></code> 排序。欄位：<code class="docutils literal notranslate"><span class="pre">vehicle_id</span></code>、<code class="docutils literal notranslate"><span class="pre">frame</span></code>、<code class="docutils literal notranslate"><span class="pre">time_s</span></code>、
-<code class="docutils literal notranslate"><span class="pre">x1_px</span></code>…<code class="docutils literal notranslate"><span class="pre">y4_px</span></code>、<code class="docutils literal notranslate"><span class="pre">center_x_px</span></code>、<code class="docutils literal notranslate"><span class="pre">center_y_px</span></code>（四角點平均）、<code class="docutils literal notranslate"><span class="pre">is_complete</span></code>。</p>
+<code class="docutils literal notranslate"><span class="pre">x1_px</span></code>…<code class="docutils literal notranslate"><span class="pre">y4_px</span></code>、<code class="docutils literal notranslate"><span class="pre">center_x_px</span></code>、<code class="docutils literal notranslate"><span class="pre">center_y_px</span></code>（四角點平均）、<code class="docutils literal notranslate"><span class="pre">is_complete</span></code>、
+<code class="docutils literal notranslate"><span class="pre">is_crosswalk</span></code>。後兩者是整台車的屬性，同一台車的每一列都相同。</p>
 </section>
 </section>
 <section id="id4">
 <h2>判定規則<a class="headerlink" href="#id4" title="連結到這個標頭">#</a></h2>
 <ol class="arabic simple">
 <li><p>逐行剖析，空白行跳過；任何不符格式的行拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，<strong>訊息含行號</strong>。</p></li>
-<li><p>路口代號去掉結尾 I／O；<code class="docutils literal notranslate"><span class="pre">X</span></code> 原樣保留並把 <code class="docutils literal notranslate"><span class="pre">is_complete</span></code> 設為 False。</p></li>
+<li><p>路口代號去掉結尾 I／O；<code class="docutils literal notranslate"><span class="pre">X</span></code> 與行穿線代號原樣保留，並分別設
+<code class="docutils literal notranslate"><span class="pre">is_complete=False</span></code> 與 <code class="docutils literal notranslate"><span class="pre">is_crosswalk=True</span></code>。</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">time_s</span> <span class="pre">=</span> <span class="pre">frame</span> <span class="pre">/</span> <span class="pre">fps</span></code>。frame 0 即時間原點。</p></li>
 <li><p>驗證軌跡值數量等於 <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">×</span> <span class="pre">frame</span> <span class="pre">數</span></code>。</p></li>
 <li><p>車輛 ID 重複 → 拋錯（下游的轉向流量契約要求 ID 唯一）。</p></li>
@@ -666,7 +677,7 @@
 <tr class="row-even"><td><p>欄位不足 6 個、ID 空白、frame 非整數／負數／倒置</p></td>
 <td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號</p></td>
 </tr>
-<tr class="row-odd"><td><p>路口代號不符 <code class="docutils literal notranslate"><span class="pre">[A-Z]+I</span></code> / <code class="docutils literal notranslate"><span class="pre">[A-Z]+O</span></code> 也不是 <code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
+<tr class="row-odd"><td><p>路口代號不符 <code class="docutils literal notranslate"><span class="pre">[A-Z]+I</span></code> / <code class="docutils literal notranslate"><span class="pre">[A-Z]+O</span></code>，也不是行穿線代號或 <code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
 <td><p>拋 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>，含行號</p></td>
 </tr>
 <tr class="row-even"><td><p>車種代號不在格式定義的八個之內</p></td>
@@ -684,10 +695,13 @@
 <tr class="row-even"><td><p><strong>不完整軌跡（<code class="docutils literal notranslate"><span class="pre">X</span></code>）</strong></p></td>
 <td><p><strong>照樣讀入並標記 <code class="docutils literal notranslate"><span class="pre">is_complete=False</span></code>，不默默丟掉</strong></p></td>
 </tr>
-<tr class="row-odd"><td><p>空檔案</p></td>
+<tr class="row-odd"><td><p><strong>行穿線代號（<code class="docutils literal notranslate"><span class="pre">AB</span></code>）</strong></p></td>
+<td><p><strong>照樣讀入並標記 <code class="docutils literal notranslate"><span class="pre">is_crosswalk=True</span></code></strong></p></td>
+</tr>
+<tr class="row-even"><td><p>空檔案</p></td>
 <td><p>回傳固定欄位與型別的空表</p></td>
 </tr>
-<tr class="row-even"><td><p>檔案不存在</p></td>
+<tr class="row-odd"><td><p>檔案不存在</p></td>
 <td><p>拋 <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code></p></td>
 </tr>
 </tbody>
@@ -737,7 +751,7 @@
 <ul class="simple">
 <li><p>原始碼：<code class="docutils literal notranslate"><span class="pre">src/traffickit/formats/_motc_su.py</span></code></p></li>
 <li><p>範例：<code class="docutils literal notranslate"><span class="pre">examples/motc_su_turn_volume_demo.py</span></code>（讀檔 → 轉向對照表 → 轉向流量）</p></li>
-<li><p>測試：<code class="docutils literal notranslate"><span class="pre">tests/test_motc_su.py</span></code>（28 個測試，含格式、轉向對照表與端到端）</p></li>
+<li><p>測試：<code class="docutils literal notranslate"><span class="pre">tests/test_motc_su.py</span></code>（33 個測試，含格式、轉向對照表與端到端）</p></li>
 </ul>
 </section>
 <section id="id10">
@@ -765,7 +779,7 @@
 <td><p>pandas 2.3.3、numpy 2.2.6</p></td>
 </tr>
 <tr class="row-odd"><td><p>真實檔案</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">(YOLOv4_2504.1)桃園市八德區廣福路_福國北街_福國街_1A架次_CSV_SU.csv</span></code>，27.8 MB</p></td>
+<td><p>本機一份 <code class="docutils literal notranslate"><span class="pre">*_CSV_SU.csv</span></code>，27.8 MB，四岔路口單一架次</p></td>
 </tr>
 <tr class="row-even"><td><p>讀取結果</p></td>
 <td><p>2,179 台車；不完整（X）179 台；進出代號 A–D；車種 b/c/m/t；frame 2–12678（約 21.2 分鐘 &#64;9.99fps）</p></td>
@@ -781,6 +795,9 @@
 </tr>
 <tr class="row-even"><td><p>效能</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">read_motc_su_vehicles</span></code> 2,179 列約 0.08 秒；<code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code> 822,185 列約 1.5 秒、約 130 MB 記憶體</p></td>
+</tr>
+<tr class="row-odd"><td><p>契約版 2 複驗（2026-09-11）</p></td>
+<td><p>同一份真實檔重讀，結果與上表完全相同：2,179 台、不完整 179 台、<strong>行穿線 0 台</strong>。該架次沒有行人，這正是放寬前一直沒踩到舊限制的原因；行穿線那條路徑由 SSAM 版的真實檔（398 台）驗證。本功能 33 個測試通過（當時全專案 117 個）</p></td>
 </tr>
 </tbody>
 </table>
@@ -809,6 +826,10 @@
 <td><p>輸出去掉後綴</p></td>
 <td><p>後綴只是進出方向標記，去掉後才能與 <code class="docutils literal notranslate"><span class="pre">movements</span></code> 的路口代號對齊</p></td>
 </tr>
+<tr class="row-odd"><td><p>軌跡檔分頁未提行穿線代號</p></td>
+<td><p>接受並標記 <code class="docutils literal notranslate"><span class="pre">is_crosswalk=True</span></code></p></td>
+<td><p>規則寫在同一份文件的另一個分頁；不接受的話含行人的檔案整份讀不了</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -818,7 +839,8 @@
 因為檔案沒有提供兩者的關聯。做車輛數統計時把 <code class="docutils literal notranslate"><span class="pre">g</span></code> 留在車種分組之外，
 它會出現在 <code class="docutils literal notranslate"><span class="pre">summary.unassigned_classes</span></code> 而不會被默默計入。
 本次真實檔案沒有 h／g，此路徑<strong>尚未用真實資料驗證</strong>。</p></li>
-<li><p>只支援 Pixel Frame 版；同一份定義文件的 SSAM 版格式不同，尚未支援。</p></li>
+<li><p>只讀 Pixel Frame 版。同一份定義文件的 SSAM 版格式不同，由
+<a class="reference internal" href="formats.motc_ssam.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">formats.motc_ssam</span></code></span></a> 負責。</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code> 一次載入全部座標，超大檔案需要分批時要另外設計。</p></li>
 <li><p>不做座標單位換算、不做速度計算、不判定轉向。</p></li>
 </ul>
@@ -845,11 +867,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="../feature-development-guide.html"
+       href="formats.motc_ssam.html"
        title="下一页">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一頁</p>
-        <p class="prev-next-title">交通分析功能模組開發教學</p>
+        <p class="prev-next-title">工作單：formats.motc_ssam</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

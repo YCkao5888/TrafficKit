@@ -54,7 +54,7 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="索引" href="../../genindex.html" />
     <link rel="search" title="搜尋" href="../../search.html" />
-    <link rel="next" title="交通功能目錄" href="../../catalog.html" />
+    <link rel="next" title="traffickit.formats.read_motc_ssam_vehicles" href="traffickit.formats.read_motc_ssam_vehicles.html" />
     <link rel="prev" title="traffickit.formats.read_motc_su_vehicles" href="traffickit.formats.read_motc_su_vehicles.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-TW"/>
@@ -432,6 +432,8 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../formats.html">traffickit.formats</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_su_vehicles.html">traffickit.formats.read_motc_su_vehicles</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">traffickit.formats.read_motc_su_tracks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_ssam_vehicles.html">traffickit.formats.read_motc_ssam_vehicles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffickit.formats.read_motc_ssam_tracks.html">traffickit.formats.read_motc_ssam_tracks</a></li>
 </ul>
 </details></li>
 </ul>
@@ -518,7 +520,8 @@
 <dd class="field-even"><dl class="simple">
 <dt>pandas.DataFrame</dt><dd><p>依 vehicle_id、frame 排序，欄位為 vehicle_id、frame、time_s、
 x1_px…y4_px（四個角點，第一點為車頭左上，順時針）、
-center_x_px、center_y_px（四角點平均）、is_complete。</p>
+center_x_px、center_y_px（四角點平均）、is_complete、is_crosswalk。
+後兩者是整台車的屬性，同一台車的每一列都相同。</p>
 </dd>
 </dl>
 </dd>
@@ -560,11 +563,11 @@ center_x_px、center_y_px（四角點平均）、is_complete。</p>
       </div>
     </a>
     <a class="right-next"
-       href="../../catalog.html"
+       href="traffickit.formats.read_motc_ssam_vehicles.html"
        title="下一页">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一頁</p>
-        <p class="prev-next-title">交通功能目錄</p>
+        <p class="prev-next-title">traffickit.formats.read_motc_ssam_vehicles</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

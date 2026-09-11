@@ -16,4 +16,5 @@ API reference 回答「怎麼呼叫」，工作單回答「為什麼這樣算、
 speed.speed_distribution
 volume.turn_volume
 formats.motc_su
+formats.motc_ssam
 ```

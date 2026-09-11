@@ -55,7 +55,7 @@
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜尋" href="search.html" />
     <link rel="next" title="工作單" href="worksheets/index.html" />
-    <link rel="prev" title="traffickit.formats.read_motc_su_tracks" href="api/generated/traffickit.formats.read_motc_su_tracks.html" />
+    <link rel="prev" title="traffickit.formats.read_motc_ssam_tracks" href="api/generated/traffickit.formats.read_motc_ssam_tracks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-TW"/>
   <meta name="docsearch:version" content="0.1.0" />
@@ -523,7 +523,14 @@
 </tr>
 <tr class="row-even"><td><p>formats.motc_su</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">traffickit.formats.read_motc_su_vehicles</span></code>、<code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code></p></td>
-<td><p>讀取 MOTC_SU 空拍影像軌跡 CSV</p></td>
+<td><p>讀取 MOTC 空拍影像軌跡 CSV 的 Pixel Frame 版</p></td>
+<td><p>yckao</p></td>
+<td><p>2</p></td>
+<td><p>試行</p></td>
+</tr>
+<tr class="row-odd"><td><p>formats.motc_ssam</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">traffickit.formats.read_motc_ssam_vehicles</span></code>、<code class="docutils literal notranslate"><span class="pre">read_motc_ssam_tracks</span></code></p></td>
+<td><p>讀取 MOTC 空拍影像軌跡 CSV 的 SSAM 版</p></td>
 <td><p>yckao</p></td>
 <td><p>1</p></td>
 <td><p>試行</p></td>
@@ -599,9 +606,12 @@
 </table>
 </div>
 <p>降級也可能發生：正式功能若發現契約有誤，先降回試行再修，不要在正式狀態下悄悄改語意。</p>
-<p><strong>目前五個功能都是「試行」，卡在真實資料回歸比較尚未執行。</strong>
+<p><strong>目前六個功能都是「試行」，卡在真實資料回歸比較尚未執行。</strong>
 補上比較紀錄、並確認差異都是預期的之後，即可升為「正式」。
 <code class="docutils literal notranslate"><span class="pre">volume.turn_volume</span></code> 另缺後端舊版計算的原始碼，目前只能與前端所呈現的行為比對。</p>
+<p>註：兩個 <code class="docutils literal notranslate"><span class="pre">formats.*</span></code> 功能都已用真實檔<strong>跑過</strong>（見各自工作單的驗證紀錄），
+但那是「讀得進來且不變式成立」，不是「與舊程式的輸出逐項比對」。
+回歸比較仍未做。</p>
 </section>
 </section>
 <section id="id6">
@@ -644,6 +654,18 @@
 <td><p>formats.motc_su</p></td>
 <td><p>1</p></td>
 <td><p>初版（發行前調整兩處：<code class="docutils literal notranslate"><span class="pre">fps</span></code> 預設由 10 改成實際速率 9.99；<code class="docutils literal notranslate"><span class="pre">read_motc_su_passages</span></code> 更名為 <code class="docutils literal notranslate"><span class="pre">read_motc_su_vehicles</span></code>）</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>2026-09-11</p></td>
+<td><p>formats.motc_su</p></td>
+<td><p>2</p></td>
+<td><p>接受行人的行穿線代號（兩個路口字母，例如 <code class="docutils literal notranslate"><span class="pre">AB</span></code>），原本只接受 <code class="docutils literal notranslate"><span class="pre">[A-Z]+I</span></code>／<code class="docutils literal notranslate"><span class="pre">[A-Z]+O</span></code>／<code class="docutils literal notranslate"><span class="pre">X</span></code>；兩個入口的輸出各新增一欄 <code class="docutils literal notranslate"><span class="pre">is_crosswalk</span></code></p></td>
+<td><p>原本會拋錯的檔案現在讀得進來；依欄位位置取值的呼叫端要注意新增欄位排在最後</p></td>
+</tr>
+<tr class="row-even"><td><p>2026-09-11</p></td>
+<td><p>formats.motc_ssam</p></td>
+<td><p>1</p></td>
+<td><p>初版</p></td>
 <td><p>—</p></td>
 </tr>
 </tbody>
@@ -732,18 +754,42 @@
 <section id="formats-motc-su">
 <h2>formats.motc_su<a class="headerlink" href="#formats-motc-su" title="連結到這個標頭">#</a></h2>
 <ul class="simple">
-<li><p>用途：讀取 MOTC_SU 空拍影像軌跡 CSV（無標題列、每列長度不一）。</p></li>
+<li><p>用途：讀取 MOTC 空拍影像軌跡 CSV 的 <strong>Pixel Frame 版</strong>（無標題列、每列長度不一）。</p></li>
 <li><p>兩個入口：<code class="docutils literal notranslate"><span class="pre">read_motc_su_vehicles</span></code>（一列一台車，給轉向流量用）、
 <code class="docutils literal notranslate"><span class="pre">read_motc_su_tracks</span></code>（一列一台車一個 frame，含四角點與中心點，像素單位）。</p></li>
 <li><p>參數：<code class="docutils literal notranslate"><span class="pre">path</span></code>、<code class="docutils literal notranslate"><span class="pre">fps</span></code>（預設 9.99 = 29.97/3 的實際拍攝速率；格式定義文件
 寫的是整數 10）、<code class="docutils literal notranslate"><span class="pre">encoding</span></code>（預設 utf-8）。</p></li>
-<li><p><strong>不完整軌跡（代號 X）照樣讀入並標記 <code class="docutils literal notranslate"><span class="pre">is_complete=False</span></code></strong>，不默默丟掉；
-要餵給 <code class="docutils literal notranslate"><span class="pre">summarise_turn_volume</span></code> 前請自行 <code class="docutils literal notranslate"><span class="pre">.query(&quot;is_complete&quot;)</span></code>。</p></li>
+<li><p><strong>不完整軌跡（代號 X）照樣讀入並標記 <code class="docutils literal notranslate"><span class="pre">is_complete=False</span></code></strong>，不默默丟掉。</p></li>
+<li><p><strong>行人與自行車走行穿線，代號是兩個路口字母（例如 AB）</strong>，照樣讀入並標記
+<code class="docutils literal notranslate"><span class="pre">is_crosswalk=True</span></code>。兩者都不是路口代號，要餵給 <code class="docutils literal notranslate"><span class="pre">summarise_turn_volume</span></code>
+前請自行 <code class="docutils literal notranslate"><span class="pre">.query(&quot;is_complete</span> <span class="pre">and</span> <span class="pre">not</span> <span class="pre">is_crosswalk&quot;)</span></code>。</p></li>
 <li><p>一律驗證「軌跡值數 = 8 × frame 數」，錯位或截斷的檔案會拋錯並指出行號。</p></li>
 <li><p>詳細規格與格式定義：<code class="docutils literal notranslate"><span class="pre">docs/worksheets/formats.motc_su.md</span></code>。</p></li>
 <li><p>原始碼：<code class="docutils literal notranslate"><span class="pre">src/traffickit/formats/_motc_su.py</span></code>；範例：<code class="docutils literal notranslate"><span class="pre">examples/motc_su_turn_volume_demo.py</span></code>。</p></li>
 <li><p>限制：h（聯結車車頭）與 g（車身）是同一輛車的兩列，本讀取器不合併；
 統計時把 g 留在車種分組之外，它會出現在 <code class="docutils literal notranslate"><span class="pre">unassigned_classes</span></code>。</p></li>
+</ul>
+</section>
+<section id="formats-motc-ssam">
+<h2>formats.motc_ssam<a class="headerlink" href="#formats-motc-ssam" title="連結到這個標頭">#</a></h2>
+<ul class="simple">
+<li><p>用途：讀取同一批分析成果的 <strong>SSAM 版</strong>（有標題列，前面還有 FORMAT／
+DIMENSIONS 區塊；一列一台車一個時間步，座標是公尺）。</p></li>
+<li><p>兩個入口：<code class="docutils literal notranslate"><span class="pre">read_motc_ssam_vehicles</span></code>（一列一台車）、
+<code class="docutils literal notranslate"><span class="pre">read_motc_ssam_tracks</span></code>（一列一台車一個時間步，含車頭車尾中點、車長車寬、
+還原出的四角點與中心點，公尺單位）。</p></li>
+<li><p>參數：<code class="docutils literal notranslate"><span class="pre">path</span></code>、<code class="docutils literal notranslate"><span class="pre">encoding</span></code>（預設 utf-8-sig）。<strong>沒有比例尺參數也沒有 fps
+參數</strong>——座標原本就是公尺、時間原本就是秒，本層不做換算。</p></li>
+<li><p>欄位以<strong>名稱</strong>定位（去空白、轉小寫），標題列的欄位順序可以不同。</p></li>
+<li><p>與 Pixel Frame 版共用路口代號與車種代號，因此 <code class="docutils literal notranslate"><span class="pre">*_vehicles</span></code> 的輸出同樣能
+直接餵給 <code class="docutils literal notranslate"><span class="pre">summarise_turn_volume</span></code>；差別是沒有 frame 編號，改以
+<code class="docutils literal notranslate"><span class="pre">sample_count</span></code> 表示取樣列數。</p></li>
+<li><p>詳細規格與格式定義：<code class="docutils literal notranslate"><span class="pre">docs/worksheets/formats.motc_ssam.md</span></code>。</p></li>
+<li><p>原始碼：<code class="docutils literal notranslate"><span class="pre">src/traffickit/formats/_motc_ssam.py</span></code>
+（共用代號剖析在 <code class="docutils literal notranslate"><span class="pre">_motc_common.py</span></code>）；範例：<code class="docutils literal notranslate"><span class="pre">examples/motc_ssam_demo.py</span></code>。</p></li>
+<li><p>限制：<code class="docutils literal notranslate"><span class="pre">Speed</span></code> 與 <code class="docutils literal notranslate"><span class="pre">Acceleration</span></code> 目前不讀（單位未經產製端確認，實測像是
+m/s）；<code class="docutils literal notranslate"><span class="pre">length_m</span></code> 與車頭車尾距離不一致的列約 3%；角點還原的 Y 軸朝向
+尚未用影片核對；與 Pixel Frame 版的時間原點是否對齊尚未驗證。</p></li>
 </ul>
 </section>
 <section id="id7">
@@ -887,12 +933,12 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="api/generated/traffickit.formats.read_motc_su_tracks.html"
+       href="api/generated/traffickit.formats.read_motc_ssam_tracks.html"
        title="上一页">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">上一頁</p>
-        <p class="prev-next-title">traffickit.formats.read_motc_su_tracks</p>
+        <p class="prev-next-title">traffickit.formats.read_motc_ssam_tracks</p>
       </div>
     </a>
     <a class="right-next"
@@ -935,6 +981,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-turn-volume">volume.turn_volume</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-clockwise-movements">volume.clockwise_movements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formats-motc-su">formats.motc_su</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formats-motc-ssam">formats.motc_ssam</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">指標與計算能力對照（後續整合用，尚未實作情境入口）</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-speed-analyser-py">與舊版 <code class="docutils literal notranslate"><span class="pre">data/speed_analyser.py</span></code> 的對照</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-turnvolumeanalysis-vue">與舊版 <code class="docutils literal notranslate"><span class="pre">data/TurnVolumeAnalysis.vue</span></code> 的對照</a></li>
