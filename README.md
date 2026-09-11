@@ -35,17 +35,44 @@ TrafficKit 把「會改變交通結果意義」的邏輯集中成一個套件：
 pip install git+https://github.com/YCkao5888/TrafficKit.git
 ```
 
+### 第一支腳本
+
+複製貼上就能跑，不需要任何外部檔案：
+
 ```python
-from traffickit.formats import read_motc_su_vehicles
-from traffickit.volume import clockwise_movements, summarise_turn_volume
+import pandas as pd
+from traffickit.speed import speed_bin_edges, summarise_speed_distribution
 
-vehicles = read_motc_su_vehicles("....CSV_SU.csv")          # 讀空拍軌跡檔
-movements = clockwise_movements(["A", "B", "C", "D"])       # 順時針編號推轉向
-result = summarise_turn_volume(vehicles.query("is_complete"), movements=movements, ...)
+tracks = pd.DataFrame({
+    "vehicle_id":       ["A", "A",  "B",  "B",  "C", "C"],
+    "time_s":           [0.0, 1.0,  0.0,  1.0,  0.0, 1.0],
+    "speed_smooth_mps": [8.0, 10.0, 11.0, 12.0, 1.0, 1.5],
+})
 
-result.by_turn    # 進入方向 × 轉向 × 車種分組的車輛數與 PCU
-result.summary    # 總 PCU、未分組車輛數、違規轉向車輛數
+edges = speed_bin_edges(width_mps=5.0, upper_mps=15.0)
+result = summarise_speed_distribution(
+    tracks,
+    bin_edges_mps=edges,
+    statistic="mean",              # 每台車取平均速度當代表值
+    moving_threshold_mps=2.0,      # 低於 2 m/s 的樣本不算，C 整台因此被排除
+)
+
+print(result.bins.to_string(index=False))
+print(f"輸入 {result.input_vehicle_count} 台、納入統計 {result.summary.vehicle_count} 台、"
+      f"平均 {result.summary.mean_mps:.2f} m/s")
 ```
+
+```
+ bin_index  lower_mps  upper_mps  vehicle_count  proportion
+         0        0.0        5.0              0         0.0
+         1        5.0       10.0              1         0.5
+         2       10.0       15.0              1         0.5
+輸入 3 台、納入統計 2 台、平均 10.25 m/s
+```
+
+三件事值得注意：分箱與統計的對象都是**車**而不是樣本，所以停留較久的車不會被重複計數；
+被移動門檻濾掉的 C 車不是消失，而是可以從 `input_vehicle_count` 與
+`summary.vehicle_count` 的差看出來；`proportion` 的分母寫在契約裡，不必猜。
 
 ## 這個套件跟自己寫一份的差別
 
@@ -96,30 +123,6 @@ python -m venv .venv
 
 ## 快速上手
 
-### 車速分布統計
-
-```python
-import pandas as pd
-from traffickit.speed import speed_bin_edges, summarise_speed_distribution
-
-tracks = pd.DataFrame({
-    "vehicle_id": ["A", "A", "B", "B"],
-    "time_s": [0.0, 1.0, 0.0, 1.0],
-    "speed_smooth_mps": [8.0, 10.0, 11.0, 12.0],
-})
-
-edges = speed_bin_edges(width_mps=5.0, upper_mps=15.0)
-result = summarise_speed_distribution(
-    tracks, bin_edges_mps=edges, statistic="mean", moving_threshold_mps=2.0
-)
-
-result.bins            # 一列一箱：bin_index / lower_mps / upper_mps / vehicle_count / proportion
-result.vehicle_speeds  # 一列一車：可用來畫箱形圖或自行分車種彙整
-result.summary         # mean / std / min / median / p85 / max
-```
-
-分箱與統計的對象都是**車**，不是樣本——停留較久的車不會被重複計數。
-
 <details>
 <summary><b>轉向流量統計（含 PCU）</b></summary>
 
@@ -132,26 +135,43 @@ result.summary         # mean / std / min / median / p85 / max
 import pandas as pd
 from traffickit.volume import DEFAULT_PCU_WEIGHTS, summarise_turn_volume
 
-movements = pd.DataFrame([
+movements = pd.DataFrame([          # 路口的轉向定義，同時決定哪些轉向合法
     {"entry_gate": "N", "exit_gate": "S", "turn": "straight", "is_allowed": True},
     {"entry_gate": "N", "exit_gate": "E", "turn": "left",     "is_allowed": True},
+    {"entry_gate": "N", "exit_gate": "W", "turn": "right",    "is_allowed": True},
 ])
 vehicles = pd.DataFrame([           # 一列一台車
     {"vehicle_id": "V1", "entry_gate": "N", "exit_gate": "S", "vehicle_class": "c"},
-    {"vehicle_id": "V2", "entry_gate": "N", "exit_gate": "E", "vehicle_class": "m"},
+    {"vehicle_id": "V2", "entry_gate": "N", "exit_gate": "S", "vehicle_class": "c"},
+    {"vehicle_id": "V3", "entry_gate": "N", "exit_gate": "E", "vehicle_class": "m"},
 ])
 
+groups = {"小型車": ["c"], "機車": ["m"]}
 result = summarise_turn_volume(
     vehicles,
     movements=movements,
-    vehicle_groups={"小型車": ["c"], "機車": ["m"]},
-    pcu_weights={name: DEFAULT_PCU_WEIGHTS[name] for name in ("小型車", "機車")},
+    vehicle_groups=groups,
+    pcu_weights={name: DEFAULT_PCU_WEIGHTS[name] for name in groups},
 )
 
-result.movements  # 進入 × 駛出 × 轉向 × 分組，合法但 0 台的組合也會保留
-result.by_turn    # 進入 × 轉向 × 分組，直接對應報表版面
-result.summary    # 總 PCU、未分組車輛數、違規轉向車輛數
+print(result.by_turn.to_string(index=False))
+print(f"總 PCU {result.summary.total_pcu:.2f}")
 ```
+
+```
+entry_gate     turn vehicle_group  is_allowed  vehicle_count  pcu_weight  pcu
+         N     left           小型車        True              0        1.05 0.00
+         N     left            機車        True              1        0.43 0.43
+         N straight           小型車        True              2        1.00 2.00
+         N straight            機車        True              0        0.42 0.00
+         N    right           小型車        True              0        1.08 0.00
+         N    right            機車        True              0        0.45 0.00
+總 PCU 2.43
+```
+
+沒有車右轉，但 `N → W` 的兩列仍然在表上、`is_allowed=True`、車輛數 0——
+這與「這個方向不允許轉」是不同狀態，報表才能一個顯示 0、一個顯示「-」。
+另外 `result.movements` 保留了駛出閘門，五岔路口兩個出口都算右轉時可以拆開看。
 
 `DEFAULT_PCU_WEIGHTS` 取自既有調查工具的設定值，**必須明確傳入**；
 本套件不認定它等同任何法規或手冊的規定值。
@@ -163,16 +183,24 @@ result.summary    # 總 PCU、未分組車輛數、違規轉向車輛數
 
 <br>
 
+需要一份 MOTC_SU 軌跡檔，把路徑換成你自己的：
+
 ```python
 from traffickit.formats import read_motc_su_vehicles
-from traffickit.volume import clockwise_movements, summarise_turn_volume
+from traffickit.volume import (
+    DEFAULT_PCU_WEIGHTS,
+    clockwise_movements,
+    summarise_turn_volume,
+)
 
-vehicles = read_motc_su_vehicles("....CSV_SU.csv")     # fps 預設 9.99
-complete = vehicles.query("is_complete")                # 代號 X 是不完整軌跡
+GATES = ["A", "B", "C", "D"]        # 順時針從左側路口起算，MOTC_SU 的既定規則
 
-movements = clockwise_movements(                        # A/B/C/D 順時針編號
-    ["A", "B", "C", "D"],
-    disallowed=[(g, g) for g in "ABCD"],                # 合法性要依現場填！
+vehicles = read_motc_su_vehicles("your_file_CSV_SU.csv")   # fps 預設 9.99
+complete = vehicles.query("is_complete")                    # 代號 X 是不完整軌跡
+
+movements = clockwise_movements(
+    GATES,
+    disallowed=[(gate, gate) for gate in GATES],            # 合法性要依現場填！
 )
 result = summarise_turn_volume(
     complete,
@@ -180,6 +208,10 @@ result = summarise_turn_volume(
     vehicle_groups={"大型車": ["b", "t", "h"], "小型車": ["c"], "機車": ["m"]},
     pcu_weights=DEFAULT_PCU_WEIGHTS,
 )
+
+print(result.by_turn.to_string(index=False))
+print(f"納入統計 {result.summary.counted_vehicle_count} 台、"
+      f"總 PCU {result.summary.total_pcu:.2f}")
 ```
 
 不完整軌跡（代號 `X`）會照樣讀入並標記 `is_complete=False`，不會默默消失——

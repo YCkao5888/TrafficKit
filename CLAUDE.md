@@ -50,12 +50,18 @@ FPS 預設 9.99（= 29.97/3 實際速率，格式定義文件寫的是整數 10�
 | 5 | 目錄登記 | `docs/catalog.md` 新增一列＋一段功能說明 |
 | 6 | 工作單 | `docs/worksheets/<功能 ID>.md`，並加進 `docs/worksheets/index.md` 的 toctree |
 | 7 | **API reference** | `docs/api/<子套件>.rst` 的 `autosummary` 加上名稱 |
-| 8 | **README** | 根目錄 `README.md` 的「功能索引」表；影響入門用法時一併更新「快速上手」 |
+| 8 | **README** | 根目錄 `README.md` 的「功能索引」表；影響入門用法時一併更新開頭的「第一支腳本」或「快速上手」 |
 | 9 | 驗證紀錄 | 工作單的「驗證環境與版本」表，填實際跑出來的結果 |
 
 第 7、8 項最常漏。API reference 的**內容**由 docstring 產生，但名稱沒加進
 `autosummary` 清單就不會出現在網站上——寫 docstring 與登記名稱是兩件事。
 README 的功能索引是多數人第一眼看到的清單，漏掉等於新功能沒人知道。
+
+**README 的 `python` 區塊由 `tests/test_readme_examples.py` 實際執行驗證**：
+每個區塊都會被跑過，區塊後面若緊接一個沒有語言標記的 ``` 區塊，還會逐字比對
+標準輸出。因此 README 的範例必須是**複製貼上就能跑**的完整程式（含 import 與
+`print`），不可以留 `...`；要更新輸出時**實際跑一次再貼上**，不要用手改數字。
+需要本機軌跡檔的範例會被跳過（以 `_CSV_SU.csv` 判斷），由 `examples/` 覆蓋。
 
 4. 執行驗證（見下方指令），把實際數字填進工作單，再回報。
 
