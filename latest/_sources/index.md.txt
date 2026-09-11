@@ -41,6 +41,11 @@ python -m venv .venv
 
 需求：Python ≥ 3.10、pandas 2.2–3.0、numpy ≥ 1.26。
 
+同一個 repo 還有第二個套件 `traffickit-viz`（視覺化與影片輸出，相依
+OpenCV），**不會**跟著一起安裝。本文件只涵蓋 `traffickit`；
+視覺化的說明在
+[它自己的 README](https://github.com/YCkao5888/TrafficKit/blob/master/packages/traffickit-viz/README.md)。
+
 ## 使用前必讀的四個約定
 
 1. **單位一律 m/s、時間一律「相對本資料集共同起點的秒數」。**
